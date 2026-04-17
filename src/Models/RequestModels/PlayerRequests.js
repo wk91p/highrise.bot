@@ -68,7 +68,7 @@ class MoveUserToRoomRequest {
 class ReactionRequest {
     constructor(user_id, reaction) {
         this._type = "ReactionRequest"
-        this.user_id = user_id
+        this.target_user_id = user_id
         this.reaction = reaction
     }
 }
