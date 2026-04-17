@@ -19,7 +19,6 @@ class CloseHandler {
         )
 
         this.keepaliveHandler.stop()
-        this.sender.cleanUp()
 
         if (this.state.get('doNotReconnect')) {
             this.logger.error('Connection', 'Server requested no reconnect, stopping')
