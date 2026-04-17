@@ -1,0 +1,111 @@
+import { EventMap, Metadata } from "highrise.bot/typings/src/Highrise/EventMap";
+
+import UtilsApi from "highrise.bot/typings/src/Api/Utils";
+import RoomApi from "highrise.bot/typings/src/Api/Room";
+import ChatApi from "highrise.bot/typings/src/Api/Message/Chat";
+import WhisperApi from "highrise.bot/typings/src/Api/Message/Whisper";
+import PlayerApi from "highrise.bot/typings/src/Api/Player";
+import DirectApi from "highrise.bot/typings/src/Api/Message/Direct";
+import InventoryApi from "../Api/Inventory";
+import ChannelApi from "../Api/Message/Channel";
+
+declare class Highrise {
+    /**
+     * Initializes a new instance of the Highrise bot.
+     */
+    constructor();
+
+    /** API for handling room chat messages. */
+    message: ChatApi;
+
+    /** API for sending private whispers within a room. */
+    whisper: WhisperApi;
+
+    /** API for sending and communication between bots in-room */
+    channel: ChannelApi;
+
+    /** API for handling Direct Messages (DMs) across the Highrise platform. */
+    direct: DirectApi;
+    
+    /** API for managing the bot's inventory and outfits. */
+    inventory: InventoryApi;
+
+    /** API for interacting with room properties, players, and room state. */
+    room: RoomApi;
+
+    /** API for interacting and managing player-specific actions. */
+    player: PlayerApi;
+
+    /** Utility methods for common bot development tasks */
+    utils: UtilsApi;
+
+    /** 
+     * The login credentials used for the current session.
+     * @returns An object containing the authentication token and room ID.
+     */
+    get credential(): { token: string, roomId: string };
+
+    /**
+     * The bot's id, room data, and session metadata.
+     * @note This property is only populated after the `Ready` event has fired.
+     */
+    get metadata(): Metadata;
+
+    /**
+     * The timestamp (in milliseconds) of the bot's most recent successful connection.
+     * This value resets every time the connection is re-established.
+     */
+    get connectTime(): EpochTimeStamp;
+
+    /**
+     * Authenticates the bot and establishes a connection to a specific Highrise room.
+     * @param token - The unique 64-character authentication token for the bot.
+     * @param roomId - The 24-character identifier of the room.
+     * @remarks Ensure you have registered essential event listeners (like `Ready` or `Chat`) 
+     *          before calling this method, as the connection process triggers them immediately.
+     * @example
+     * bot.login('token', 'roomId');
+     */
+    login(token: string, roomId: string): Promise<void>;
+
+
+    /**
+     * Registers a persistent listener for a specific event.
+     * @param event - The name of the event to subscribe to.
+     * @param listener - An asynchronous callback function executed when the event triggers.
+     * @returns The {@link Highrise} instance for method chaining.
+     */
+    on<K extends keyof EventMap>(event: K, listener: (...args: EventMap[K]) => Promise<void>): this;
+    on(event: string, listener: (...args: any[]) => Promise<void>): this;
+
+    /**
+     * Registers a listener that will be invoked at most once. 
+     * The listener is automatically removed after the first execution.
+     * @param event - The name of the event to subscribe to once.
+     * @param listener - An asynchronous callback function.
+     * @returns The {@link Highrise} instance for method chaining.
+     */
+    once<K extends keyof EventMap>(event: K, listener: (...args: EventMap[K]) => Promise<void>): this;
+    once(event: string, listener: (...args: any[]) => Promise<void>): this;
+
+    /**
+     * Removes a previously registered listener from an event.
+     * @param event - The name of the event the listener is attached to.
+     * @param listener - The specific callback function to unregister.
+     * @returns The {@link Highrise} instance for method chaining.
+     */
+    off<K extends keyof EventMap>(event: K, listener: (...args: EventMap[K]) => void | Promise<void>): this;
+    off(event: string, listener: (...args: any[]) => void | Promise<void>): this;
+
+    /**
+     * Synchronously calls each of the listeners registered for a specific event.
+     * @param event - The name of the event to trigger.
+     * @param args - Arguments to pass to each listener function.
+     * @returns `true` if the event had registered listeners; otherwise `false`.
+     */
+    emit<K extends keyof EventMap>(event: K, ...args: EventMap[K]): boolean;
+    emit(event: string, ...args: any[]): boolean;
+}
+
+export { Highrise }
+export default Highrise

@@ -1,0 +1,14 @@
+const BaseEventHandler = require("../../Base/BaseEventHandler");
+const { Sender, Receiver, Item } = require("../../Models/EventModelComponents");
+
+class TipHandler extends BaseEventHandler {
+    handle(data, emit) {
+        const sender = new Sender(data.sender.id, data.sender.username)
+        const receiver = new Receiver(data.receiver.id, data.receiver.username)
+        const item = new Item(data)
+
+        emit("Tip", sender, receiver, item)
+    }
+}
+
+module.exports = TipHandler

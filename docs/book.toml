@@ -1,0 +1,12 @@
+[book]
+title = "Highrise bot guide book"
+authors = ["wk91p"]
+language = "en"
+src = "src"
+
+[output.html]
+git-repository-url = "https://github.com/wk91p/highrise.bot"
+edit-url-template = "https://github.com/wk91p/highrise.bot/edit/main/docs/src/{path}"
+default-theme = "navy"
+preferred-dark-theme = "navy"
+additional-css = ["./theme/nord.css"]

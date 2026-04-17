@@ -1,0 +1,26 @@
+{
+  "name": "highrise.bot",
+  "version": "2.0.0",
+  "description": "Unofficial JavaScript Bot SDK for Highrise virtual reality",
+  "keywords": [
+    "highrise.bot",
+    "highrise",
+    "websocket",
+    "sdk",
+    "bot",
+    "typescript",
+    "spatial",
+    "cache",
+    "js"
+  ],
+  "main": "./index.js",
+  "types": "./typings/index.d.ts",
+  "author": "Yahya Ahmed eheaahmed2000@gmail.com",
+  "license": "MIT",
+  "bin": {
+    "highrise-init": "./bin/init.js"
+  },
+  "dependencies": {
+    "ws": "^8.20.0"
+  }
+}
