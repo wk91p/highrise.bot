@@ -8,7 +8,6 @@ const SessionMetadataHandler = require("../../Networking/EventHandlers/Ready");
 const TipHandler = require("../../Networking/EventHandlers/Tip");
 const UserJoinedHandler = require("../../Networking/EventHandlers/UserJoined");
 const UserLeftHandler = require("../../Networking/EventHandlers/UserLeft");
-const VoiceHandler = require("../../Networking/EventHandlers/Voice");
 
 class MessageHandler {
     constructor(ctx, botApi, emit) {
@@ -26,7 +25,6 @@ class MessageHandler {
             UserJoinedEvent: new UserJoinedHandler(ctx),
             TipReactionEvent: new TipHandler(ctx),
             MessageEvent: new DirectHandler(ctx, this.botApi.direct),
-            VoiceEvent: new VoiceHandler(ctx),
             RoomModeratedEvent: new ModerationHandler(ctx),
             ChannelEvent: new ChannelHandler(ctx)
         }

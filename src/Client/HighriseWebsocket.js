@@ -38,8 +38,6 @@ class HighriseWebsocket extends EventEmitter {
     }
 
     async logout() {
-        if (!this.#ws) return
-
         this.#keepaliveHandler.stop()
         this.#state.set('doNotReconnect', true)
         this.#cleanup()
