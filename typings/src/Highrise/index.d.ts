@@ -63,11 +63,15 @@ declare class Highrise {
      * @param roomId - The 24-character identifier of the room.
      * @remarks Ensure you have registered essential event listeners (like `Ready` or `Chat`) 
      *          before calling this method, as the connection process triggers them immediately.
-     * @example
-     * bot.login('token', 'roomId');
      */
-    login(token: string, roomId: string): Promise<void>;
+    login(token: string, roomId: string): void;
 
+    /**
+     * Disconnects from the room and cleanup resources.
+     * @remarks 
+     * Existing event listeners will remain since they are tied to the {@link Highrise} instance.
+     */
+    logout():  | void;
 
     /**
      * Registers a persistent listener for a specific event.
