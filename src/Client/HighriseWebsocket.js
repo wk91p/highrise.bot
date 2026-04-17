@@ -37,12 +37,18 @@ class HighriseWebsocket extends EventEmitter {
         this.#state = new Map()
     }
 
+    async logout() {
+        if (!this.#ws) return
+
+        this.#keepaliveHandler.stop()
+        this.#state.set('doNotReconnect', true)
+        this.#cleanup()
+
+        this.#logger.info('Connection', 'Logged out successfully')
+    }
+
     async login(token, roomId) {
-        if (this.#ws) {
-            this.#ws.removeAllListeners()
-            this.#ws.close()
-            this.#ws = null
-        }
+        this.#cleanup()
 
         this.#ws = new WebSocket(`wss://highrise.game/web/botapi?events=${WebsocketEvents.join(',')}`, {
             headers: {
@@ -60,7 +66,7 @@ class HighriseWebsocket extends EventEmitter {
         this.#setupApi()
         this.#setupListeners()
     }
-    
+
 
     #setupListeners() {
         this.#ws.on('open', this.#openHandler.handle.bind(this.#openHandler))
@@ -82,7 +88,7 @@ class HighriseWebsocket extends EventEmitter {
 
         this.#keepaliveHandler = new KeepAliveHandler(this.#ctx)
         this.#openHandler = new OpenHandler(
-            this.#ctx, 
+            this.#ctx,
             this.#keepaliveHandler
         )
         this.#messageHandler = new MessageHandler(this.#ctx, this.#botApi, this.emit.bind(this))
@@ -103,6 +109,15 @@ class HighriseWebsocket extends EventEmitter {
         this.inventory = this.#botApi.inventory
         this.player = this.#botApi.player
         this.room = this.#botApi.room
+    }
+
+    #cleanup() {
+        if (this.#ws) {
+            this.#ws.removeAllListeners()
+            this.#ws.close()
+            this.#ws = null
+            this.#sender.cleanUp()
+        }
     }
 
     get credential() {
