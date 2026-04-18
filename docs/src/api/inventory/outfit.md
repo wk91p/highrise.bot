@@ -115,7 +115,7 @@ if (result.ok) {
 ```javascript
 const { Highrise, OutfitItem, Logger } = require('highrise.bot');
 
-const log = new Logger({ prefix: "FashionBot" });
+const log = new Logger("FashionBot");
 const bot = new Highrise();
 
 bot.once('Ready', async () => {

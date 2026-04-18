@@ -1,3 +1,5 @@
+const { Validator } = require("highrise.bot")
+
 const ANSI = {
     reset:   '\x1b[0m',
     cyan:    '\x1b[36m',
@@ -19,8 +21,13 @@ const LEVELS = {
 const gray = (str) => `${ANSI.gray}${str}${ANSI.reset}`
 
 class Logger {
-    constructor(options = {}) {
-        this.prefix = options.prefix || 'Highrise'
+    constructor(prefix = 'Highrise') {
+        this.validator = new Validator()
+
+        this.validator
+            .string(prefix, '[Logger] prefix')
+
+        this.prefix = prefix 
     }
 
     #time() {

@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-4c675217.js";
+            window.path_to_searchindex_js = "../searchindex-e011b971.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-99a26924.js"></script>
@@ -190,9 +190,9 @@ came from.</p>
 <h2 id="creating-a-logger"><a class="header" href="#creating-a-logger">Creating a logger</a></h2>
 <pre><code class="language-javascript">const { Logger } = require('highrise.bot');
 
-const log = new Logger({ prefix: "MyBot" });
+const log = new Logger("MyBot");
 </code></pre>
-<p>The <code>prefix</code> option is what shows up in square brackets at the start of
+<p>The <code>"MyBot"</code> is what shows up in square brackets at the start of
 every line. Change it to whatever makes sense for your bot. If you have
 a bot called BananaBot, use <code>"BananaBot"</code>. If you are running multiple
 bots, give each one a different prefix so you can tell them apart in the
@@ -267,7 +267,7 @@ bot:</p>
 <pre><code class="language-javascript">const { Highrise, Logger } = require('highrise.bot');
 require('dotenv').config();
 
-const log = new Logger({ prefix: "MyBot" });
+const log = new Logger("MyBot");
 const bot = new Highrise();
 
 bot.once('Ready', async (metadata) =&gt; {

@@ -11,10 +11,10 @@ came from.
 ```javascript
 const { Logger } = require('highrise.bot');
 
-const log = new Logger({ prefix: "MyBot" });
+const log = new Logger("MyBot");
 ```
 
-The `prefix` option is what shows up in square brackets at the start of
+The `"MyBot"` is what shows up in square brackets at the start of
 every line. Change it to whatever makes sense for your bot. If you have
 a bot called BananaBot, use `"BananaBot"`. If you are running multiple
 bots, give each one a different prefix so you can tell them apart in the
@@ -134,7 +134,7 @@ bot:
 const { Highrise, Logger } = require('highrise.bot');
 require('dotenv').config();
 
-const log = new Logger({ prefix: "MyBot" });
+const log = new Logger("MyBot");
 const bot = new Highrise();
 
 bot.once('Ready', async (metadata) => {

@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-4c675217.js";
+            window.path_to_searchindex_js = "../searchindex-e011b971.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-99a26924.js"></script>
@@ -193,7 +193,7 @@ for you. It already has code in it with comments explaining everything.</p>
 <pre><code class="language-javascript">const { Highrise, Logger } = require('highrise.bot');
 require('dotenv').config();
 
-const log = new Logger({ prefix: "MyBot" });
+const log = new Logger("MyBot");
 const bot = new Highrise();
 
 bot.once('Ready', async (metadata) =&gt; {
@@ -232,10 +232,10 @@ bot itself, and <code>Logger</code> which gives you colored, timestamped output 
 your terminal. The second line loads your <code>.env</code> file so <code>process.env</code>
 can read your credentials.</p>
 <h3 id="creating-the-bot-and-logger"><a class="header" href="#creating-the-bot-and-logger">Creating the bot and logger</a></h3>
-<pre><code class="language-javascript">const log = new Logger({ prefix: "MyBot" });
+<pre><code class="language-javascript">const log = new Logger("MyBot");
 const bot = new Highrise();
 </code></pre>
-<p><code>new Logger({ prefix: "MyBot" })</code> creates a logger that will show
+<p><code>new Logger("MyBot")</code> creates a logger that will show
 <code>[MyBot]</code> at the start of every line in your terminal. Change
 <code>"MyBot"</code> to whatever you want.</p>
 <p><code>new Highrise()</code> creates your bot. Everything you do goes through this

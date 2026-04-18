@@ -125,7 +125,7 @@ const { Highrise, Logger } = require('highrise.bot');
 require('dotenv').config();
 
 // 2. setup
-const log = new Logger({ prefix: "MyBot" });
+const log = new Logger("MyBot");
 const bot = new Highrise();
 
 // 3. event listeners (as many as you need)

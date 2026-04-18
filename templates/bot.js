@@ -19,7 +19,7 @@ require('dotenv').config();
 // Your bot and logger live here.
 // Change "MyBot" to whatever you want your bot to be
 // called in the console.
-const log = new Logger({ prefix: "MyBot" });
+const log = new Logger("MyBot");
 const bot = new Highrise();
 
 // Ready Event

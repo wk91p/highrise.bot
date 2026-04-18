@@ -17,7 +17,7 @@ Either way, replace everything in it with this:
 const { Highrise, Logger } = require('highrise.bot');
 require('dotenv').config();
 
-const log = new Logger({ prefix: "MyBot" });
+const log = new Logger("MyBot");
 const bot = new Highrise();
 
 bot.once('Ready', async (metadata) => {
@@ -69,11 +69,11 @@ can read your credentials.
 ### Creating the bot and logger
 
 ```javascript
-const log = new Logger({ prefix: "MyBot" });
+const log = new Logger("MyBot");
 const bot = new Highrise();
 ```
 
-`new Logger({ prefix: "MyBot" })` creates a logger that will show
+`new Logger("MyBot")` creates a logger that will show
 `[MyBot]` at the start of every line in your terminal. Change
 `"MyBot"` to whatever you want.
 
