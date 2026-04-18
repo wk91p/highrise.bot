@@ -107,6 +107,7 @@ class HighriseWebsocket extends EventEmitter {
         this.inventory = this.#botApi.inventory
         this.player = this.#botApi.player
         this.room = this.#botApi.room
+        this.webapi = this.#botApi.webapi
     }
 
     #cleanup() {

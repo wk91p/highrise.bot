@@ -6,6 +6,7 @@ const WhisperApi = require("./Message/Whisper");
 const PlayerApi = require("./Player");
 const RoomApi = require("./Room");
 const UtilsApi = require("./Utils");
+const WebApi = require("./WebApi");
 
 class BotApi {
     constructor(ctx) {
@@ -17,6 +18,7 @@ class BotApi {
         this.room = new RoomApi(ctx, this.utils)
         this.player = new PlayerApi(ctx, this.utils)
         this.inventory = new InventoryApi(ctx, this.utils)
+        this.webapi = new WebApi(ctx)
     }
 }
 
