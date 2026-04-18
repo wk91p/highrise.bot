@@ -39,13 +39,13 @@ interface EventMap {
     /** Emitted when a tip (currency) is exchanged between two players. */
     Tip: [sender: Sender, receiver: Receiver, currency: Currency];
 
-    /**
-     *  Emitted when there is an update to the room's voice status.
-     * @param users List of users currently in the voice session.
-     * @param secondsLeft Remaining time for the voice session.
-     * @param ended Whether the voice session has ended.
-     */
-    Voice: [users: VoiceUser[], secondsLeft: number, ended: boolean];
+    // /**
+    //  *  Emitted when there is an update to the room's voice status.
+    //  * @param users List of users currently in the voice session.
+    //  * @param secondsLeft Remaining time for the voice session.
+    //  * @param ended Whether the voice session has ended.
+    //  */
+    // Voice: [users: VoiceUser[], secondsLeft: number, ended: boolean];
 
     /** Emitted when the bot receives a Direct Message (DM) outside of a room. */
     Direct: [user: User, message: Message, conversation: Conversation];
