@@ -1,4 +1,4 @@
-const { Validator } = require("highrise.bot")
+const Validator = require("./Validator")
 
 const ANSI = {
     reset:   '\x1b[0m',

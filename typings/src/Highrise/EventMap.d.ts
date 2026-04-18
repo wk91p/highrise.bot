@@ -11,6 +11,7 @@ import {
     Target,
     User,
     VoiceUser,
+    Metadata
     
 } from "highrise.bot/typings/interfaces";
 
