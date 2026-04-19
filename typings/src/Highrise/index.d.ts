@@ -8,6 +8,7 @@ import PlayerApi from "highrise.bot/typings/src/Api/Player";
 import DirectApi from "highrise.bot/typings/src/Api/Message/Direct";
 import InventoryApi from "../Api/Inventory";
 import ChannelApi from "../Api/Message/Channel";
+import WebApi from "../Api/WebApi";
 
 declare class Highrise {
     /**
@@ -27,7 +28,7 @@ declare class Highrise {
     /** API for handling Direct Messages (DMs) across the Highrise platform. */
     direct: DirectApi;
     
-    /** API for managing the bot's inventory and outfits. */
+    /** API for interacting with the bot's inventory and outfits. */
     inventory: InventoryApi;
 
     /** API for interacting with room properties, players, and room state. */
@@ -36,8 +37,11 @@ declare class Highrise {
     /** API for interacting and managing player-specific actions. */
     player: PlayerApi;
 
-    /** Utility methods for common bot development tasks */
+    /** Utility methods for common bot development tasks. */
     utils: UtilsApi;
+
+    /** Client for interacting with the Highrise WebApi. */
+    webapi: WebApi;
 
     /** 
      * The login credentials used for the current session.
