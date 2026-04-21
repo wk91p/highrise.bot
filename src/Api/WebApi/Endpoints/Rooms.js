@@ -65,6 +65,14 @@ class RoomsEndpoint {
             return new RoomsResponse({ error: apiError ? new Error(apiError) : error })
         }
     }
+
+    async byOwnerId(ownerId, limit) {
+        return await this.list({ ownerId, limit })
+    }
+
+    async byRoomName(roomName, limit) {
+        return await this.list({ roomName, limit })
+    }
 }
 
 module.exports = RoomsEndpoint
