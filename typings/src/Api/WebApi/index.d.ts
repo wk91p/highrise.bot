@@ -1,5 +1,6 @@
-import RoomsEndpoint from "./Endpoints/rooms"
-import UsersEndpoint from "./Endpoints/users"
+import PostsEndpoint from "./Endpoints/Posts"
+import RoomsEndpoint from "./Endpoints/Rooms"
+import UsersEndpoint from "./Endpoints/Users"
 
 /**
  * Client for interacting with the Highrise WebApi
@@ -11,6 +12,9 @@ declare class WebApi {
 
     /** Represents the Highrise WebApi `/rooms` endpoint */
     rooms: RoomsEndpoint
+
+    /** Represents the Highrise WebApi `/posts` endpoint */
+    posts: PostsEndpoint
 }
 
 export default WebApi
