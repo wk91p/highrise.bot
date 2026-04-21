@@ -1,4 +1,5 @@
 const HttpClient = require("../../Networking/Core/HttpClient");
+const RoomsEndpoint = require("./Endpoints/Rooms");
 const UsersEndpoint = require("./Endpoints/Users");
 
 class WebApi {
@@ -10,6 +11,7 @@ class WebApi {
         })
 
         this.users = new UsersEndpoint(ctx, this.#client)
+        this.rooms = new RoomsEndpoint(ctx, this.#client)
     }
 }
 

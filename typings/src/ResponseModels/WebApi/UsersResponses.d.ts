@@ -28,7 +28,7 @@ interface WebApiUserCrew {
     name: string
 }
 
-class UsersResponse extends BaseResponse {
+declare class UsersResponse extends BaseResponse {
     /** Unique identifier of the user */
     id: string
     /** Display name of the user */
