@@ -1,7 +1,9 @@
-const BaseEventHandler = require("../../Base/BaseEventHandler");
+const BaseHandler = require("../../Base/BaseHandler");
 const { HiddenChannel } = require("../../Models/EventModels");
 
-class ChannelHandler extends BaseEventHandler {
+class ChannelHandler extends BaseHandler {
+    static type = "ChannelEvent"
+    
     handle(data, emit) {
         const channel = new HiddenChannel(data)
 

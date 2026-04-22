@@ -1,7 +1,9 @@
-const BaseEventHandler = require("../../Base/BaseEventHandler");
+const BaseHandler = require("../../Base/BaseHandler");
 const { Direct } = require("../../Models/EventModels");
 
-class DirectHandler extends BaseEventHandler {
+class DirectHandler extends BaseHandler {
+    static type = "MessageEvent"
+
     constructor(ctx, directApi) {
         super(ctx);
         this.direct = directApi;

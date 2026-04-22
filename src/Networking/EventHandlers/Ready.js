@@ -1,7 +1,9 @@
-const BaseEventHandler = require("../../Base/BaseEventHandler");
+const BaseHandler = require("../../Base/BaseHandler");
 const { SessionMetadata } = require("../../Models/EventModels");
 
-class SessionMetadataHandler extends BaseEventHandler {
+class SessionMetadataHandler extends BaseHandler {
+    static type = "SessionMetadata"
+
     handle(data, emit) {
         const metadata = new SessionMetadata(data)
         this.state.set('metadata', metadata)

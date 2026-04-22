@@ -1,8 +1,10 @@
-const BaseEventHandler = require("../../Base/BaseEventHandler");
+const BaseHandler = require("../../Base/BaseHandler");
 const { Message } = require("../../Models/EventModels");
 const { User } = require("../../Models/EventModelComponents");
 
-class ChatHandler extends BaseEventHandler {    
+class ChatHandler extends BaseHandler {  
+    static type = "ChatEvent"
+
     handle(data, emit) {
         if (data.user.id === this.state.get('metadata').bot_id) return
 

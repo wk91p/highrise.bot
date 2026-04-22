@@ -1,8 +1,10 @@
-const BaseEventHandler = require("../../Base/BaseEventHandler");
+const BaseHandler = require("../../Base/BaseHandler");
 const { RoomModerate } = require("../../Models/EventModels");
 
-class ModerationHandler extends BaseEventHandler {
-    handle(data, emit) {
+class ModerationHandler extends BaseHandler {
+    static type = "RoomModeratedEvent"
+    
+    handle(raw, emit) {
         const moderate = new RoomModerate(data)
 
         if (moderate.action.type === 'mute' && moderate.action.duration === 1) {

@@ -1,7 +1,10 @@
-const BaseEventHandler = require("../../Base/BaseEventHandler");
+const BaseHandler = require("../../Base/BaseHandler");
 const { Voice } = require("../../Models/EventModels");
 
-class VoiceHandler extends BaseEventHandler {
+// lonely bitch (server-side deprecated)
+class VoiceHandler extends BaseHandler {
+    static type = "VoiceEvent"
+
     handle(data, emit) {
         const voice = new Voice(data)
 

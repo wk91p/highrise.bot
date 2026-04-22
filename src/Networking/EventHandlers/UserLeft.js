@@ -1,7 +1,9 @@
-const BaseEventHandler = require("../../Base/BaseEventHandler");
+const BaseHandler = require("../../Base/BaseHandler");
 const { User } = require("../../Models/EventModelComponents");
 
-class UserLeftHandler extends BaseEventHandler {
+class UserLeftHandler extends BaseHandler {
+    static type = "UserLeftEvent"
+
     handle(data, emit) {
         const user = new User(data.user.id, data.user.username)
 

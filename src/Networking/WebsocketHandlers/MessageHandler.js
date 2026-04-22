@@ -1,67 +1,72 @@
-const { ErrorMessages } = require("../../Constants/ErrorConstants");
-const ChannelHandler = require("../../Networking/EventHandlers/Channel");
-const ChatHandler = require("../../Networking/EventHandlers/Chat");
-const DirectHandler = require("../../Networking/EventHandlers/Direct");
-const ModerationHandler = require("../../Networking/EventHandlers/Moderation");
-const MovementHandler = require("../../Networking/EventHandlers/Movement");
-const SessionMetadataHandler = require("../../Networking/EventHandlers/Ready");
-const TipHandler = require("../../Networking/EventHandlers/Tip");
-const UserJoinedHandler = require("../../Networking/EventHandlers/UserJoined");
-const UserLeftHandler = require("../../Networking/EventHandlers/UserLeft");
+const HandlerRegistry = require("./MessageHandlerCore/HandlerRegistry")
+const MessageParser = require("./MessageHandlerCore/MessageParser")
+
+const ChannelHandler = require("../EventHandlers/Channel")
+const ChatHandler = require("../EventHandlers/Chat")
+const DirectHandler = require("../EventHandlers/Direct")
+const ModerationHandler = require("../EventHandlers/Moderation")
+const MovementHandler = require("../EventHandlers/Movement")
+const SessionMetadataHandler = require("../EventHandlers/Ready")
+const TipHandler = require("../EventHandlers/Tip")
+const UserJoinedHandler = require("../EventHandlers/UserJoined")
+const UserLeftHandler = require("../EventHandlers/UserLeft")
+
+const IgnoredEvents = new Set(["KeepaliveResponse"])
 
 class MessageHandler {
     constructor(ctx, botApi, emit) {
         this.logger = ctx.logger
         this.sender = ctx.sender
         this.state = ctx.state
-        this.botApi = botApi
         this.emit = emit
 
-        this.handlers = {
-            SessionMetadata: new SessionMetadataHandler(ctx),
-            ChatEvent: new ChatHandler(ctx),
-            UserMovedEvent: new MovementHandler(ctx),
-            UserLeftEvent: new UserLeftHandler(ctx),
-            UserJoinedEvent: new UserJoinedHandler(ctx),
-            TipReactionEvent: new TipHandler(ctx),
-            MessageEvent: new DirectHandler(ctx, this.botApi.direct),
-            RoomModeratedEvent: new ModerationHandler(ctx),
-            ChannelEvent: new ChannelHandler(ctx)
-        }
+        this.parser = new MessageParser()
+
+        this.registry = new HandlerRegistry()
+            .register(SessionMetadataHandler, ctx)
+            .register(ChatHandler, ctx)
+            .register(MovementHandler, ctx)
+            .register(UserLeftHandler, ctx)
+            .register(UserJoinedHandler, ctx)
+            .register(TipHandler, ctx)
+            .register(DirectHandler, ctx, botApi.direct)
+            .register(ModerationHandler, ctx)
+            .register(ChannelHandler, ctx)
     }
 
-    async handle(raw) {
+    async handle(rawData) {
+        const { data, error } = this.parser.parse(rawData)
+        if (error) {
+            this.logger.error("MessageHandler:", error, rawData)
+            return
+        }
+
         try {
-            const message = JSON.parse(raw);
-            if (!message.rid && message._type === 'Error') {
-                this.logger.warn('Websocket', message.message)
-                if (this.#isFatal(message)) {
-                    this.state.set('doNotReconnect', true)
+            if (this.parser.isError(data)) {
+                this.logger.warn("Websocket", data.message)
+                if (this.parser.isFatal(data)) {
+                    this.state.set("doNotReconnect", true)
                 }
                 return
             }
 
-            if (this.sender.handlePending(message)) return
+            if (this.sender.handlePending(data)) return
 
-            await this.#handleEvents(message)
-        } catch (error) {
-            this.logger.error(error)
+            await this.#route(data)
+        } catch (err) {
+            this.logger.error("MessageHandler: unhandled error", err)
         }
     }
 
-    #isFatal(message) {
-        return ErrorMessages.FATAL.includes(message.message)
-    }
+    async #route(data) {
+        const type = data._type
 
-    async #handleEvents(message) {
-        const type = message._type
-        if (type === "KeepaliveResponse") return
+        if (IgnoredEvents.has(type)) return
 
-        const event = this.handlers[type]
-        if (event) {
-            await event.handle(message, this.emit)
-        } else {
-            this.logger.warn(`Unhandled event type`, JSON.stringify(message))
+        const dispatched = await this.registry.dispatch(type, data, this.emit, this.logger)
+
+        if (!dispatched) {
+            this.logger.warn("MessageHandler: unhandled event type", JSON.stringify(data))
         }
     }
 }

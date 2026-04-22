@@ -1,8 +1,10 @@
-const BaseEventHandler = require("../../Base/BaseEventHandler");
+const BaseHandler = require("../../Base/BaseHandler");
 const { Position, AnchorPosition } = require("../../Models/EventModels");
 const { User } = require("../../Models/EventModelComponents");
 
-class MovementHandler extends BaseEventHandler {
+class MovementHandler extends BaseHandler {
+    static type = "UserMovedEvent"
+
     handle(data, emit) {
         const user = new User(data.user.id, data.user.username)
         
