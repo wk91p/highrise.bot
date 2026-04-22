@@ -14,15 +14,16 @@ class HandlerRegistry {
 
     async dispatch(type, data, emit, logger) {
         const handler = this.handlers.get(type)
-        if (!handler) return false
+        if (!handler) {
+            logger.warn("MessageHandler", `unhandled event type: ${type}`)
+            return
+        }
 
         try {
             await handler.execute(data, emit)
         } catch (error) {
             logger.error(`HandlerRegistry: "${type}"`, `Error: ${error.message}`)
         }
-
-        return true
     }
 }
 

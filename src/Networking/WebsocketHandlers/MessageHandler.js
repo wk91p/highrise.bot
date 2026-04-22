@@ -63,11 +63,7 @@ class MessageHandler {
 
         if (IgnoredEvents.has(type)) return
 
-        const dispatched = await this.registry.dispatch(type, data, this.emit, this.logger)
-
-        if (!dispatched) {
-            this.logger.warn("MessageHandler: unhandled event type", JSON.stringify(data))
-        }
+        await this.registry.dispatch(type, data, this.emit, this.logger)
     }
 }
 
