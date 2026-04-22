@@ -1,16 +1,11 @@
-export interface LoggerOptions {
-    /**
-     * name for the logger prefix the default SDK prefix is Highrise prefix
-     * 
-     * this one
-     *     ↓
-     * * [Highrise] │ 06:34:26 │ [INFO] │ Connected to Highrise Bot Server
-     */
-    prefix?: string;
-}
-
 declare class Logger {
-    constructor(options?: LoggerOptions);
+    
+    constructor(
+        /**
+         * name for the logger prefix the default SDK prefix is `"Highrise"` prefix
+         */
+        prefix: string
+    );
 
     /**
      * Log an informational message
