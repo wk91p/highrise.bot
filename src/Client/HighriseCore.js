@@ -65,10 +65,17 @@ class HighriseCore extends EventEmitter {
         this.#setupListeners()
     }
 
+    async reconnect() {
+        const { token, roomId } = this.credential
+        this.#logger.info('Connection', 'Reconnecting...')
+        await this.logout()
+        await this.login(token, roomId)
+    }
+
 
     #setupListeners() {
         this.#ws.on('open', this.#openHandler.handle.bind(this.#openHandler))
-        this.#ws.on('message', (raw) => this.#messageHandler.handle(raw))
+        this.#ws.on('message', this.#messageHandler.handle.bind(this.#messageHandler))
         this.#ws.on('error', this.#errorHandler.handle.bind(this.#errorHandler))
         this.#ws.on('close', this.#closeHandler.handle.bind(this.#closeHandler))
     }

@@ -8,7 +8,7 @@ class OpenHandler {
 
     async handle() {
         try {
-            this.logger.info("Connected to Highrise Bot Server")
+            this.logger.info('Connection', "Connected to Highrise Bot Server")
             this.keepaliveHandler.start()
 
             this.state.set("connectTime", Date.now())
