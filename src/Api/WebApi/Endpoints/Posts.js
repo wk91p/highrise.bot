@@ -1,5 +1,5 @@
 const { sortOrderTypes } = require("../../../Constants/WebApiConstants")
-const { PostsResponse } = require("../../../Models/ResponseModels/WebApi/PostsResponses")
+const { PostsResponse, PostResponse } = require("../../../Models/ResponseModels/WebApi/PostsResponses")
 
 class PostsEndpoint {
     #validator
@@ -44,6 +44,20 @@ class PostsEndpoint {
         } catch (error) {
             let apiError = error?.response?.data
             return new PostsResponse({ error: apiError ? new Error(apiError) : error })
+        }
+    }
+
+    async get(postId) {
+        try {
+            this.#validator
+                .required(postId, "postId")
+                .string(postId, "postId")
+
+            const result = await this.#client.get(`/posts/${postId}`)
+            return new PostResponse(result)
+        } catch (error) {
+            let apiError = error?.response?.data
+            return new PostResponse({ error: apiError ? new Error(apiError) : error })
         }
     }
 }

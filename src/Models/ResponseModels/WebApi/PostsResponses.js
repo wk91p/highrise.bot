@@ -10,24 +10,28 @@ function buildBody(body) {
     }
 }
 
+function buildPost(post) {
+    return {
+        postId: post.post_id,
+        authorId: post.author_id,
+        createdAt: new Date(post.created_at),
+        mediaUrl: post.type !== 'text'
+            ? cloudflareCdnUrl.concat(post.file_key)
+            : null,
+        type: post.type,
+        visibility: post.visibility,
+        comments: post.num_comments,
+        likes: post.num_likes,
+        reposts: post.num_reposts,
+        body: post.body ? buildBody(post.body) : null,
+        caption: post.caption,
+        featuredUserIds: post.featured_user_ids
+    }
+}
+
 class PostsResponse extends BaseResponse {
     build(data, listNext) {
-        this.posts = data.posts.map((post) => ({
-            postId: post.post_id,
-            authorId: post.author_id,
-            createdAt: new Date(post.created_at),
-            mediaUrl: post.type !== 'text'
-                ? cloudflareCdnUrl.concat(post.file_key)
-                : null,
-            type: post.type,
-            visibility: post.visibility,
-            comments: post.num_comments,
-            likes: post.num_likes,
-            reposts: post.num_reposts,
-            body: post.body ? buildBody(post.body) : null,
-            caption: post.caption,
-            featuredUserIds: post.featured_user_ids
-        }))
+        this.posts = data.posts.map((post) => (buildPost(post)))
 
         this.total = data.total
 
@@ -42,6 +46,13 @@ class PostsResponse extends BaseResponse {
     }
 }
 
+class PostResponse extends BaseResponse {
+    build(data) {
+        Object.assign(this, buildPost(data.post))
+    }
+}
+
 module.exports = {
-    PostsResponse
+    PostsResponse,
+    PostResponse
 }

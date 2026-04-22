@@ -1,4 +1,4 @@
-import { PostsResponse } from "../../../ResponseModels/WebApi/PostsResponses";
+import { PostResponse, PostsResponse } from "../../../ResponseModels/WebApi/PostsResponses";
 
 interface GetPostsParams {
     /** Maximum number of posts to return */
@@ -17,13 +17,25 @@ interface GetPostsParams {
 declare class PostsEndpoint {
     /**
      * Fetches a filtered list of posts from the WebApi.
-     * 
      * @param params WebApi filtering options.
-     * @note expect some issues like getting `Unable to fetch posts.` error.
+     * @note expect some errors like getting `Unable to fetch posts.` error.
      * 
      * @returns A promise that resolves to a {@link PostsResponse} containing the rooms data and pagination method.
      */
     list(params: GetPostsParams): Promise<PostsResponse>
+
+    /**
+     * Fetches data for a specific post from the WebApi
+     * @param postId The post ID
+     * @note expect some errors like getting `500 Internal Server` error.
+     * @returns A promise that resolves to a {@link PostResponse} containing the post's data
+     * @example
+     * ```javascript
+     * const res = await bot.webapi.posts.get("postId")
+     * console.log(res)
+     * ```
+     */
+    get(postId: string): Promise<PostResponse>
 }
 
 export default PostsEndpoint

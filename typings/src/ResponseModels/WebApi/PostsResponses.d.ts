@@ -25,7 +25,7 @@ interface Post {
     /** UTC timestamp of when the post was created */
     createdAt: Date
     /** Url of the media in the post */
-    mediaUrl: string
+    mediaUrl: string | null
     /** Post type (e.g. `"look"`, `"text"`, `"photo"`, `"video"`) */
     type: "look" | "text" | "photo" | "video"
     /** Post visibility on the user profile */
@@ -37,6 +37,33 @@ interface Post {
     /** Post reposts number */
     reposts: number
     /** Body data if the post was a `"look"` type */
+    body: PostBody | null
+    /** Post caption */
+    caption: string | null
+    /** I have no idea what it contains, so it's an array :) */
+    featuredUserIds: unknown[]
+}
+
+declare class PostResponse extends BaseResponse {
+    /** Unique identifier of the post */
+    postId: string
+    /** Unique identifier of the author */
+    authorId: string
+    /** UTC timestamp of when the post was created */
+    createdAt: Date
+    /** Url of the media in the post */
+    mediaUrl: string | null
+    /** Post type (e.g. `"look"`, `"text"`, `"photo"`, `"video"`) */
+    type: "look" | "text" | "photo" | "video"
+    /** Post visibility on the user profile */
+    visibility: "public"
+    /** Post comments number */
+    comments: number
+    /** Post likes number */
+    likes: number
+    /** Post reposts number */
+    reposts: number
+    /** Body data if the post was a `"look"` or `"text"` type */
     body: PostBody | null
     /** Post caption */
     caption: string | null
@@ -63,5 +90,6 @@ declare class PostsResponse extends BaseResponse {
 
 export {
     PostsResponse,
+    PostResponse,
     Post
 }
