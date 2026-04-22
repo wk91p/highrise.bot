@@ -15,7 +15,7 @@ const BotContext = require('../Contexts/BotContext');
 
 const BotApi = require('../Api');
 
-class HighriseWebsocket extends EventEmitter {
+class HighriseCore extends EventEmitter {
     #keepaliveHandler
     #openHandler
     #messageHandler
@@ -132,4 +132,4 @@ class HighriseWebsocket extends EventEmitter {
     }
 }
 
-module.exports = HighriseWebsocket
+module.exports = HighriseCore
