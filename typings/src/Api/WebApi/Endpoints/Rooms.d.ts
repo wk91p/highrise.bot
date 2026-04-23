@@ -19,7 +19,7 @@ interface GetRoomsParams {
 declare class RoomsEndpoint {
     /**
      * Fetches data for a specific room from the WebApi
-     * @param roomId The room ID
+     * @param roomId The room ID to fetch
      * @returns A promise that resolves to a {@link RoomResponse} containing the room's data
      * @example
      * ```javascript

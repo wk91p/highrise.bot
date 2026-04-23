@@ -26,7 +26,7 @@ declare class PostsEndpoint {
 
     /**
      * Fetches data for a specific post from the WebApi
-     * @param postId The post ID
+     * @param postId The post ID to fetch
      * @note expect some errors like getting `500 Internal Server` error.
      * @returns A promise that resolves to a {@link PostResponse} containing the post's data
      * @example
