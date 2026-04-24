@@ -1,3 +1,4 @@
+import GrabsEndpoint from "./Endpoints/Grabs"
 import ItemsEndpoint from "./Endpoints/Items"
 import PostsEndpoint from "./Endpoints/Posts"
 import RoomsEndpoint from "./Endpoints/Rooms"
@@ -19,6 +20,9 @@ declare class WebApi {
 
     /** Represents the Highrise WebApi `/items` endpoint */
     items: ItemsEndpoint
+
+    /** Represents the Highrise WebApi `/grabs` endpoint */
+    grabs: GrabsEndpoint
 }
 
 export default WebApi
