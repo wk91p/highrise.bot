@@ -27,7 +27,7 @@ declare class Highrise {
 
     /** API for handling Direct Messages (DMs) across the Highrise platform. */
     direct: DirectApi;
-    
+
     /** API for interacting with the bot's inventory and outfits. */
     inventory: InventoryApi;
 
@@ -40,7 +40,10 @@ declare class Highrise {
     /** Utility methods for common bot development tasks. */
     utils: UtilsApi;
 
-    /** Client for interacting with the Highrise WebApi. */
+    /**
+     * Client for interacting with the Highrise WebApi
+     * @see https://create.highrise.game/learn/web-api/general/overview
+     */
     webapi: WebApi;
 
     /** 
@@ -75,7 +78,7 @@ declare class Highrise {
      * @remarks 
      * Existing event listeners will remain since they are tied to the {@link Highrise} instance.
      */
-    logout():  | void;
+    logout(): | void;
 
     /**
      * Registers a persistent listener for a specific event.
