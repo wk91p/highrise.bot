@@ -10,6 +10,7 @@
  *   3. Run: npm start
  *
  * Need help? → discord @oqs0_
+ * or visit the Book → https://wk91p.github.io/highrise.bot/
  */
 
 const { Highrise, Logger } = require('highrise.bot');

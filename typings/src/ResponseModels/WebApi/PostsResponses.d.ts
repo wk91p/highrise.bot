@@ -44,6 +44,21 @@ interface Post {
     featuredUserIds: unknown[]
 }
 
+interface Comment {
+    /** Unique identifier of the comment */
+    id: string
+    /** Content of the comment */
+    content: string
+    /** Unique identifier of the post the comment belongs to */
+    postId: string
+    /** Unique identifier of the comment author */
+    authorId: string
+    /** Username of the comment author */
+    authorName: string
+    /** Number of likes on the comment */
+    likes: number
+}
+
 declare class PostResponse extends BaseResponse {
     /** Unique identifier of the post */
     postId: string
@@ -69,6 +84,8 @@ declare class PostResponse extends BaseResponse {
     caption: string | null
     /** I have no idea what it contains, so it's an array :) */
     featuredUserIds: unknown[]
+    /** Post comments */
+    commentsList: Comment[]
 }
 
 declare class PostsResponse extends BaseResponse {

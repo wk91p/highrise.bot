@@ -49,6 +49,14 @@ class PostsResponse extends BaseResponse {
 class PostResponse extends BaseResponse {
     build(data) {
         Object.assign(this, buildPost(data.post))
+        this.commentsList = data.post.comments.map(comment => ({
+            id: comment.id,
+            content: comment.content,
+            postId: comment.post_id,
+            authorId: comment.author_id,
+            authorName: comment.author_name,
+            likes: comment.num_likes
+        }))
     }
 }
 
