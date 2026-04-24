@@ -47,6 +47,7 @@ class HighriseCore extends EventEmitter {
 
     async login(token, roomId) {
         this.#cleanup()
+        this.#state.set('doNotReconnect', false)
 
         this.#ws = new WebSocket(`wss://highrise.game/web/botapi?events=${WebsocketEvents.join(',')}`, {
             headers: {
@@ -67,11 +68,15 @@ class HighriseCore extends EventEmitter {
 
     async reconnect() {
         const { token, roomId } = this.credential
+        if (!token || !roomId) {
+            this.#logger.info("System", `Either token or roomId are not set in-bot`)
+            return;
+        }
+
         this.#logger.info('Connection', 'Reconnecting...')
         await this.logout()
         await this.login(token, roomId)
     }
-
 
     #setupListeners() {
         this.#ws.on('open', this.#openHandler.handle.bind(this.#openHandler))
