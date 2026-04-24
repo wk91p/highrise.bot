@@ -29,7 +29,7 @@ interface Seller {
     lastConnectedAt: Date | null
 }
 
-interface Item {
+interface DetailedItem {
     /** Unique identifier of the item */
     itemId: string
     /** Display name of the item */
@@ -82,7 +82,7 @@ interface StorefrontListings {
 
 declare class ItemResponse extends BaseResponse {
     /** Full detail of the requested item */
-    item: Item
+    item: DetailedItem
     /** Items and affiliations related to this item */
     relatedItems: RelatedItems
     /** Current storefront listings for this item */
@@ -108,11 +108,13 @@ interface SearchItem {
     isPurchasable: boolean
     /** Whether the item can be traded between users */
     isTradable: boolean
-    /** Rarity of the item (e.g. `"epic"`, `"legendary"`) */
+    /** Rarity of the item (e.g. `"rare"`, `"epic"`, `"legendary"`) */
     rarity: string
     /** List of keywords associated with the item */
     keywords: string[]
 }
+
+interface Item extends SearchItem {}
 
 declare class ItemsSearchResponse extends BaseResponse {
     /** List of items returned by the search */
@@ -123,9 +125,25 @@ declare class ItemsSearchResponse extends BaseResponse {
     next(): Promise<ItemsSearchResponse> | null
 }
 
-export { }
+declare class ItemsResponse extends BaseResponse {
+    /** List of items returned by WebApi */
+    items: Item[]
+
+    /** Total items in Highrise */
+    total: number
+
+    /** First Id in `items` property */
+    firstId: string | null
+
+    /** Last Id in `items` property */
+    lastId: string | null
+
+    /**  Fetches the next batch of items. */
+    next(): Promise<ItemsResponse> | null
+}
 
 export { 
     ItemResponse,
-    ItemsSearchResponse
+    ItemsSearchResponse,
+    ItemsResponse
 }

@@ -1,20 +1,24 @@
 const BaseResponse = require("../../../Base/BaseResponse");
 
+function mapItems(item) {
+    return {
+        itemId: item.item_id,
+        itemName: item.item_name,
+        category: item.category,
+        createdAt: new Date(item.created_at),
+        releaseDate: new Date(item.release_date),
+        descriptionKey: item.description_key,
+        inspiredBy: item.inspired_by,
+        isPurchasable: item.is_purchasable,
+        isTradable: item.is_tradable,
+        rarity: item.rarity,
+        keywords: item.keywords
+    }
+}
+
 class ItemsSearchResponse extends BaseResponse {
     build(data, listNext) {
-        this.items = data.items.map(item => ({
-            itemId: item.item_id,
-            itemName: item.item_name,
-            category: item.category,
-            createdAt: new Date(item.created_at),
-            releaseDate: new Date(item.release_date), 
-            descriptionKey: item.description_key,
-            inspiredBy: item.inspired_by,
-            isPurchasable: item.is_purchasable,
-            isTradable: item.is_tradable,
-            rarity: item.rarity,
-            keywords: item.keywords
-        }))
+        this.items = data.items.map(item => (mapItems(item)))
 
         if (this.items.length) {
             this.next = async () => await listNext(this.items.length);
@@ -23,6 +27,23 @@ class ItemsSearchResponse extends BaseResponse {
         }
 
         this.total = data.total
+    }
+}
+
+class ItemsResponse extends BaseResponse {
+    build(data, listNext) {
+        this.items = data.items.map(item => (mapItems(item)))
+
+        this.total = data.total
+
+        this.firstId = data.first_id ? data.first_id : null
+        this.lastId = data.last_id ? data.last_id : null
+
+        if (this.lastId) {
+            this.next = async () => await listNext(this.lastId);
+        } else {
+            this.next = null;
+        }
     }
 }
 
@@ -85,5 +106,6 @@ class ItemResponse extends BaseResponse {
 
 module.exports = {
     ItemResponse,
-    ItemsSearchResponse
+    ItemsSearchResponse,
+    ItemsResponse
 }

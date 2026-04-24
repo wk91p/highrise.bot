@@ -20,7 +20,7 @@ declare class PostsEndpoint {
      * @param params WebApi filtering options.
      * @note expect some errors like getting `Unable to fetch posts.` error.
      * 
-     * @returns A promise that resolves to a {@link PostsResponse} containing the rooms data and pagination method.
+     * @returns A promise that resolves to a {@link PostsResponse} containing the posts data and pagination method.
      */
     list(params: GetPostsParams): Promise<PostsResponse>
 

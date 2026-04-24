@@ -1,4 +1,21 @@
-import { ItemResponse, ItemsSearchResponse } from "../../../ResponseModels/WebApi/ItemsResponses";
+import { ItemResponse, ItemsResponse, ItemsSearchResponse } from "../../../ResponseModels/WebApi/ItemsResponses";
+
+interface GetItemsParams {
+    /** Maximum number of items to return */
+    limit?: number;
+    /** Order of results (e.g. `"asc"` | `"desc"`) */
+    sortOrder?: "asc" | "desc"
+    /** Filter items by item name */
+    itemName?: string;
+    /** Filter items by item category */
+    category?: string;
+    /** Filter items by item rarity */
+    rarity?: string;
+    /** Return items after this ItemId (pagination) */
+    startsAfter?: string;
+    /** Return items before this ItemId (pagination) */
+    endsBefore?: string;
+}
 
 /** Represents the Highrise WebApi `/items` endpoint */
 declare class ItemsEndpoint {
@@ -24,7 +41,15 @@ declare class ItemsEndpoint {
      * 
      * @returns A promise that resolves to a {@link ItemsSearchResponse} containing the items data and pagination method.
      */
-    async search(itemName: string, limit: number, skip: number): Promise<ItemsSearchResponse>
+    search(itemName: string, limit: number, skip: number): Promise<ItemsSearchResponse>
+
+    /**
+     * Fetches a filtered list of items from the WebApi.
+     * @param params WebApi filtering options.
+     * @note This endpoint does not return emotes.
+     * @returns A promise that resolves to a {@link ItemsResponse} containing the items data and pagination method.
+     */
+    list(params: GetItemsParams): Promise<ItemsResponse>
 }
 
 export default ItemsEndpoint
