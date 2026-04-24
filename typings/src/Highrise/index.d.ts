@@ -81,6 +81,24 @@ declare class Highrise {
     logout(): | void;
 
     /**
+     * Reconnects using the current credentials.
+     * @returns A promise that resolves when the reconnection is complete.
+     */
+    reconnect(): Promise<void>
+
+    /**
+     * Updates the authentication token credential while preserving the current room ID.
+     * @param newToken The new authentication token.
+     */
+    setToken(newToken: string): void
+
+    /**
+     * Updates the room ID credential while preserving the current authentication token.
+     * @param newRoomId The new room ID to connect to.
+     */
+    setRoomId(newRoomId: string): void
+
+    /**
      * Registers a persistent listener for a specific event.
      * @param event - The name of the event to subscribe to.
      * @param listener - An asynchronous callback function executed when the event triggers.

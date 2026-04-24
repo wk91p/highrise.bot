@@ -66,16 +66,32 @@ class HighriseCore extends EventEmitter {
         this.#setupListeners()
     }
 
+    setToken(newToken) {
+        const { roomId } = this.#getCredential()
+        this.#state.set("credential", { token: newToken, roomId })
+    }
+
+    setRoomId(newRoomId) {
+        const { token } = this.#getCredential()
+        this.#state.set("credential", { token, roomId: newRoomId })
+    }
+
     async reconnect() {
-        const { token, roomId } = this.credential
-        if (!token || !roomId) {
-            this.#logger.info("System", `Either token or roomId are not set in-bot`)
-            return;
-        }
+        const { token, roomId } = this.#getCredential()
 
         this.#logger.info('Connection', 'Reconnecting...')
         await this.logout()
         await this.login(token, roomId)
+    }
+
+    #getCredential() {
+        const { token, roomId } = this.credential
+        if (!token || !roomId) {
+            this.#logger.info("System", `Either token or roomId are not set in-bot, stopping action...`)
+            return;
+        }
+
+        return { token, roomId }
     }
 
     #setupListeners() {
