@@ -25,15 +25,17 @@ declare class Roles {
      * Assigns a role to a user.
      * @param userId The unique identifier of the user.
      * @param role The role to assign.
+     * @returns `false` if the user already has the role, otherwise `true`.
      */
-    addRole(userId: string, role: string): void
+    addRole(userId: string, role: string): boolean
 
     /**
      * Removes a role from a user.
      * @param userId The unique identifier of the user.
      * @param role The role to remove.
+     * @returns `false` if the role does not exist, `true` if removed successfully.
      */
-    removeRole(userId: string, role: string): void
+    removeRole(userId: string, role: string): boolean
 
     /**
      * Returns all roles assigned to a user.
@@ -45,14 +47,16 @@ declare class Roles {
      * Replaces all roles of a user with the specified roles.
      * @param userId The unique identifier of the user.
      * @param roles The new list of roles to assign.
+     * @returns `true` when complete.
      */
-    setRoles(userId: string, roles: string[]): void
+    setRoles(userId: string, roles: string[]): true
 
     /**
      * Removes all roles from a user.
      * @param userId The unique identifier of the user.
+     * @returns `true` when complete.
      */
-    clearRoles(userId: string): void
+    clearRoles(userId: string): true
 
     /**
      * Checks if a user is the room owner.

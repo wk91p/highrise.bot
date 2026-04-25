@@ -14,6 +14,8 @@ const Sender = require('../Networking/Core/Sender');
 const BotContext = require('../Contexts/BotContext');
 
 const BotApi = require('../Api');
+const Validator = require("../Utils/Validator")
+const { RolesConfig } = require('../Config/configs');
 
 class HighriseCore extends EventEmitter {
     #keepaliveHandler
@@ -22,6 +24,8 @@ class HighriseCore extends EventEmitter {
     #errorHandler
     #closeHandler
 
+    #validator
+    #options
     #logger
     #sender
     #botApi
@@ -29,12 +33,13 @@ class HighriseCore extends EventEmitter {
     #ctx
     #ws
 
-    constructor() {
+    constructor(options = {}) {
         super()
         this.setMaxListeners(100)
 
         this.#ws = null
         this.#state = new Map()
+        this.#options = options
     }
 
     async logout() {
@@ -110,7 +115,19 @@ class HighriseCore extends EventEmitter {
     #setupCore() {
         this.#logger = new Logger()
         this.#sender = new Sender(this.#ws, this.#logger)
-        this.#ctx = new BotContext(this.#sender, this.#logger, this.#state)
+        this.#validator = new Validator()
+        const configs = [
+            new RolesConfig(this.#validator).setup(this.#options.roles)
+        ]
+
+        this.#ctx = new BotContext(
+            this.#sender,
+            this.#logger,
+            this.#state,
+            this.#validator,
+            configs
+        )
+
         this.#botApi = new BotApi(this.#ctx)
     }
 

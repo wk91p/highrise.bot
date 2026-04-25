@@ -9,12 +9,23 @@ import DirectApi from "highrise.bot/typings/src/Api/Message/Direct";
 import InventoryApi from "../Api/Inventory";
 import ChannelApi from "../Api/Message/Channel";
 import WebApi from "../Api/WebApi";
+import { Roles } from "../Utils/Roles";
+
+interface RolesOptions {
+    /** Path to the file where roles will be persisted (e.g. `"./roles.json"`) */
+    persistPath?: string
+}
+
+interface LoginOptions {
+    /** Configuration options for the {@link Roles} manager */
+    roles?: RolesOptions
+}
 
 declare class Highrise {
     /**
      * Initializes a new instance of the Highrise bot.
      */
-    constructor();
+    constructor(options: LoginOptions);
 
     /** API for handling room chat messages. */
     message: ChatApi;

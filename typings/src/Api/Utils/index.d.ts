@@ -1,5 +1,6 @@
 import Validator from "highrise.bot/typings/src/Utils/Validator"
 import { Roles } from "../../Utils/Roles"
+import { Highrise } from "../../Highrise"
 
 /**
  * Highrise bot development Utils
@@ -18,6 +19,11 @@ declare class Utils {
      * Automatically fetches and syncs room moderators and owner on initialization,
      * and refreshes them every 10 minutes. Custom roles can be assigned, removed,
      * and queried at runtime.
+     * 
+     * Roles can be persisted to a file by setting the `persistPath` option in the
+     * {@link Highrise} constructor. The file is saved every 7.5 minutes and on process exit.
+     * 
+     * @see {@link Roles}
      */
     roles: Roles
 

@@ -1,26 +1,81 @@
+const fs = require("fs")
+
 class Roles {
     #roles = new Map()
     #state
     #logger
     #webapi
+    #persistPath
 
     constructor(ctx, webapi) {
         this.#state = ctx.state
         this.#logger = ctx.logger
         this.#webapi = webapi
+        this.#persistPath = ctx.configs.roles.persistPath ?? null
 
         this.#init()
+
+        process.on("beforeExit", () => {
+            if (this.#persistPath) this.#saveToFile()
+        })
     }
 
     async #init() {
         await this.#fetchAndSync()
+        if (this.#persistPath) {
+            this.#loadFromFile()
+            this.#saveToFile()
+            this.#startSaveInterval()
+        }
         this.#startInterval()
+    }
+
+    #loadFromFile() {
+        try {
+            if (!fs.existsSync(this.#persistPath)) return
+
+            const raw = fs.readFileSync(this.#persistPath, "utf-8")
+            const saved = JSON.parse(raw)
+
+            for (const [role, users] of Object.entries(saved)) {
+                if (this.#roles.has(role)) {
+                    const existing = this.#roles.get(role)
+                    const merged = [...new Set([...existing, ...users])]
+                    this.#roles.set(role, merged)
+                } else {
+                    this.#roles.set(role, users)
+                }
+            }
+
+            this.#logger.info("Roles", "Roles loaded from file.")
+        } catch (err) {
+            this.#logger.warn("Roles", `Failed to load roles from file: ${err.message}`)
+        }
+    }
+
+    #saveToFile() {
+        try {
+            const serialized = Object.fromEntries(this.#roles)
+            fs.writeFileSync(this.#persistPath, JSON.stringify(serialized, null, 2), "utf-8")
+        } catch (err) {
+            this.#logger.warn("Roles", `Failed to save roles to file: ${err.message}`)
+        }
+    }
+
+    #startSaveInterval() {
+        const interval = setInterval(() => {
+            this.#logger.info("Roles", "Saving roles to file...")
+            this.#saveToFile()
+        }, 7.5 * 60 * 1000)
+
+        this.#state.get("intervals").push(interval)
     }
 
     #startInterval() {
         const interval = setInterval(async () => {
             this.#logger.info("Roles", "Refreshing room roles...")
             await this.#fetchAndSync()
+            if (this.#persistPath) this.#loadFromFile()
         }, 10 * 60 * 1000)
 
         this.#state.get("intervals").push(interval)
@@ -30,7 +85,7 @@ class Roles {
         const room = await this.#fetchRoom()
         if (!room) return
 
-        const moderatorIds = [...room.moderatorIds, room.ownerId]
+        const moderatorIds = room.moderatorIds
 
         this.#roles.set("owner", [room.ownerId])
         this.#roles.set("mod", moderatorIds)
@@ -68,16 +123,22 @@ class Roles {
         if (!this.#roles.has(role)) {
             this.#roles.set(role, [])
         }
+
         const users = this.#roles.get(role)
         if (!users.includes(userId)) {
             users.push(userId)
+            return true
+        } else {
+            return false
         }
     }
 
     removeRole(userId, role) {
         const users = this.#roles.get(role)
-        if (!users) return
+        if (!users) return false
         this.#roles.set(role, users.filter(id => id !== userId))
+
+        return true
     }
 
     getRoles(userId) {
@@ -89,12 +150,16 @@ class Roles {
     setRoles(userId, roles) {
         this.clearRoles(userId)
         roles.forEach(role => this.addRole(userId, role))
+
+        return true
     }
 
     clearRoles(userId) {
         for (const [role, users] of this.#roles) {
             this.#roles.set(role, users.filter(id => id !== userId))
         }
+
+        return true
     }
 
     isOwner(userId) {
