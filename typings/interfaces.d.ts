@@ -52,10 +52,10 @@ export class Message {
      * @example 
      * ```javascript
      * // Message: "!warn user spamming"
-     * console.log(message.command); // "!warn"
+     * console.log(message.command()); // "!warn"
      * ```
      */
-    readonly command: string | null;
+    command(): string | null;
 
     /**
      * Retrieves arguments after the command.

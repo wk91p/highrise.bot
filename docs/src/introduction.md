@@ -3,7 +3,7 @@
   <br>
   
   <img alt="NPM Downloads" src="https://img.shields.io/npm/d18m/highrise.bot">
-  <img alt="NPM Version" src="https://img.shields.io/npm/v/highrise.bot">
+  <!-- <img alt="NPM Version" src="https://img.shields.io/npm/v/highrise.bot"> -->
   <img alt="NPM Type Definitions" src="https://img.shields.io/npm/types/highrise.bot">
   <img alt="NPM License" src="https://img.shields.io/npm/l/highrise.bot">
 
