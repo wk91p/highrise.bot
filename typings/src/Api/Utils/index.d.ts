@@ -1,4 +1,5 @@
 import Validator from "highrise.bot/typings/src/Utils/Validator"
+import { Roles } from "../../Utils/Roles"
 
 /**
  * Highrise bot development Utils
@@ -8,9 +9,18 @@ declare class Utils {
     /** Built-in validator utils for highrise bots, also it can be imported for external usage 
      * @example
      * const { Validator } = require("highrise.bot")
-    */
+     */
     validator: Validator
-    
+
+    /**
+     * Manages role-based access control for the bot.
+     * 
+     * Automatically fetches and syncs room moderators and owner on initialization,
+     * and refreshes them every 10 minutes. Custom roles can be assigned, removed,
+     * and queried at runtime.
+     */
+    roles: Roles
+
     /**
      * Utility method to create a delay/pause in execution
      * Returns a Promise that resolves after the specified time, useful for rate limiting,

@@ -1,10 +1,13 @@
+const Roles = require("../../Utils/Roles")
+
 class UtilsApi {
     #logger
     
-    constructor(ctx) {
+    constructor(ctx, webapi) {
         this.state = ctx.state
         this.#logger = ctx.logger
         this.validator = ctx.validator
+        this.roles = new Roles(ctx, webapi)
     }
 
     async sleep(ms) {

@@ -60,6 +60,7 @@ class HighriseCore extends EventEmitter {
         this.#ws.setMaxListeners(100)
 
         this.#state.set('credential', { token, roomId })
+        this.#state.set("intervals", [])
 
         this.#setupHandlers()
         this.#setupApi()
@@ -85,7 +86,7 @@ class HighriseCore extends EventEmitter {
     }
 
     #getCredential() {
-        const { token, roomId } = this.credential
+        const { token, roomId } = this.#state.get("credential")
         if (!token || !roomId) {
             this.#logger.info("System", `Either token or roomId are not set in-bot, stopping action...`)
             return;
@@ -102,27 +103,26 @@ class HighriseCore extends EventEmitter {
     }
 
     #setupHandlers() {
+        this.#setupCore()
+        this.#setupWebsocketHandlers()
+    }
+
+    #setupCore() {
         this.#logger = new Logger()
         this.#sender = new Sender(this.#ws, this.#logger)
-        this.#ctx = new BotContext(
-            this.#sender,
-            this.#logger,
-            this.#state
-        )
-
+        this.#ctx = new BotContext(this.#sender, this.#logger, this.#state)
         this.#botApi = new BotApi(this.#ctx)
+    }
 
+    #setupWebsocketHandlers() {
         this.#keepaliveHandler = new KeepAliveHandler(this.#ctx)
-        this.#openHandler = new OpenHandler(
-            this.#ctx,
-            this.#keepaliveHandler
-        )
+        this.#openHandler = new OpenHandler(this.#ctx, this.#keepaliveHandler)
         this.#messageHandler = new MessageHandler(this.#ctx, this.#botApi, this.emit.bind(this))
         this.#errorHandler = new ErrorHandler(this.#ctx)
         this.#closeHandler = new CloseHandler(
             this.#ctx,
             this.#keepaliveHandler,
-            () => this.login(this.credential.token, this.credential.roomId)
+            this.reconnect.bind(this)
         )
     }
 
@@ -144,6 +144,10 @@ class HighriseCore extends EventEmitter {
             this.#ws.close()
             this.#ws = null
             this.#sender.cleanUp()
+        }
+
+        for (const interval of (this.#state.get("intervals") ?? [])) {
+            clearInterval(interval)
         }
     }
 
