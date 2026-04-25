@@ -15,9 +15,13 @@ class Roles {
 
         this.#init()
 
-        process.on("beforeExit", () => {
+        const save = () => {
             if (this.#persistPath) this.#saveToFile()
-        })
+        }
+
+        process.once("SIGINT", () => { save(); process.exit() })
+        process.once("SIGTERM", () => { save(); process.exit() })
+        process.once("exit", save)
     }
 
     async #init() {
