@@ -2,6 +2,7 @@ const fs = require("fs")
 
 class Roles {
     #roles = new Map()
+    #protectedRoles = new Set(["owner", "mod"])
     #state
     #logger
     #webapi
@@ -27,12 +28,17 @@ class Roles {
     }
 
     async #init() {
-        await this.#fetchAndSync()
         if (this.#persistPath) {
             this.#loadFromFile()
+        }
+
+        await this.#fetchAndSync()
+
+        if (this.#persistPath) {
             this.#saveToFile()
             this.#startSaveInterval()
         }
+
         this.#startInterval()
     }
 
@@ -46,10 +52,9 @@ class Roles {
             for (const [role, users] of Object.entries(saved)) {
                 if (this.#roles.has(role)) {
                     const existing = this.#roles.get(role)
-                    const merged = [...new Set([...existing, ...users])]
-                    this.#roles.set(role, merged)
+                    for (const user of users) existing.add(user)
                 } else {
-                    this.#roles.set(role, users)
+                    this.#roles.set(role, new Set(users))
                 }
             }
 
@@ -61,7 +66,9 @@ class Roles {
 
     #saveToFile() {
         try {
-            const serialized = Object.fromEntries(this.#roles)
+            const serialized = Object.fromEntries(
+                [...this.#roles.entries()].map(([role, users]) => [role, [...users]])
+            )
             fs.writeFileSync(this.#persistPath, JSON.stringify(serialized, null, 2), "utf-8")
         } catch (err) {
             this.#logger.warn("Roles", `Failed to save roles to file: ${err.message}`)
@@ -70,7 +77,6 @@ class Roles {
 
     #startSaveInterval() {
         const interval = setInterval(() => {
-            this.#logger.info("Roles", "Saving roles to file...")
             this.#saveToFile()
         }, 7.5 * 60 * 1000)
 
@@ -79,9 +85,7 @@ class Roles {
 
     #startInterval() {
         const interval = setInterval(async () => {
-            this.#logger.info("Roles", "Refreshing room roles...")
             await this.#fetchAndSync()
-            if (this.#persistPath) this.#loadFromFile()
         }, 10 * 60 * 1000)
 
         this.#state.get("intervals").push(interval)
@@ -91,10 +95,8 @@ class Roles {
         const room = await this.#fetchRoom()
         if (!room) return
 
-        const moderatorIds = room.moderatorIds
-
-        this.#roles.set("owner", [room.ownerId])
-        this.#roles.set("mod", moderatorIds)
+        this.#roles.set("owner", new Set([room.ownerId]))
+        this.#roles.set("mod", new Set(room.moderatorIds))
     }
 
     async #fetchRoom() {
@@ -114,7 +116,7 @@ class Roles {
     }
 
     hasRole(userId, role) {
-        return this.#roles.get(role)?.includes(userId) ?? false
+        return this.#roles.get(role)?.has(userId) ?? false
     }
 
     hasAnyRole(userId, roles) {
@@ -126,45 +128,47 @@ class Roles {
     }
 
     addRole(userId, role) {
+        if (this.#protectedRoles.has(role)) return false
+
         if (!this.#roles.has(role)) {
-            this.#roles.set(role, [])
+            this.#roles.set(role, new Set())
         }
 
         const users = this.#roles.get(role)
-        if (!users.includes(userId)) {
-            users.push(userId)
-            return true
-        } else {
-            return false
-        }
+        if (users.has(userId)) return false
+
+        users.add(userId)
+        return true
     }
 
     removeRole(userId, role) {
+        if (this.#protectedRoles.has(role)) return false
+
         const users = this.#roles.get(role)
         if (!users) return false
-        this.#roles.set(role, users.filter(id => id !== userId))
 
-        return true
+        const hadRole = users.has(userId)
+        users.delete(userId)
+        return hadRole
     }
 
     getRoles(userId) {
         return [...this.#roles.entries()]
-            .filter(([, users]) => users.includes(userId))
+            .filter(([, users]) => users.has(userId))
             .map(([role]) => role)
     }
 
     setRoles(userId, roles) {
         this.clearRoles(userId)
         roles.forEach(role => this.addRole(userId, role))
-
         return true
     }
 
     clearRoles(userId) {
         for (const [role, users] of this.#roles) {
-            this.#roles.set(role, users.filter(id => id !== userId))
+            if (this.#protectedRoles.has(role)) continue
+            users.delete(userId)
         }
-
         return true
     }
 

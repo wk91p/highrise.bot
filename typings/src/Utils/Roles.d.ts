@@ -26,6 +26,8 @@ declare class Roles {
      * @param userId The unique identifier of the user.
      * @param role The role to assign.
      * @returns `false` if the user already has the role, otherwise `true`.
+     * 
+     * @note adding to `"mod"` or `"owner"` is restricted to prevent mutation
      */
     addRole(userId: string, role: string): boolean
 
@@ -34,6 +36,8 @@ declare class Roles {
      * @param userId The unique identifier of the user.
      * @param role The role to remove.
      * @returns `false` if the role does not exist, `true` if removed successfully.
+     * 
+     * @note removing from `"mod"` or `"owner"` is restricted to prevent mutation
      */
     removeRole(userId: string, role: string): boolean
 
@@ -55,6 +59,8 @@ declare class Roles {
      * Removes all roles from a user.
      * @param userId The unique identifier of the user.
      * @returns `true` when complete.
+     * 
+     * @note `"mod"` or `"owner"` will always be skipped.
      */
     clearRoles(userId: string): true
 
