@@ -36,7 +36,7 @@ class Sender {
 
 
     request(data) {
-        if (!this.#validate()) return
+        if (!this.#validate()) return Promise.reject(new Error(ErrorMessages.CONNECTION.NOT_CONNECTED))
 
         return new Promise((resolve, reject) => {
             const rid = crypto.randomUUID();
@@ -73,12 +73,15 @@ class Sender {
     }
 
     cleanUp() {
+        for (const [, req] of this.#pending) {
+            clearTimeout(req.timeoutId)
+            req.reject(new Error('Connection closed'))
+        }
         this.#pending.clear()
     }
 
     #validate() {
         if (this.ws && this.ws.readyState !== WebSocket.OPEN) {
-            this.logger.warn("Websocket", ErrorMessages.CONNECTION.NOT_CONNECTED)
             return false
         }
         return true

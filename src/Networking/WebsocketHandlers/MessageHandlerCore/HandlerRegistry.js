@@ -22,7 +22,7 @@ class HandlerRegistry {
         try {
             await handler.execute(data, emit)
         } catch (error) {
-            logger.error(`HandlerRegistry: "${type}"`, `Error: ${error.message}`)
+            logger.error(`HandlerRegistry: "${type}"`, error.message, error.stack)
         }
     }
 }

@@ -72,9 +72,8 @@ class Outfit extends BaseRequest {
                 throw new Error(`Item ${outfitItem.id} already exists`)
             }
 
-            currentOutfit.outfit.push(outfitItem)
-
-            return await this.set(currentOutfit.outfit)
+            const newOutfit = [...currentOutfit.outfit, outfitItem]
+            return await this.set(newOutfit)
         } catch (error) {
             return new AcknowledgmentResponse({ error })
         }

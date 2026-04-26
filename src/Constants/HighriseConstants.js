@@ -96,10 +96,10 @@ const defaultOutfit = [
 ]
 
 module.exports = {
-    facingDirections,
-    PayloadGoldBars,
-    defaultOutfit,
-    BuyingResult,
-    Reactions,
-    GoldBars
+    facingDirections: Object.freeze(facingDirections),
+    GoldBars: Object.freeze(GoldBars),
+    Reactions: Object.freeze(Reactions),
+    defaultOutfit: Object.freeze(defaultOutfit.map(Object.freeze)),
+    BuyingResult: Object.freeze(BuyingResult),
+    PayloadGoldBars: Object.freeze(PayloadGoldBars)
 }

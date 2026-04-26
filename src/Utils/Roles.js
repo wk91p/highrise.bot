@@ -13,7 +13,9 @@ class Roles {
         this.#webapi = webapi
         this.#persistPath = ctx.configs.roles.persistPath ?? null
 
-        this.#init()
+        this.#init().catch(err => {
+            this.#logger.warn('Roles', `Failed to initialize roles: ${err.message}`)
+        })
 
         const save = () => {
             if (this.#persistPath) this.#saveToFile()

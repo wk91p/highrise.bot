@@ -10,7 +10,7 @@ class PostsEndpoint {
         this.#validator = ctx.validator
     }
 
-    async list(params) {
+    async list(params = {}) {
         try {
             let queryParams = {}
             if (params.limit) {

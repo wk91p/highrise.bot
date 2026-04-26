@@ -1,20 +1,18 @@
-const Validator = require("./Validator")
-
 const ANSI = {
-    reset:   '\x1b[0m',
-    cyan:    '\x1b[36m',
-    yellow:  '\x1b[33m',
-    red:     '\x1b[31m',
-    gray:    '\x1b[90m',
-    white:   '\x1b[37m',
-    bold:    '\x1b[1m',
+    reset: '\x1b[0m',
+    cyan: '\x1b[36m',
+    yellow: '\x1b[33m',
+    red: '\x1b[31m',
+    gray: '\x1b[90m',
+    white: '\x1b[37m',
+    bold: '\x1b[1m',
     magenta: '\x1b[35m'
 }
 
 const LEVELS = {
-    info:  { color: ANSI.cyan,    label: '[INFO]'  },
-    warn:  { color: ANSI.yellow,  label: '[WARN]'  },
-    error: { color: ANSI.red,     label: '[ERROR]' },
+    info: { color: ANSI.cyan, label: '[INFO]' },
+    warn: { color: ANSI.yellow, label: '[WARN]' },
+    error: { color: ANSI.red, label: '[ERROR]' },
     debug: { color: ANSI.magenta, label: '[DEBUG]' },
 }
 
@@ -22,12 +20,11 @@ const gray = (str) => `${ANSI.gray}${str}${ANSI.reset}`
 
 class Logger {
     constructor(prefix = 'Highrise') {
-        this.validator = new Validator()
+        if (typeof prefix !== 'string' || !prefix.trim()) {
+            throw new Error('[Logger] prefix must be a non-empty string')
+        }
 
-        this.validator
-            .string(prefix, '[Logger] prefix')
-
-        this.prefix = prefix 
+        this.prefix = prefix
     }
 
     #time() {
@@ -46,11 +43,11 @@ class Logger {
         const { color, label } = LEVELS[level]
 
         const prefix = `${ANSI.bold}${ANSI.white}[${this.prefix}]${ANSI.reset}`
-        const sep    = gray('│')
-        const time   = gray(this.#time())
-        const lvl    = `${color}${label}${ANSI.reset}`
-        const cat    = `${color}${category}${ANSI.reset}`
-        const msg    = args
+        const sep = gray('│')
+        const time = gray(this.#time())
+        const lvl = `${color}${label}${ANSI.reset}`
+        const cat = `${color}${category}${ANSI.reset}`
+        const msg = args
             .map(a => typeof a === 'object' ? JSON.stringify(a) : a)
             .join(` ${gray('·')} `)
 
@@ -64,8 +61,8 @@ class Logger {
         )
     }
 
-    info(category, ...args)  { this.#log('info',  category, ...args) }
-    warn(category, ...args)  { this.#log('warn',  category, ...args) }
+    info(category, ...args) { this.#log('info', category, ...args) }
+    warn(category, ...args) { this.#log('warn', category, ...args) }
     error(category, ...args) { this.#log('error', category, ...args) }
     debug(category, ...args) { this.#log('debug', category, ...args) }
 }

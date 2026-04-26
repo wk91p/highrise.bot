@@ -8,8 +8,8 @@ class BotContext {
 
         for (const config of configs) {
             const name = config.constructor.staticName
-            if (!name) this.logger.warn(`BotContext`, `${config.constructor.name} must have static staticName set`)
-                
+            if (!name) throw new Error(`${config.constructor.name} must have a static staticName set`)
+           
             this.configs[name] = config
         }
     }

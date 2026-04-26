@@ -4,7 +4,7 @@ const { RoomModerate } = require("../../Models/EventModels");
 class ModerationHandler extends BaseHandler {
     static type = "RoomModeratedEvent"
     
-    handle(raw, emit) {
+    handle(data, emit) {
         const moderate = new RoomModerate(data)
 
         if (moderate.action.type === 'mute' && moderate.action.duration === 1) {

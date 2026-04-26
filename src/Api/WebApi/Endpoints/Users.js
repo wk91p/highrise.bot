@@ -18,7 +18,8 @@ class UsersEndpoint {
             const res = await this.#client.get(`/users/${identifier}`)
             return new UserResponse(res.user)
         } catch (error) {
-            return new UserResponse({ error: new Error(error.response.data) })
+            let apiError = error?.response?.data
+            return new UserResponse({ error: apiError ? new Error(apiError) : error })
         }
     }
 }

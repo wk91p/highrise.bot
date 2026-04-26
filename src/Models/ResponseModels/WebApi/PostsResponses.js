@@ -48,8 +48,24 @@ class PostsResponse extends BaseResponse {
 
 class PostResponse extends BaseResponse {
     build(data) {
-        Object.assign(this, buildPost(data.post))
-        this.commentsList = data.post.comments.map(comment => ({
+        const post = data.post
+
+        this.postId = post.post_id
+        this.authorId = post.author_id
+        this.createdAt = new Date(post.created_at)
+        this.mediaUrl = post.type !== 'text'
+            ? cloudflareCdnUrl.concat(post.file_key)
+            : null
+        this.type = post.type
+        this.visibility = post.visibility
+        this.comments = post.num_comments
+        this.likes = post.num_likes
+        this.reposts = post.num_reposts
+        this.body = post.body ? buildBody(post.body) : null
+        this.caption = post.caption
+        this.featuredUserIds = post.featured_user_ids
+
+        this.commentsList = post.comments.map(comment => ({
             id: comment.id,
             content: comment.content,
             postId: comment.post_id,

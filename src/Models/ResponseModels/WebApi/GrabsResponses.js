@@ -1,5 +1,20 @@
 const BaseResponse = require("../../../Base/BaseResponse");
 
+function buildRewards(rewards) {
+    return (rewards ?? []).map(reward => ({
+        category: reward.category,
+        amount: reward.amount,
+        rewardId: reward.reward_id,
+        itemId: reward.item_id,
+        accountBound: reward.account_bound,
+        metadata: reward.metadata ? {
+            nfiMetadata: reward.metadata.nfi_metadata,
+            nfiTemplateMetadata: reward.metadata.nfi_template_metadata
+        } : null,
+        bannerItem: reward.banner_item
+    }))
+}
+
 class GrabsResponse extends BaseResponse {
     build(data, listNext) {
         this.grabs = data.grabs.map(grab => ({
@@ -12,12 +27,12 @@ class GrabsResponse extends BaseResponse {
             startsAt: new Date(grab.starts_at),
             expiresAt: new Date(grab.expires_at),
             isTradable: grab.is_tradable,
-            rewards: this.buildRewards(grab.rewards),
-            costs: this.buildRewards(grab.costs),
-            kompuRewards: this.buildRewards(grab.kompu_rewards),
+            rewards: buildRewards(grab.rewards),
+            costs: buildRewards(grab.costs),
+            kompuRewards: buildRewards(grab.kompu_rewards),
             limitedTimeKompu: grab.limited_time_kompu ? {
                 expiresAt: new Date(grab.limited_time_kompu.expires_at),
-                rewards: this.buildRewards(grab.limited_time_kompu.rewards)
+                rewards: buildRewards(grab.limited_time_kompu.rewards)
             } : null,
             progressReward: grab.progress_reward
         }))
@@ -33,21 +48,6 @@ class GrabsResponse extends BaseResponse {
             this.next = null;
         }
     }
-
-    buildRewards(rewards) {
-        return (rewards ?? []).map(reward => ({
-            category: reward.category,
-            amount: reward.amount,
-            rewardId: reward.reward_id,
-            itemId: reward.item_id,
-            accountBound: reward.account_bound,
-            metadata: reward.metadata ? {
-                nfiMetadata: reward.metadata.nfi_metadata,
-                nfiTemplateMetadata: reward.metadata.nfi_template_metadata
-            } : null,
-            bannerItem: reward.banner_item
-        }))
-    }
 }
 
 class GrabResponse extends BaseResponse {
@@ -62,29 +62,14 @@ class GrabResponse extends BaseResponse {
         this.startsAt = new Date(grab.starts_at)
         this.expiresAt = new Date(grab.expires_at)
         this.isTradable = grab.is_tradable
-        this.rewards = this.buildRewards(grab.rewards)
-        this.costs = this.buildRewards(grab.costs)
-        this.kompuRewards = this.buildRewards(grab.kompu_rewards)
+        this.rewards = buildRewards(grab.rewards)
+        this.costs = buildRewards(grab.costs)
+        this.kompuRewards = buildRewards(grab.kompu_rewards)
         this.limitedTimeKompu = grab.limited_time_kompu ? {
             expiresAt: new Date(grab.limited_time_kompu.expires_at),
-            rewards: this.buildRewards(grab.limited_time_kompu.rewards)
+            rewards: buildRewards(grab.limited_time_kompu.rewards)
         } : null
         this.progressReward = grab.progress_reward
-    }
-
-    buildRewards(rewards) {
-        return (rewards ?? []).map(reward => ({
-            category: reward.category,
-            amount: reward.amount,
-            rewardId: reward.reward_id,
-            itemId: reward.item_id,
-            accountBound: reward.account_bound,
-            metadata: reward.metadata ? {
-                nfiMetadata: reward.metadata.nfi_metadata,
-                nfiTemplateMetadata: reward.metadata.nfi_template_metadata
-            } : null,
-            bannerItem: reward.banner_item
-        }))
     }
 }
 
