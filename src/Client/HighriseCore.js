@@ -6,7 +6,7 @@ const MessageHandler = require('../Networking/WebsocketHandlers/MessageHandler')
 const ErrorHandler = require('../Networking/WebsocketHandlers/ErrorHandler');
 const CloseHandler = require('../Networking/WebsocketHandlers/CloseHandler');
 
-const { WebsocketEvents } = require('../Constants/WebsocketConstants');
+const { EventToListener } = require('../Constants/WebsocketConstants');
 const Logger = require('../Utils/Logger');
 
 const KeepAliveHandler = require('../Networking/Core/KeepAlive');
@@ -39,6 +39,7 @@ class HighriseCore extends EventEmitter {
 
         this.#ws = null
         this.#state = new Map()
+        this.#logger = new Logger()
         this.#options = options
     }
 
@@ -54,13 +55,17 @@ class HighriseCore extends EventEmitter {
         this.#cleanup()
         this.#state.set('doNotReconnect', false)
 
-        this.#ws = new WebSocket(`wss://highrise.game/web/botapi?events=${WebsocketEvents.join(',')}`, {
+        const events = this.#getWebsocketEvents()
+
+        this.#ws = new WebSocket(`wss://highrise.game/web/botapi?events=${events.join(',')}`, {
             headers: {
                 "api-token": token,
                 "room-id": roomId
             },
             perMessageDeflate: false
         })
+
+        this.#logger.info("Connection", `Connecting to ${`wss://highrise.game/web/botapi?events=${events.join(',')}`}`)
 
         this.#ws.setMaxListeners(100)
 
@@ -90,6 +95,22 @@ class HighriseCore extends EventEmitter {
         await this.login(token, roomId)
     }
 
+    #getWebsocketEvents() {
+        const registered = this.eventNames()
+        const validEvents = []
+
+        for (const event of registered) {
+            const wsEvent = EventToListener[event]
+            if (wsEvent) {
+                validEvents.push(wsEvent)
+            } else {
+                this.#logger.warn("Events", `Unknown event "${event}", skipping...`)
+            }
+        }
+
+        return validEvents
+    }
+
     #getCredential() {
         const { token, roomId } = this.#state.get("credential")
         if (!token || !roomId) {
@@ -113,7 +134,6 @@ class HighriseCore extends EventEmitter {
     }
 
     #setupCore() {
-        this.#logger = new Logger()
         this.#sender = new Sender(this.#ws, this.#logger)
         this.#validator = new Validator()
         const configs = [
@@ -134,7 +154,11 @@ class HighriseCore extends EventEmitter {
     #setupWebsocketHandlers() {
         this.#keepaliveHandler = new KeepAliveHandler(this.#ctx)
         this.#openHandler = new OpenHandler(this.#ctx, this.#keepaliveHandler)
-        this.#messageHandler = new MessageHandler(this.#ctx, this.#botApi, this.emit.bind(this))
+        this.#messageHandler = new MessageHandler(
+            this.#ctx,
+            this.#botApi,
+            this.emit.bind(this)
+        )
         this.#errorHandler = new ErrorHandler(this.#ctx)
         this.#closeHandler = new CloseHandler(
             this.#ctx,

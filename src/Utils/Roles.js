@@ -12,7 +12,7 @@ class Roles {
         this.#state = ctx.state
         this.#logger = ctx.logger
         this.#webapi = webapi
-        this.#persistPath = ctx.configs.roles.persistPath ?? null
+        this.#persistPath = ctx.configs.roles.persistPath
 
         this.#init().catch(err => {
             this.#logger.warn('Roles', `Failed to initialize roles: ${err.message}`)
@@ -44,7 +44,7 @@ class Roles {
 
     #loadFromFile() {
         try {
-            if (!fs.existsSync(this.#persistPath)) return
+            if (!fs.existsSync(this.#persistPath)) return this.#logger.warn('Roles', `Failed to initialize roles: ${this.#persistPath} not found.`)
 
             const raw = fs.readFileSync(this.#persistPath, "utf-8")
             const saved = JSON.parse(raw)
@@ -69,9 +69,10 @@ class Roles {
             const serialized = Object.fromEntries(
                 [...this.#roles.entries()].map(([role, users]) => [role, [...users]])
             )
+
             fs.writeFileSync(this.#persistPath, JSON.stringify(serialized, null, 2), "utf-8")
         } catch (err) {
-            this.#logger.warn("Roles", `Failed to save roles to file: ${err.message}`)
+            this.#logger.error("Roles", `Failed to save roles to file: ${err.message}`)
         }
     }
 

@@ -4,6 +4,19 @@ const WebsocketEvents = [
     'TipReactionEvent', 'RoomModeratedEvent', 'ChannelEvent'
 ]
 
+const EventToListener = {
+    Ready: 'SessionMetadata',
+    Chat: 'ChatEvent',
+    Movement: 'UserMovedEvent',
+    UserJoined: 'UserJoinedEvent',
+    UserLeft: 'UserLeftEvent',
+    Direct: 'MessageEvent',
+    Tip: 'TipReactionEvent',
+    Moderation: 'RoomModeratedEvent',
+    Channel: 'ChannelEvent'
+}
+
 module.exports = {
-    WebsocketEvents
+    WebsocketEvents,
+    EventToListener
 }
