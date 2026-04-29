@@ -35,7 +35,7 @@ class HighriseCore extends EventEmitter {
 
     constructor(options = {}) {
         super()
-        this.setMaxListeners(100)
+        this.setMaxListeners(25)
 
         this.#ws = null
         this.#state = new Map()
@@ -53,7 +53,6 @@ class HighriseCore extends EventEmitter {
 
     async login(token, roomId) {
         this.#cleanup()
-        this.#state.set('doNotReconnect', false)
 
         const events = this.#getWebsocketEvents()
 
@@ -65,11 +64,10 @@ class HighriseCore extends EventEmitter {
             perMessageDeflate: false
         })
 
-        this.#logger.info("Connection", `Connecting to ${`wss://highrise.game/web/botapi?events=${events.join(',')}`}`)
-
-        this.#ws.setMaxListeners(100)
+        this.#ws.setMaxListeners(25)
 
         this.#state.set('credential', { token, roomId })
+        this.#state.set('doNotReconnect', false)
         this.#state.set("intervals", [])
 
         this.#setupHandlers()
