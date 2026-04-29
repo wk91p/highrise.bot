@@ -6,7 +6,7 @@ const ChatApi = require("./Message/Chat");
 const InventoryApi = require("./Inventory");
 const PlayerApi = require("./Player");
 const UtilsApi = require("./Utils");
-const WebApi = require("./WebApi");
+const WebApi = require("../WebApi");
 const RoomApi = require("./Room");
 
 class BotApi {

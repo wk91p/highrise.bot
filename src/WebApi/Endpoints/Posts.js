@@ -1,5 +1,5 @@
-const { sortOrderTypes } = require("../../../Constants/WebApiConstants")
-const { PostsResponse, PostResponse } = require("../../../Models/ResponseModels/WebApi/PostsResponses")
+const { sortOrderTypes } = require("../../Constants/WebApiConstants")
+const { PostsResponse, PostResponse } = require("../../Models/ResponseModels/WebApi/PostsResponses")
 
 class PostsEndpoint {
     #validator

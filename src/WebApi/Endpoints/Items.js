@@ -1,5 +1,5 @@
-const { sortOrderTypes } = require("../../../Constants/WebApiConstants")
-const { ItemsSearchResponse, ItemResponse, ItemsResponse } = require("../../../Models/ResponseModels/WebApi/ItemsResponses")
+const { sortOrderTypes } = require("../../Constants/WebApiConstants")
+const { ItemsSearchResponse, ItemResponse, ItemsResponse } = require("../../Models/ResponseModels/WebApi/ItemsResponses")
 
 class ItemsEndpoint {
     #validator

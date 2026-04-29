@@ -1,4 +1,4 @@
-const UserResponse = require("../../../Models/ResponseModels/WebApi/UsersResponses")
+const UserResponse = require("../../Models/ResponseModels/WebApi/UsersResponses")
 
 class UsersEndpoint {
     #validator

@@ -1,4 +1,4 @@
-const HttpClient = require("../../Networking/Core/HttpClient");
+const HttpClient = require("../Networking/Core/HttpClient");
 const GrabsEndpoint = require("./Endpoints/Grabs");
 const ItemsEndpoint = require("./Endpoints/Items");
 const PostsEndpoint = require("./Endpoints/Posts");
