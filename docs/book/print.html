@@ -37,7 +37,7 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-e011b971.js";
+            window.path_to_searchindex_js = "searchindex-abb35b24.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-99a26924.js"></script>
@@ -281,7 +281,7 @@ require('dotenv').config();
 const bot = new Highrise();
 
 bot.once('Ready', async (metadata) =&gt; {
-    console.log(`Online in ${metadata.room.room_name}`);
+    console.log(`Online in ${metadata.room.roomName}`);
 });
 
 bot.login(process.env.BOT_TOKEN, process.env.ROOM_ID);
@@ -383,7 +383,7 @@ const log = new Logger("MyBot");
 const bot = new Highrise();
 
 bot.once('Ready', async (metadata) =&gt; {
-    log.info('Bot', `Online in ${metadata.room.room_name}`);
+    log.info('Bot', `Online in ${metadata.room.roomName}`);
     await bot.message.send('Hello everyone!');
 });
 
@@ -429,7 +429,7 @@ one object. Sending messages, listening to events, managing users, all
 of it lives on <code>bot</code>.</p>
 <h3 id="the-ready-event"><a class="header" href="#the-ready-event">The Ready event</a></h3>
 <pre><code class="language-javascript">bot.once('Ready', async (metadata) =&gt; {
-    log.info('Bot', `Online in ${metadata.room.room_name}`);
+    log.info('Bot', `Online in ${metadata.room.roomName}`);
     await bot.message.send('Hello everyone!');
 });
 </code></pre>
@@ -439,7 +439,7 @@ whenever the connection drops, and you probably do not want it saying
 “Hello everyone!” every single time that happens. With <code>once</code> it only
 runs the very first time.</p>
 <p>The <code>metadata</code> object tells you things about the bot and the room.
-<code>metadata.room.room_name</code> is the display name of the room. We will
+<code>metadata.room.roomName</code> is the display name of the room. We will
 cover everything inside <code>metadata</code> in the Ready event page.</p>
 <h3 id="the-chat-event"><a class="header" href="#the-chat-event">The Chat event</a></h3>
 <pre><code class="language-javascript">bot.on('Chat', async (user, message) =&gt; {
@@ -512,12 +512,12 @@ never need to go looking for something in the wrong place.</p>
 <h3 id="botmetadata"><a class="header" href="#botmetadata">bot.metadata</a></h3>
 <p>This gives you information about the bot and the room it connected to.
 It is only available after the <code>Ready</code> event fires.</p>
-<pre><code class="language-javascript">bot.metadata.bot_id             // the bot's own user ID
-bot.metadata.room.room_name     // the display name of the room
-bot.metadata.room.owner_id      // the user ID of the room owner
+<pre><code class="language-javascript">bot.metadata.botId             // the bot's own user ID
+bot.metadata.room.roomName     // the display name of the room
+bot.metadata.room.ownerId      // the user ID of the room owner
 </code></pre>
-<p>You will use <code>bot.metadata</code> often. Checking <code>bot.metadata.bot_id</code> lets
-you know the bot’s own identity. Checking <code>bot.metadata.room.owner_id</code>
+<p>You will use <code>bot.metadata</code> often. Checking <code>bot.metadata.botId</code> lets
+you know the bot’s own identity. Checking <code>bot.metadata.room.ownerId</code>
 lets you give special permissions to the room owner automatically.</p>
 <h3 id="botcredential"><a class="header" href="#botcredential">bot.credential</a></h3>
 <p>This gives you the token and room ID that were used to log in.</p>
@@ -1161,8 +1161,8 @@ terminal.</p>
 <h3 id="loginfo"><a class="header" href="#loginfo">log.info()</a></h3>
 <p>For general information. Things that are working normally and you want
 to know about:</p>
-<pre><code class="language-javascript">log.info('Bot', `Online in ${metadata.room.room_name}`);
-log.info('Bot', `Running as ${metadata.bot_id}`);
+<pre><code class="language-javascript">log.info('Bot', `Online in ${metadata.room.roomName}`);
+log.info('Bot', `Running as ${metadata.botId}`);
 </code></pre>
 <p>Output looks like:</p>
 <pre><code>[MyBot] │ 12:00:01 │ [INFO] │ Bot │ Online in My Room
@@ -1231,8 +1231,8 @@ const bot = new Highrise();
 
 bot.once('Ready', async (metadata) =&gt; {
     // info: normal startup message
-    log.info('Bot', `Online in ${metadata.room.room_name}`);
-    log.info('Bot', `Bot ID: ${metadata.bot_id}`);
+    log.info('Bot', `Online in ${metadata.room.roomName}`);
+    log.info('Bot', `Bot ID: ${metadata.botId}`);
 });
 
 bot.on('Chat', async (user, message) =&gt; {
@@ -1452,32 +1452,32 @@ is once, which is why <code>bot.once</code> is almost always the right choice he
 about your bot and the room it connected to. Here is everything inside
 it:</p>
 <pre><code class="language-javascript">bot.once('Ready', async (metadata) =&gt; {
-    metadata.bot_id          // the bot's own user ID
-    metadata.room.room_name  // the display name of the room
-    metadata.room.owner_id   // the user ID of whoever owns the room
+    metadata.botId          // the bot's own user ID
+    metadata.room.roomName  // the display name of the room
+    metadata.room.ownerId   // the user ID of whoever owns the room
     
     // other property you rarely touch
     metadata.connection.id // unique current connection id
-    metadata.connection.rate_limits // rate limit instruction
+    metadata.connection.rateLimits // rate limit instruction
 });
 </code></pre>
 <p>You can also access this same object at any time through the getter on
 the bot after Ready has fired:</p>
 <pre><code class="language-javascript">// available anywhere in your code after Ready fires
-bot.metadata.bot_id
-bot.metadata.room.room_name
-bot.metadata.room.owner_id
+bot.metadata.botId
+bot.metadata.room.roomName
+bot.metadata.room.ownerId
 </code></pre>
 <p>This is useful when you need the bot’s ID or room name inside another
 event handler and do not want to store them in a variable yourself.</p>
 <p>The three most commonly used properties are:</p>
-<p><code>metadata.bot_id</code> — the bot’s own user ID. Useful when you need to know
+<p><code>metadata.botId</code> — the bot’s own user ID. Useful when you need to know
 whether a tip was sent to the bot specifically, or for anything that
 needs to reference the bot as a user.</p>
-<p><code>metadata.room.room_name</code> — the display name of the room the bot
+<p><code>metadata.room.roomName</code> — the display name of the room the bot
 connected to. Great for logging so you always know which room is which
 in your terminal.</p>
-<p><code>metadata.room.owner_id</code> — the user ID of the person who owns the room.
+<p><code>metadata.room.ownerId</code> — the user ID of the person who owns the room.
 Useful if you want to automatically give the room owner special
 permissions without hardcoding their ID.</p>
 <h2 id="a-complete-example-1"><a class="header" href="#a-complete-example-1">A complete example</a></h2>
@@ -1486,11 +1486,11 @@ to do when your bot first comes online, with every line explained:</p>
 <pre><code class="language-javascript">bot.once('Ready', async (metadata) =&gt; {
     // log that the bot is online and which room it is in
     // this is the first thing you will see in your terminal every time you start the bot
-    log.info('Bot', `Online in ${metadata.room.room_name}`);
+    log.info('Bot', `Online in ${metadata.room.roomName}`);
 
     // log the bot's own user ID
     // you might need this later when checking if a tip was sent to the bot
-    log.info('Bot', `Bot ID: ${metadata.bot_id}`);
+    log.info('Bot', `Bot ID: ${metadata.botId}`);
 
     // send a connect message to the room
     // this only runs once because we used bot.once, not bot.on
@@ -2197,7 +2197,7 @@ Always narrow down with a cheap check before making any network call.</p>
 <h3 id="detecting-tips-to-the-bot-specifically"><a class="header" href="#detecting-tips-to-the-bot-specifically">Detecting tips to the bot specifically</a></h3>
 <p>If you only want to react when someone tips the bot and not when users tip each other:</p>
 <pre><code class="language-javascript">bot.on('Tip', async (sender, receiver, currency) =&gt; {
-    if (receiver.id !== bot.metadata.bot_id) return;
+    if (receiver.id !== bot.metadata.botId) return;
 
     await bot.message.send(
         `${sender.username} just tipped the bot ${currency.amount} gold!`
@@ -2209,7 +2209,7 @@ Always narrow down with a cheap check before making any network call.</p>
 <li>The Tip event fires every time someone tips in the room</li>
 <li>You get the <code>sender</code>, <code>receiver</code>, and <code>currency</code> objects</li>
 <li><code>currency.amount</code> is always one of the valid gold bar denominations</li>
-<li>Check <code>receiver.id === bot.metadata.bot_id</code> if you only want to react to tips sent to the bot</li>
+<li>Check <code>receiver.id === bot.metadata.botId</code> if you only want to react to tips sent to the bot</li>
 <li>Common uses are thank you messages, leaderboards, tip rewards, and voting systems</li>
 <li>Use <code>rewardedUsers</code> sets or similar guards to prevent rewards from triggering multiple times</li>
 </ul>
@@ -2341,7 +2341,7 @@ different room, <code>found</code> will be <code>null</code>, we will cover how 
 <h2 id="the-conversation-object"><a class="header" href="#the-conversation-object">the conversation object</a></h2>
 <pre><code class="language-javascript">bot.on('Direct', async (user, message, conversation) =&gt; {
     console.log(conversation.id)                   // the conversation ID needed to reply
-    console.log(conversation.is_new_conversation)  // true if this is the first message ever
+    console.log(conversation.isNew)  // true if this is the first message ever
 });
 </code></pre>
 <h2 id="replying-to-a-direct-message"><a class="header" href="#replying-to-a-direct-message">Replying to a direct message</a></h2>

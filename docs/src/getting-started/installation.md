@@ -90,7 +90,7 @@ require('dotenv').config();
 const bot = new Highrise();
 
 bot.once('Ready', async (metadata) => {
-    console.log(`Online in ${metadata.room.room_name}`);
+    console.log(`Online in ${metadata.room.roomName}`);
 });
 
 bot.login(process.env.BOT_TOKEN, process.env.ROOM_ID);

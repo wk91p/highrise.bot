@@ -68,7 +68,7 @@ If you only want to react when someone tips the bot and not when users tip each 
 
 ```javascript
 bot.on('Tip', async (sender, receiver, currency) => {
-    if (receiver.id !== bot.metadata.bot_id) return;
+    if (receiver.id !== bot.metadata.botId) return;
 
     await bot.message.send(
         `${sender.username} just tipped the bot ${currency.amount} gold!`
@@ -82,6 +82,6 @@ bot.on('Tip', async (sender, receiver, currency) => {
 - The Tip event fires every time someone tips in the room
 - You get the `sender`, `receiver`, and `currency` objects
 - `currency.amount` is always one of the valid gold bar denominations
-- Check `receiver.id === bot.metadata.bot_id` if you only want to react to tips sent to the bot
+- Check `receiver.id === bot.metadata.botId` if you only want to react to tips sent to the bot
 - Common uses are thank you messages, leaderboards, tip rewards, and voting systems
 - Use `rewardedUsers` sets or similar guards to prevent rewards from triggering multiple times

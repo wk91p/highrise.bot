@@ -30,8 +30,8 @@ For general information. Things that are working normally and you want
 to know about:
 
 ```javascript
-log.info('Bot', `Online in ${metadata.room.room_name}`);
-log.info('Bot', `Running as ${metadata.bot_id}`);
+log.info('Bot', `Online in ${metadata.room.roomName}`);
+log.info('Bot', `Running as ${metadata.botId}`);
 ```
 
 Output looks like:
@@ -139,8 +139,8 @@ const bot = new Highrise();
 
 bot.once('Ready', async (metadata) => {
     // info: normal startup message
-    log.info('Bot', `Online in ${metadata.room.room_name}`);
-    log.info('Bot', `Bot ID: ${metadata.bot_id}`);
+    log.info('Bot', `Online in ${metadata.room.roomName}`);
+    log.info('Bot', `Bot ID: ${metadata.botId}`);
 });
 
 bot.on('Chat', async (user, message) => {

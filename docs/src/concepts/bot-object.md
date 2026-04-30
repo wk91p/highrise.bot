@@ -45,13 +45,13 @@ This gives you information about the bot and the room it connected to.
 It is only available after the `Ready` event fires.
 
 ```javascript
-bot.metadata.bot_id             // the bot's own user ID
-bot.metadata.room.room_name     // the display name of the room
-bot.metadata.room.owner_id      // the user ID of the room owner
+bot.metadata.botId             // the bot's own user ID
+bot.metadata.room.roomName     // the display name of the room
+bot.metadata.room.ownerId      // the user ID of the room owner
 ```
 
-You will use `bot.metadata` often. Checking `bot.metadata.bot_id` lets
-you know the bot's own identity. Checking `bot.metadata.room.owner_id`
+You will use `bot.metadata` often. Checking `bot.metadata.botId` lets
+you know the bot's own identity. Checking `bot.metadata.room.ownerId`
 lets you give special permissions to the room owner automatically.
 
 ### bot.credential

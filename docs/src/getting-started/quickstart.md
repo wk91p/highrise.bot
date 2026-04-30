@@ -21,7 +21,7 @@ const log = new Logger("MyBot");
 const bot = new Highrise();
 
 bot.once('Ready', async (metadata) => {
-    log.info('Bot', `Online in ${metadata.room.room_name}`);
+    log.info('Bot', `Online in ${metadata.room.roomName}`);
     await bot.message.send('Hello everyone!');
 });
 
@@ -85,7 +85,7 @@ of it lives on `bot`.
 
 ```javascript
 bot.once('Ready', async (metadata) => {
-    log.info('Bot', `Online in ${metadata.room.room_name}`);
+    log.info('Bot', `Online in ${metadata.room.roomName}`);
     await bot.message.send('Hello everyone!');
 });
 ```
@@ -97,7 +97,7 @@ whenever the connection drops, and you probably do not want it saying
 runs the very first time.
 
 The `metadata` object tells you things about the bot and the room.
-`metadata.room.room_name` is the display name of the room. We will
+`metadata.room.roomName` is the display name of the room. We will
 cover everything inside `metadata` in the Ready event page.
 
 ### The Chat event

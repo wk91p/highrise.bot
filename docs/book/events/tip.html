@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-e011b971.js";
+            window.path_to_searchindex_js = "../searchindex-abb35b24.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-99a26924.js"></script>
@@ -236,7 +236,7 @@
 <h3 id="detecting-tips-to-the-bot-specifically"><a class="header" href="#detecting-tips-to-the-bot-specifically">Detecting tips to the bot specifically</a></h3>
 <p>If you only want to react when someone tips the bot and not when users tip each other:</p>
 <pre><code class="language-javascript">bot.on('Tip', async (sender, receiver, currency) =&gt; {
-    if (receiver.id !== bot.metadata.bot_id) return;
+    if (receiver.id !== bot.metadata.botId) return;
 
     await bot.message.send(
         `${sender.username} just tipped the bot ${currency.amount} gold!`
@@ -248,7 +248,7 @@
 <li>The Tip event fires every time someone tips in the room</li>
 <li>You get the <code>sender</code>, <code>receiver</code>, and <code>currency</code> objects</li>
 <li><code>currency.amount</code> is always one of the valid gold bar denominations</li>
-<li>Check <code>receiver.id === bot.metadata.bot_id</code> if you only want to react to tips sent to the bot</li>
+<li>Check <code>receiver.id === bot.metadata.botId</code> if you only want to react to tips sent to the bot</li>
 <li>Common uses are thank you messages, leaderboards, tip rewards, and voting systems</li>
 <li>Use <code>rewardedUsers</code> sets or similar guards to prevent rewards from triggering multiple times</li>
 </ul>

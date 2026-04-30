@@ -38,13 +38,13 @@ it:
 
 ```javascript
 bot.once('Ready', async (metadata) => {
-    metadata.bot_id          // the bot's own user ID
-    metadata.room.room_name  // the display name of the room
-    metadata.room.owner_id   // the user ID of whoever owns the room
+    metadata.botId          // the bot's own user ID
+    metadata.room.roomName  // the display name of the room
+    metadata.room.ownerId   // the user ID of whoever owns the room
     
     // other property you rarely touch
     metadata.connection.id // unique current connection id
-    metadata.connection.rate_limits // rate limit instruction
+    metadata.connection.rateLimits // rate limit instruction
 });
 ```
 
@@ -53,9 +53,9 @@ the bot after Ready has fired:
 
 ```javascript
 // available anywhere in your code after Ready fires
-bot.metadata.bot_id
-bot.metadata.room.room_name
-bot.metadata.room.owner_id
+bot.metadata.botId
+bot.metadata.room.roomName
+bot.metadata.room.ownerId
 ```
 
 This is useful when you need the bot's ID or room name inside another
@@ -63,15 +63,15 @@ event handler and do not want to store them in a variable yourself.
 
 The three most commonly used properties are:
 
-`metadata.bot_id` — the bot's own user ID. Useful when you need to know
+`metadata.botId` — the bot's own user ID. Useful when you need to know
 whether a tip was sent to the bot specifically, or for anything that
 needs to reference the bot as a user.
 
-`metadata.room.room_name` — the display name of the room the bot
+`metadata.room.roomName` — the display name of the room the bot
 connected to. Great for logging so you always know which room is which
 in your terminal.
 
-`metadata.room.owner_id` — the user ID of the person who owns the room.
+`metadata.room.ownerId` — the user ID of the person who owns the room.
 Useful if you want to automatically give the room owner special
 permissions without hardcoding their ID.
 
@@ -84,11 +84,11 @@ to do when your bot first comes online, with every line explained:
 bot.once('Ready', async (metadata) => {
     // log that the bot is online and which room it is in
     // this is the first thing you will see in your terminal every time you start the bot
-    log.info('Bot', `Online in ${metadata.room.room_name}`);
+    log.info('Bot', `Online in ${metadata.room.roomName}`);
 
     // log the bot's own user ID
     // you might need this later when checking if a tip was sent to the bot
-    log.info('Bot', `Bot ID: ${metadata.bot_id}`);
+    log.info('Bot', `Bot ID: ${metadata.botId}`);
 
     // send a connect message to the room
     // this only runs once because we used bot.once, not bot.on

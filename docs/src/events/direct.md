@@ -59,7 +59,7 @@ bot.on('Direct', async (user, message, conversation) => {
 ```javascript
 bot.on('Direct', async (user, message, conversation) => {
     console.log(conversation.id)                   // the conversation ID needed to reply
-    console.log(conversation.is_new_conversation)  // true if this is the first message ever
+    console.log(conversation.isNew)  // true if this is the first message ever
 });
 ```
 

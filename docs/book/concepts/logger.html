@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-e011b971.js";
+            window.path_to_searchindex_js = "../searchindex-abb35b24.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-99a26924.js"></script>
@@ -202,8 +202,8 @@ terminal.</p>
 <h3 id="loginfo"><a class="header" href="#loginfo">log.info()</a></h3>
 <p>For general information. Things that are working normally and you want
 to know about:</p>
-<pre><code class="language-javascript">log.info('Bot', `Online in ${metadata.room.room_name}`);
-log.info('Bot', `Running as ${metadata.bot_id}`);
+<pre><code class="language-javascript">log.info('Bot', `Online in ${metadata.room.roomName}`);
+log.info('Bot', `Running as ${metadata.botId}`);
 </code></pre>
 <p>Output looks like:</p>
 <pre><code>[MyBot] │ 12:00:01 │ [INFO] │ Bot │ Online in My Room
@@ -272,8 +272,8 @@ const bot = new Highrise();
 
 bot.once('Ready', async (metadata) =&gt; {
     // info: normal startup message
-    log.info('Bot', `Online in ${metadata.room.room_name}`);
-    log.info('Bot', `Bot ID: ${metadata.bot_id}`);
+    log.info('Bot', `Online in ${metadata.room.roomName}`);
+    log.info('Bot', `Bot ID: ${metadata.botId}`);
 });
 
 bot.on('Chat', async (user, message) =&gt; {

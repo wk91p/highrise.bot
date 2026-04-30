@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-e011b971.js";
+            window.path_to_searchindex_js = "../searchindex-abb35b24.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-99a26924.js"></script>
@@ -213,12 +213,12 @@ never need to go looking for something in the wrong place.</p>
 <h3 id="botmetadata"><a class="header" href="#botmetadata">bot.metadata</a></h3>
 <p>This gives you information about the bot and the room it connected to.
 It is only available after the <code>Ready</code> event fires.</p>
-<pre><code class="language-javascript">bot.metadata.bot_id             // the bot's own user ID
-bot.metadata.room.room_name     // the display name of the room
-bot.metadata.room.owner_id      // the user ID of the room owner
+<pre><code class="language-javascript">bot.metadata.botId             // the bot's own user ID
+bot.metadata.room.roomName     // the display name of the room
+bot.metadata.room.ownerId      // the user ID of the room owner
 </code></pre>
-<p>You will use <code>bot.metadata</code> often. Checking <code>bot.metadata.bot_id</code> lets
-you know the bot’s own identity. Checking <code>bot.metadata.room.owner_id</code>
+<p>You will use <code>bot.metadata</code> often. Checking <code>bot.metadata.botId</code> lets
+you know the bot’s own identity. Checking <code>bot.metadata.room.ownerId</code>
 lets you give special permissions to the room owner automatically.</p>
 <h3 id="botcredential"><a class="header" href="#botcredential">bot.credential</a></h3>
 <p>This gives you the token and room ID that were used to log in.</p>

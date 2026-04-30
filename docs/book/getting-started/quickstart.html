@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-e011b971.js";
+            window.path_to_searchindex_js = "../searchindex-abb35b24.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-99a26924.js"></script>
@@ -197,7 +197,7 @@ const log = new Logger("MyBot");
 const bot = new Highrise();
 
 bot.once('Ready', async (metadata) =&gt; {
-    log.info('Bot', `Online in ${metadata.room.room_name}`);
+    log.info('Bot', `Online in ${metadata.room.roomName}`);
     await bot.message.send('Hello everyone!');
 });
 
@@ -243,7 +243,7 @@ one object. Sending messages, listening to events, managing users, all
 of it lives on <code>bot</code>.</p>
 <h3 id="the-ready-event"><a class="header" href="#the-ready-event">The Ready event</a></h3>
 <pre><code class="language-javascript">bot.once('Ready', async (metadata) =&gt; {
-    log.info('Bot', `Online in ${metadata.room.room_name}`);
+    log.info('Bot', `Online in ${metadata.room.roomName}`);
     await bot.message.send('Hello everyone!');
 });
 </code></pre>
@@ -253,7 +253,7 @@ whenever the connection drops, and you probably do not want it saying
 “Hello everyone!” every single time that happens. With <code>once</code> it only
 runs the very first time.</p>
 <p>The <code>metadata</code> object tells you things about the bot and the room.
-<code>metadata.room.room_name</code> is the display name of the room. We will
+<code>metadata.room.roomName</code> is the display name of the room. We will
 cover everything inside <code>metadata</code> in the Ready event page.</p>
 <h3 id="the-chat-event"><a class="header" href="#the-chat-event">The Chat event</a></h3>
 <pre><code class="language-javascript">bot.on('Chat', async (user, message) =&gt; {
