@@ -56,7 +56,7 @@ class Actions extends BaseRequest {
     async emote(emoteId, userId = null) {
         if (!userId) {
             if (!this.botId) {
-                this.botId = this.state.get("metadata")?.bot_id
+                this.botId = this.state.get("metadata")?.botId
             }
             userId = this.botId
         }

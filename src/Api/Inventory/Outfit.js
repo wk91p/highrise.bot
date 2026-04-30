@@ -9,7 +9,7 @@ const { OutfitItem } = require("../../Models/HelperModel");
 class Outfit extends BaseRequest {
     async get() {
         try {
-            const botId = this.state.get('metadata').bot_id
+            const botId = this.state.get('metadata').botId
             const CachedOutfit = this.state.get("outfit")
             if (CachedOutfit) return CachedOutfit
 
