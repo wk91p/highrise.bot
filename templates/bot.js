@@ -27,8 +27,8 @@ const bot = new Highrise();
 // Fires ONCE when your bot connects.
 // Great place for: greetings, setup, checks.
 bot.once('Ready', async (metadata) => {
-    log.info(`Bot`, `Online in ${metadata.room.room_name}`);
-    log.info(`Bot`, `Running as ${metadata.bot_id}`);
+    log.info(`Bot`, `Online in ${metadata.room.roomName}`);
+    log.info(`Bot`, `Running as ${metadata.botId}`);
 
     // Want to send a message when the bot connects?
     await bot.message.send("Hello everyone!");
