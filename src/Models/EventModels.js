@@ -72,7 +72,7 @@ class Direct {
 
 class SessionMetadata {
     constructor(data = {}) {
-        this.bot_id = data.user_id || ''
+        this.botId = data.user_id || ''
         this.room = new RoomMetadata(data)
         this.connection = new ConnectionMetadata(data)
     }

@@ -27,21 +27,21 @@ class Action {
 class Conversation {
     constructor(data = {}) {
         this.id = data.conversation_id || ""
-        this.is_new_conversation = data.is_new_conversation
+        this.isNew = data.isNew
     }
 }
 
 class RoomMetadata {
     constructor(data = {}) {
-        this.owner_id = data.room_info.owner_id || ''
-        this.room_name = data.room_info.room_name || ''
+        this.ownerId = data.room_info.owner_id || ''
+        this.roomName = data.room_info.room_name || ''
     }
 }
 
 class ConnectionMetadata {
     constructor(data = {}) {
         this.id = data.connection_id || ''
-        this.rate_limits = data.rate_limits || { client: [], socials: [] }
+        this.rateLimits = data.rate_limits || { client: [], socials: [] }
     }
 }
 
