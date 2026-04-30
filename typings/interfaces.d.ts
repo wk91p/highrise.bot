@@ -68,10 +68,10 @@ export class Message {
 
     /**
      * Retrieves usernames from the message that start with the "@" symbol.
-     * @param n - Optional index of a specific mention.
+     * @param index - Optional index of a specific mention.
      * @returns 
-     * - No n: An array of mentioned usernames (symbol removed).
-     * - With n: The specific username string (symbol removed), or null.
+     * - No index: An array of mentioned usernames (symbol removed).
+     * - With index: The specific username string (symbol removed), or null.
      */
     mentions(index?: number): string[] | string | null;
 }
@@ -144,7 +144,7 @@ export interface Currency {
  */
 export interface Conversation {
     id: CONV_ID;
-    is_new_conversation: boolean;
+    isNew: boolean;
 }
 
 /**
@@ -170,8 +170,8 @@ export interface ModerationAction {
  * Represents a Highrise Room metadata sub-object
  */
 export interface RoomMetadata {
-    owner_id: string;
-    room_name: string;
+    ownerId: string;
+    roomName: string;
 }
 
 /**
@@ -179,7 +179,7 @@ export interface RoomMetadata {
  */
 export interface ConnectionMetadata {
     id: string
-    rate_limits: {
+    rateLimits: {
         client: [number, number],
         socials: [number, number]
     }
@@ -189,7 +189,7 @@ export interface ConnectionMetadata {
  * Represents a Highrise Ready event object
  */
 export interface Metadata {
-    bot_id: string;
+    botId: string;
     room: RoomMetadata;
     connection: ConnectionMetadata
 }
