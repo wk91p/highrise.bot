@@ -10,6 +10,7 @@ import InventoryApi from "../Api/Inventory";
 import ChannelApi from "../Api/Message/Channel";
 import WebApi from "../Api/WebApi";
 import { Roles } from "../Utils/Roles";
+import { AwaitClass } from "../Awaiter";
 
 interface RolesOptions {
     /** Path to the file where roles will be persisted (e.g. `"./roles.json"`) */
@@ -21,6 +22,11 @@ interface LoginOptions {
     roles?: RolesOptions
 }
 
+/**
+ * The main class for creating and managing a Highrise bot.
+ * 
+ * Extends `EventEmitter` to provide a typed event system for handling room events.
+ */
 declare class Highrise {
     /**
      * Initializes a new instance of the Highrise bot.
@@ -56,6 +62,13 @@ declare class Highrise {
      * @see https://create.highrise.game/learn/web-api/general/overview
      */
     webapi: WebApi;
+
+    /**
+     * Waits for specific events to occur, resolving a promise when the conditions are met.
+     * Useful for building interactive bots that need to wait for a user response,
+     * collect multiple events, or filter events by specific criteria.
+     */
+    await: AwaitClass
 
     /** 
      * The login credentials used for the current session.
