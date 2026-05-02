@@ -4,6 +4,7 @@ class BaseHandler {
     constructor(ctx) {
         this.logger = ctx.logger
         this.state = ctx.state
+        this.await = ctx.await
     }
 
     /**

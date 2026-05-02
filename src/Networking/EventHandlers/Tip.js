@@ -9,6 +9,7 @@ class TipHandler extends BaseHandler {
         const receiver = new Receiver(data.receiver.id, data.receiver.username)
         const item = new Item(data)
 
+        this.await.processAwaiter(this.constructor.type, sender, receiver, item)
         emit("Tip", sender, receiver, item)
     }
 }

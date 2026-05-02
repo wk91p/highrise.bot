@@ -10,11 +10,11 @@ class MovementHandler extends BaseHandler {
         
         if ("x" in data.position) {
             const position = new Position(data)
-
+            this.await.processAwaiter(this.constructor.type, user, position, null)
             emit("Movement", user, position, null)
         } else {
             const anchor = new AnchorPosition(data)
-
+            this.await.processAwaiter(this.constructor.type, user, null, anchor)
             emit("Movement", user, null, anchor)
         }
     }

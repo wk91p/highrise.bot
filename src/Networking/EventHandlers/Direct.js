@@ -23,6 +23,7 @@ class DirectHandler extends BaseHandler {
         data.message = recentMessage ? recentMessage.content : null
 
         const direct = new Direct(data);
+        this.await.processAwaiter(this.constructor.type, direct.user, direct.message, direct.conversation)
         emit("Direct", direct.user, direct.message, direct.conversation);
     }
 }
