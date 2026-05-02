@@ -54,3 +54,12 @@
     - [Item](api/inventory/item.md)
     - [Boost](api/inventory/boost.md)
 - [bot.utils](api/utils/README.md)
+
+# Tools Reference
+
+- [WebApi](tools/webapi/README.md)
+    - [Users Endpoint](tools/webapi/users.md)
+    - [Rooms Endpoint](tools/webapi/rooms.md)
+    - [Posts Endpoint](tools/webapi/posts.md)
+    - [Items Endpoint](tools/webapi/items.md)
+    - [Grabs Endpoint](tools/webapi/grabs.md)

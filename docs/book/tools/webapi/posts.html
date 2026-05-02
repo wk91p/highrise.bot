@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Moderation - Highrise bot guide book</title>
+        <title>Posts Endpoint - Highrise bot guide book</title>
 
 
         <!-- Custom HTML head -->
@@ -147,7 +147,7 @@
                         <a href="https://github.com/wk91p/highrise.bot" title="Git repository" aria-label="Git repository">
                             <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
-                        <a href="https://github.com/wk91p/highrise.bot/edit/main/docs/src/src/api/player/moderation.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                        <a href="https://github.com/wk91p/highrise.bot/edit/main/docs/src/src/tools/webapi/posts.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                         </a>
 
@@ -181,21 +181,17 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="botplayermoderation"><a class="header" href="#botplayermoderation">bot.player.moderation</a></h1>
-<p>The <code>bot.player.moderation</code> API handles all in-room moderation actions.
-Kick, mute, ban, unmute, and unban users.</p>
-<blockquote class="blockquote-tag blockquote-tag-important">
-<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p>
-<p>The bot must be a moderator or made by room owner to use these methods. If the bot lacks
-permission, requests will fail with <code>ok: false</code>.</p>
-</blockquote>
+                        <h1 id="botwebapiposts"><a class="header" href="#botwebapiposts">bot.webapi.posts</a></h1>
+<p>The <code>bot.webapi.posts</code> API fetches posts from Highrise user profiles.
+Get a specific post by ID or browse a user’s public posts.</p>
 <h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
-<h3 id="kickuserid"><a class="header" href="#kickuserid">kick(userId)</a></h3>
-<p>Removes a user from the room. They can rejoin immediately.</p>
-<pre><code class="language-javascript">const result = await bot.player.moderation.kick(userId);
+<h3 id="getpostid"><a class="header" href="#getpostid">get(postId)</a></h3>
+<p>Fetches full details for a specific post, including its comments.</p>
+<pre><code class="language-javascript">const post = await bot.webapi.posts.get('post_id_here');
 
-if (result.ok) {
-    await bot.message.send('User has been kicked.');
+if (post.ok) {
+    console.log(`${post.type} post by ${post.authorId}`);
+    console.log(`Likes: ${post.likes} | Comments: ${post.comments}`);
 }
 </code></pre>
 <div class="table-wrapper">
@@ -204,73 +200,26 @@ if (result.ok) {
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>userId</code></td><td><code>string</code></td><td>ID of the user to kick</td></tr>
+<tr><td><code>postId</code></td><td><code>string</code></td><td>The post’s unique ID</td></tr>
 </tbody>
 </table>
 </div>
-<p><strong>Returns:</strong> <a href="#acknowledgmentresponse"><code>AcknowledgmentResponse</code></a></p>
-<h3 id="muteuserid-duration"><a class="header" href="#muteuserid-duration">mute(userId, duration)</a></h3>
-<p>Prevents a user from sending chat messages for a duration.</p>
-<pre><code class="language-javascript">// mute for 60 seconds
-await bot.player.moderation.mute(userId, 60);
-
-// mute for 1 hour
-await bot.player.moderation.mute(userId, 3600);
-</code></pre>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-</thead>
-<tbody>
-<tr><td><code>userId</code></td><td><code>string</code></td><td>ID of the user to mute</td></tr>
-<tr><td><code>duration</code></td><td><code>number</code></td><td>Duration in seconds (must be positive)</td></tr>
-</tbody>
-</table>
-</div>
-<p><strong>Returns:</strong> <a href="#acknowledgmentresponse"><code>AcknowledgmentResponse</code></a></p>
-<h3 id="unmuteuserid"><a class="header" href="#unmuteuserid">unmute(userId)</a></h3>
-<p>Removes an active mute from a user.</p>
-<pre><code class="language-javascript">await bot.player.moderation.unmute(userId);
-</code></pre>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-</thead>
-<tbody>
-<tr><td><code>userId</code></td><td><code>string</code></td><td>ID of the user to unmute</td></tr>
-</tbody>
-</table>
-</div>
-<p><strong>Returns:</strong> <a href="#acknowledgmentresponse"><code>AcknowledgmentResponse</code></a></p>
-<h3 id="banuserid-duration"><a class="header" href="#banuserid-duration">ban(userId, duration)</a></h3>
-<p>Bans a user from the room for a duration.</p>
-<pre><code class="language-javascript">// ban for 1 hour
-await bot.player.moderation.ban(userId, 3600);
-
-// ban for 24 hours
-await bot.player.moderation.ban(userId, 86400);
-</code></pre>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-</thead>
-<tbody>
-<tr><td><code>userId</code></td><td><code>string</code></td><td>ID of the user to ban</td></tr>
-<tr><td><code>duration</code></td><td><code>number</code></td><td>Duration in seconds (must be positive)</td></tr>
-</tbody>
-</table>
-</div>
-<p><strong>Returns:</strong> <a href="#acknowledgmentresponse"><code>AcknowledgmentResponse</code></a></p>
-<h3 id="unbanuserid"><a class="header" href="#unbanuserid">unban(userId)</a></h3>
-<p>Removes an active ban from a user.</p>
+<p><strong>Returns:</strong> <a href="#postresponse"><code>PostResponse</code></a></p>
 <blockquote class="blockquote-tag blockquote-tag-note">
 <p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
-<p>This requires the bot to be created by the room owner.</p>
+<p>This endpoint may return a <code>500 Internal Server</code> error intermittently.
+Handle errors gracefully.</p>
 </blockquote>
-<pre><code class="language-javascript">await bot.player.moderation.unban(userId);
+<h3 id="listparams"><a class="header" href="#listparams">list(params)</a></h3>
+<p>Fetches a filtered, paginated list of posts.</p>
+<pre><code class="language-javascript">// all public posts
+const posts = await bot.webapi.posts.list();
+
+// posts by a specific user
+const posts = await bot.webapi.posts.list({ authorId: userId });
+
+// limit results
+const posts = await bot.webapi.posts.list({ authorId: userId, limit: 10 });
 </code></pre>
 <div class="table-wrapper">
 <table>
@@ -278,131 +227,157 @@ await bot.player.moderation.ban(userId, 86400);
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>userId</code></td><td><code>string</code></td><td>ID of the user to unban</td></tr>
+<tr><td><code>limit</code></td><td><code>number</code></td><td>Maximum number of posts to return</td></tr>
+<tr><td><code>sortOrder</code></td><td><code>"asc"</code> | <code>"desc"</code></td><td>Order of results</td></tr>
+<tr><td><code>authorId</code></td><td><code>string</code></td><td>Filter posts by author user ID</td></tr>
+<tr><td><code>startsAfter</code></td><td><code>string</code></td><td>Return posts after this post ID (pagination)</td></tr>
+<tr><td><code>endsBefore</code></td><td><code>string</code></td><td>Return posts before this post ID (pagination)</td></tr>
 </tbody>
 </table>
 </div>
-<p><strong>Returns:</strong> <a href="#acknowledgmentresponse"><code>AcknowledgmentResponse</code></a></p>
+<p><strong>Returns:</strong> <a href="#postsresponse"><code>PostsResponse</code></a></p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>This endpoint may return an <code>Unable to fetch posts.</code> error. Always
+check <code>result.ok</code> before accessing the data.</p>
+</blockquote>
 <h2 id="complete-example"><a class="header" href="#complete-example">Complete example</a></h2>
-<pre><code class="language-javascript">const mutedUsers = new Map();
-
-bot.on('Chat', async (user, message) =&gt; {
+<pre><code class="language-javascript">bot.on('Chat', async (user, message) =&gt; {
     const cmd = message.command();
 
-    if (cmd === '!kick') {
+    if (cmd === '!posts') {
         const target = message.mentions(0) || message.args(0);
 
         if (!target) {
-            await bot.message.send('Usage: !kick @username');
+            await bot.message.send('Usage: !posts @username');
             return;
         }
 
-        const found = await bot.room.users.find(target);
+        const profile = await bot.webapi.users.get(target);
 
-        if (!found) {
-            await bot.message.send(`${target} is not in the room.`);
+        if (!profile.ok) {
+            await bot.message.send(`Could not find user: ${target}`);
             return;
         }
 
-        const result = await bot.player.moderation.kick(found.user.id);
+        const result = await bot.webapi.posts.list({ authorId: profile.id, limit: 5 });
 
-        if (!result.ok) {
-            await bot.message.send(`Could not kick ${target}: ${result.error}`);
+        if (!result.ok || result.posts.length === 0) {
+            await bot.message.send(`${target} has no posts.`);
             return;
         }
 
-        await bot.message.send(`${target} has been kicked.`);
+        await bot.message.send(`${target} has ${result.total} posts.`);
         return;
     }
 
-    if (cmd === '!mute') {
+    if (cmd === '!toplook') {
         const target = message.mentions(0) || message.args(0);
-        const duration = Number(message.args(1)) || 60;
+        if (!target) return;
 
-        if (!target) {
-            await bot.message.send('Usage: !mute @username [seconds]');
+        const profile = await bot.webapi.users.get(target);
+        if (!profile.ok) return;
+
+        const result = await bot.webapi.posts.list({
+            authorId: profile.id,
+            limit: 20,
+            sortOrder: 'desc'
+        });
+
+        if (!result.ok || result.posts.length === 0) {
+            await bot.message.send(`No posts found for ${target}.`);
             return;
         }
 
-        const found = await bot.room.users.find(target);
+        const looks = result.posts.filter(p =&gt; p.type === 'look');
 
-        if (!found) {
-            await bot.message.send(`${target} is not in the room.`);
+        if (looks.length === 0) {
+            await bot.message.send(`${target} has no look posts.`);
             return;
         }
 
-        const result = await bot.player.moderation.mute(found.user.id, duration);
-
-        if (!result.ok) {
-            await bot.message.send(`Could not mute ${target}: ${result.error}`);
-            return;
-        }
-
-        await bot.message.send(`${target} has been muted for ${duration} seconds.`);
+        const top = looks.sort((a, b) =&gt; b.likes - a.likes)[0];
+        await bot.message.send(`${target}'s top look has ${top.likes} likes.`);
         return;
     }
-
-    if (cmd === '!unmute') {
-        const target = message.mentions(0) || message.args(0);
-
-        if (!target) {
-            await bot.message.send('Usage: !unmute @username');
-            return;
-        }
-
-        const found = await bot.room.users.find(target);
-
-        if (!found) {
-            await bot.message.send(`${target} is not in the room.`);
-            return;
-        }
-
-        const result = await bot.player.moderation.unmute(found.user.id);
-
-        if (!result.ok) {
-            await bot.message.send(`Could not unmute ${target}: ${result.error}`);
-            return;
-        }
-
-        await bot.message.send(`${target} has been unmuted.`);
-        return;
-    }
-});
-
-// Log all moderation actions
-bot.on('Moderation', (moderator, target, action) =&gt; {
-    console.log(`${moderator.id} performed ${action.type} on ${target.id}`);
 });
 </code></pre>
-<h2 id="acknowledgmentresponse"><a class="header" href="#acknowledgmentresponse">AcknowledgmentResponse</a></h2>
+<h2 id="postresponse"><a class="header" href="#postresponse">PostResponse</a></h2>
 <pre><code class="language-typescript">{
-    ok: boolean;           // true if the action succeeded
-    error: string | null;  // error message if failed
+    ok: boolean;
+    error: string | null;
     hasError(): boolean;
+
+    postId: string;                                 // unique post ID
+    authorId: string;                               // author's user ID
+    createdAt: Date;                                // UTC creation timestamp
+    type: 'look' | 'text' | 'photo' | 'video';      // post type
+    visibility: 'public';                           // post visibility
+    mediaUrl: string | null;                        // media URL if present
+    caption: string | null;                         // post caption
+    likes: number;                                  // like count
+    comments: number;                               // comment count
+    reposts: number;                                // repost count
+    body: PostBody | null;                          // content for look/text posts
+    featuredUserIds: unknown[];                     // featured users (if any)
+    commentsList: Comment[];                        // full list of comments
+}
+</code></pre>
+<h3 id="postbody"><a class="header" href="#postbody">PostBody</a></h3>
+<pre><code class="language-typescript">{
+    text: string | null;           // text content (only for 'text' type posts)
+    inventory: {
+        items: {
+            item_id: string;
+            active_palette: number;
+            account_bound: boolean;
+        }[]
+    }
+}
+</code></pre>
+<h3 id="comment"><a class="header" href="#comment">Comment</a></h3>
+<pre><code class="language-typescript">{
+    id: string;          // unique comment ID
+    postId: string;      // ID of the post this comment belongs to
+    authorId: string;    // commenter's user ID
+    authorName: string;  // commenter's username
+    content: string;     // comment text
+    likes: number;       // comment like count
+}
+</code></pre>
+<h2 id="postsresponse"><a class="header" href="#postsresponse">PostsResponse</a></h2>
+<pre><code class="language-typescript">{
+    ok: boolean;
+    error: string | null;
+    hasError(): boolean;
+
+    posts: Post[];       // list of posts
+    total: number;       // total post count (for the user if authorId was set)
+    firstId: string | null;
+    lastId: string | null;
+    next(): Promise&lt;PostsResponse&gt; | null;   // fetches the next page
 }
 </code></pre>
 <h2 id="important-things-to-know"><a class="header" href="#important-things-to-know">Important things to know</a></h2>
-<p><strong>Your bot must be a moderator or made by room owner.</strong> If the bot is not a moderator, all
-methods will return <code>ok: false</code> with an error explaining the lack of
-permission.</p>
-<p><strong>Durations are in seconds.</strong> Pass <code>60</code> for one minute, <code>3600</code> for one
-hour, <code>86400</code> for one day.</p>
-<p><strong>Unban requires the bot to be created by the room owner.</strong> This is a
-Highrise limitation. If your bot was not created by the room owner,
-<code>unban()</code> will fail.</p>
-<p><strong>The Moderation event fires for all these actions.</strong> You can listen to
-<code>bot.on('Moderation')</code> to log or respond to moderation events from any
-source, including other moderators.</p>
+<p><strong>Filter by <code>authorId</code> to get a user’s posts.</strong> Resolve the username
+to an ID first using <code>bot.webapi.users.get()</code>.</p>
+<p><strong><code>body</code> is only populated on <code>look</code> and <code>text</code> posts.</strong> For <code>photo</code>
+and <code>video</code> posts, <code>body</code> will be <code>null</code>.</p>
+<p><strong><code>commentsList</code> is only on <code>PostResponse</code>.</strong> The <code>Post</code> objects inside
+<code>PostsResponse.posts</code> do not include comments. Use <code>get()</code> on a
+specific post to retrieve its full comment list.</p>
+<p><strong><code>total</code> reflects the filtered count.</strong> When using <code>authorId</code>, <code>total</code>
+is the number of posts by that user, not all posts on Highrise.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../api/player/actions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../tools/webapi/rooms.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../../api/player/outfit.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../tools/webapi/items.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -412,11 +387,11 @@ source, including other moderators.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../api/player/actions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../tools/webapi/rooms.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../../api/player/outfit.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../tools/webapi/items.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

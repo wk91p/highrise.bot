@@ -70,7 +70,7 @@ declare class GrabsResponse extends BaseResponse {
     /** Last grab ID in the current page, used for pagination */
     lastId: string
     /** Fetches the next batch of grabs, or `null` if there are no more */
-    next: (() => Promise<GrabsResponse>) | null
+    next(): Promise<GrabsResponse> | null
 }
 
 declare class GrabResponse extends BaseResponse {
