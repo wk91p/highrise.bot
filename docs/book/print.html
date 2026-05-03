@@ -37,10 +37,10 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-07806147.js";
+            window.path_to_searchindex_js = "searchindex-0322ce87.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-b910e58d.js"></script>
+        <script src="toc-6b736f9a.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -6230,6 +6230,152 @@ items awarded after collecting all items from the grab.</p>
 <p><strong>This endpoint is unstable.</strong> <code>500</code> errors from the Highrise Web API
 are not uncommon on grabs. Wrap your calls in error handling and
 communicate gracefully to users when data is unavailable.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="botawait"><a class="header" href="#botawait">bot.await</a></h1>
+<p>The <code>bot.await</code> API pauses execution until a specific event occurs in
+the room. Each method returns a promise that resolves when a matching
+event is collected or the timeout expires.</p>
+<h2 id="methods-17"><a class="header" href="#methods-17">Methods</a></h2>
+<h3 id="chatoptions"><a class="header" href="#chatoptions">chat(options)</a></h3>
+<p>Waits for one or more chat messages in the room.</p>
+<pre><code class="language-javascript">const [user, message] = await bot.await.chat({
+    filter: (user, message) =&gt; message.content.includes('hello'),
+    timeout: 10000
+});
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>filter</code></td><td><code>(user, message) =&gt; boolean</code></td><td>Only collect messages that pass this check</td></tr>
+<tr><td><code>timeout</code></td><td><code>number</code></td><td>Milliseconds before resolving early (default: <code>30000</code>)</td></tr>
+<tr><td><code>maxToCollect</code></td><td><code>number</code></td><td>Number of events to collect before resolving (default: <code>1</code>)</td></tr>
+<tr><td><code>uniqueUsers</code></td><td><code>boolean</code></td><td>Only collect one event per user (default: <code>false</code>)</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>[User, Message]</code> when <code>maxToCollect</code> is <code>1</code>, or <code>[User, Message][]</code> when collecting multiple.</p>
+<h3 id="directoptions"><a class="header" href="#directoptions">direct(options)</a></h3>
+<p>Waits for one or more direct messages sent outside of a room.</p>
+<pre><code class="language-javascript">const [user, message, conversation] = await bot.await.direct({
+    filter: (user) =&gt; user.id === '123'
+});
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>filter</code></td><td><code>(user, message, conversation) =&gt; boolean</code></td><td>Only collect messages that pass this check</td></tr>
+<tr><td><code>timeout</code></td><td><code>number</code></td><td>Milliseconds before resolving early (default: <code>30000</code>)</td></tr>
+<tr><td><code>maxToCollect</code></td><td><code>number</code></td><td>Number of events to collect before resolving (default: <code>1</code>)</td></tr>
+<tr><td><code>uniqueUsers</code></td><td><code>boolean</code></td><td>Only collect one event per user (default: <code>false</code>)</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>[User, Message, Conversation]</code> when <code>maxToCollect</code> is <code>1</code>, or <code>[User, Message, Conversation][]</code> when collecting multiple.</p>
+<h3 id="tipoptions"><a class="header" href="#tipoptions">tip(options)</a></h3>
+<p>Waits for one or more tip events between players in the room.</p>
+<pre><code class="language-javascript">const [sender, receiver, currency] = await bot.await.tip({
+    filter: (sender, receiver) =&gt; receiver.id === bot.metadata.userId
+});
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>filter</code></td><td><code>(sender, receiver, currency) =&gt; boolean</code></td><td>Only collect tips that pass this check</td></tr>
+<tr><td><code>timeout</code></td><td><code>number</code></td><td>Milliseconds before resolving early (default: <code>30000</code>)</td></tr>
+<tr><td><code>maxToCollect</code></td><td><code>number</code></td><td>Number of events to collect before resolving (default: <code>1</code>)</td></tr>
+<tr><td><code>uniqueUsers</code></td><td><code>boolean</code></td><td>Only collect one event per sender (default: <code>false</code>)</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>[Sender, Receiver, Currency]</code> when <code>maxToCollect</code> is <code>1</code>, or <code>[Sender, Receiver, Currency][]</code> when collecting multiple.</p>
+<h3 id="movementoptions"><a class="header" href="#movementoptions">movement(options)</a></h3>
+<p>Waits for one or more movement events in the room.</p>
+<pre><code class="language-javascript">const [user, position] = await bot.await.movement({
+    filter: (user) =&gt; user.id === '123'
+});
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>filter</code></td><td><code>(user, position, anchor) =&gt; boolean</code></td><td>Only collect movements that pass this check</td></tr>
+<tr><td><code>timeout</code></td><td><code>number</code></td><td>Milliseconds before resolving early (default: <code>30000</code>)</td></tr>
+<tr><td><code>maxToCollect</code></td><td><code>number</code></td><td>Number of events to collect before resolving (default: <code>1</code>)</td></tr>
+<tr><td><code>uniqueUsers</code></td><td><code>boolean</code></td><td>Only collect one event per user (default: <code>false</code>)</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>[User, Position | null, AnchorPosition | null]</code> when <code>maxToCollect</code> is <code>1</code>, or an array of those tuples when collecting multiple. Both <code>position</code> and <code>anchor</code> may be <code>null</code> if the user is in a transitional state.</p>
+<h2 id="complete-example-18"><a class="header" href="#complete-example-18">Complete example</a></h2>
+<pre><code class="language-javascript">bot.on('Chat', async (user, message) =&gt; {
+    const cmd = message.command();
+
+    if (cmd === '!guess') {
+        await bot.message.send('Guess a number between 1 and 10!');
+
+        const answer = Math.floor(Math.random() * 10) + 1;
+
+        const result = await bot.await.chat({
+            filter: (user, message) =&gt; user.id === user.id &amp;&amp; !isNaN(Number(message.content)),
+            timeout: 15000
+        });
+
+        if (!result.length) {
+            await bot.message.send('Time is up!');
+            return;
+        }
+
+        const [user, reply] = result; // replay is `message` but we named it like that
+        const guess = Number(reply.content);
+
+        if (guess === answer) {
+            await bot.message.send(`Correct! The answer was ${answer}.`);
+        } else {
+            await bot.message.send(`Wrong! The answer was ${answer}.`);
+        }
+    }
+
+    if (cmd === '!collect') {
+        await bot.message.send('Collecting the next 3 messages...');
+
+        const messages = await bot.await.chat({
+            maxToCollect: 3,
+            timeout: 20000,
+            uniqueUsers: true
+        });
+
+        await bot.message.send(`Collected ${messages.length} message(s).`);
+    }
+});
+</code></pre>
+<h2 id="how-resolving-works"><a class="header" href="#how-resolving-works">How resolving works</a></h2>
+<p>All awaiter methods follow the same resolution rules:</p>
+<ul>
+<li>Resolves with a single tuple when <code>maxToCollect</code> is <code>1</code>.</li>
+<li>Resolves with an array of tuples when <code>maxToCollect</code> is greater than <code>1</code>.</li>
+<li>Resolves with whatever was collected so far if the timeout expires before <code>maxToCollect</code> is reached.</li>
+<li>Resolves with an empty array <code>[]</code> if the timeout expires before any events are collected.</li>
+</ul>
+<h2 id="important-things-to-know-27"><a class="header" href="#important-things-to-know-27">Important things to know</a></h2>
+<p><strong>Always handle the empty array case.</strong> If the timeout expires with nothing collected, the promise resolves with <code>[]</code>. Destructuring directly without checking will give you <code>undefined</code> values.</p>
+<pre><code class="language-javascript">const result = await bot.await.chat({ timeout: 5000 });
+if (!result.length) return; // timed out with no messages
+const [user, message] = result;
+</code></pre>
+<p><strong><code>filter</code> errors are silently ignored.</strong> If your filter function throws, the event is skipped and the awaiter continues waiting.</p>
+<p><strong><code>uniqueUsers</code> is per-awaiter.</strong> It only tracks users within that single <code>await</code> call, not across your entire bot.</p>
+<p><strong>Awaiters run in parallel with your event handlers.</strong> Incoming events are passed to both <code>bot.on</code> listeners and any active awaiters at the same time.</p>
 
                     </main>
 

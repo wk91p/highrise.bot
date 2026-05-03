@@ -63,3 +63,5 @@
     - [Posts Endpoint](tools/webapi/posts.md)
     - [Items Endpoint](tools/webapi/items.md)
     - [Grabs Endpoint](tools/webapi/grabs.md)
+
+- [Awaiters](tools/awaiter/README.md)
