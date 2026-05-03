@@ -21,8 +21,8 @@ class BaseAwaiter {
             : null
     }
 
-    extractUser([user]) { 
-        return user?.id 
+    extractUser([user]) {
+        return user?.id
     }
 
     process(args) {
@@ -55,11 +55,13 @@ class BaseAwaiter {
     #finish(result) {
         clearTimeout(this.#timeoutId)
         this.#onDone()
-        
+
         if (result.length === 1) {
             this.#resolve(result[0])
         } else if (result.length > 1) {
             this.#resolve(result)
+        } else {
+            this.#resolve([])
         }
     }
 }
