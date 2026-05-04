@@ -35,7 +35,7 @@ Each one is a domain. `bot.room` knows everything about the room.
 `bot.inventory` knows everything about items and currency in bot. You will
 never need to go looking for something in the wrong place.
 
-## The three getters
+## The getters
 
 The bot also has three read-only properties you can access at any time:
 
@@ -73,6 +73,14 @@ connected. It resets every time the bot reconnects.
 
 ```javascript
 bot.connectTime  // e.g. 1710000000000
+```
+
+### bot.status
+
+this shows the current bot connection status during runtime.
+
+```javascript
+bot.status // online, offline, connecting, failure
 ```
 
 You can use this to calculate uptime yourself, but `bot.utils.uptime()`

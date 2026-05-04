@@ -19,9 +19,11 @@ class CloseHandler {
         )
 
         this.keepaliveHandler.stop()
+        this.state.set("status", "offline")
 
         if (this.state.get('doNotReconnect')) {
             this.logger.error('Connection', 'Server requested no reconnect, stopping')
+            this.state.set("status", "failure")
             return
         }
 

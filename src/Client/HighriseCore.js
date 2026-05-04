@@ -49,6 +49,7 @@ class HighriseCore extends EventEmitter {
         this.#cleanup()
 
         this.#logger.info('Connection', 'Logged out successfully')
+        this.#state.set("status", "offline")
     }
 
     async login(token, roomId) {
@@ -67,8 +68,9 @@ class HighriseCore extends EventEmitter {
         this.#ws.setMaxListeners(25)
 
         this.#state.set('credential', { token, roomId })
-        this.#state.set('doNotReconnect', false)
-        this.#state.set("intervals", [])
+        this.#state.set('doNotReconnect', false) // break
+        this.#state.set("intervals", []) // id's
+        this.#state.set("status", "connecting") // online, offline, connecting, failure
 
         this.#setupHandlers()
         this.#setupApi()
@@ -189,6 +191,8 @@ class HighriseCore extends EventEmitter {
         for (const interval of (this.#state.get("intervals") ?? [])) {
             clearInterval(interval)
         }
+
+        this.#state.set("intervals", [])
     }
 
     get credential() {
@@ -201,6 +205,10 @@ class HighriseCore extends EventEmitter {
 
     get connectTime() {
         return this.#state.get("connectTime")
+    }
+
+    get status() {
+        return this.#state.get("status") || "unknown"
     }
 }
 

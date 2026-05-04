@@ -89,6 +89,11 @@ declare class Highrise {
     get connectTime(): EpochTimeStamp;
 
     /**
+     * Current bot connection status
+     */
+    get status(): "online" | "offline" | "connecting" | "failure"
+
+    /**
      * Authenticates the bot and establishes a connection to a specific Highrise room.
      * @param token - The unique 64-character authentication token for the bot.
      * @param roomId - The 24-character identifier of the room.
