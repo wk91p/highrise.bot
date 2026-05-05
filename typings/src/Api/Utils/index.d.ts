@@ -1,5 +1,5 @@
-import Validator from "highrise.bot/typings/src/Utils/Validator"
-import { Roles } from "../../Utils/Roles"
+import Validator from "../../Tools/Validator"
+import { Roles } from "../../Tools/Roles"
 import { Highrise } from "../../Highrise"
 
 /**

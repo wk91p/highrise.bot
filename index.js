@@ -1,8 +1,8 @@
 const Highrise = require("./src/Client/Highrise");
 const { OutfitItem } = require("./src/Models/HelperModel");
 const HttpClient = require("./src/Networking/Core/HttpClient");
-const Logger = require("./src/Utils/Logger");
-const Validator = require("./src/Utils/Validator");
+const Logger = require("./src/Tools/Logger");
+const Validator = require("./src/Tools/Validator");
 
 exports.Highrise = Highrise
 exports.Validator = Validator

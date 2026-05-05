@@ -1,15 +1,15 @@
-import { EventMap, Metadata } from "highrise.bot/typings/src/Highrise/EventMap";
+import { EventMap, Metadata } from "../Highrise/EventMap";
 
-import UtilsApi from "highrise.bot/typings/src/Api/Utils";
-import RoomApi from "highrise.bot/typings/src/Api/Room";
-import ChatApi from "highrise.bot/typings/src/Api/Message/Chat";
-import WhisperApi from "highrise.bot/typings/src/Api/Message/Whisper";
-import PlayerApi from "highrise.bot/typings/src/Api/Player";
-import DirectApi from "highrise.bot/typings/src/Api/Message/Direct";
+import UtilsApi from "../Api/Utils";
+import RoomApi from "../Api/Room";
+import ChatApi from "../Api/Message/Chat";
+import WhisperApi from "../Api/Message/Whisper";
+import PlayerApi from "../Api/Player";
+import DirectApi from "../Api/Message/Direct";
 import InventoryApi from "../Api/Inventory";
 import ChannelApi from "../Api/Message/Channel";
 import WebApi from "../Api/WebApi";
-import { Roles } from "../Utils/Roles";
+import { Roles } from "../Tools/Roles";
 import { AwaitClass } from "../Awaiter";
 
 interface RolesOptions {

@@ -6,15 +6,17 @@ const MessageHandler = require('../Networking/WebsocketHandlers/MessageHandler')
 const ErrorHandler = require('../Networking/WebsocketHandlers/ErrorHandler');
 const CloseHandler = require('../Networking/WebsocketHandlers/CloseHandler');
 
-const { EventToListener } = require('../Constants/WebsocketConstants');
-const Logger = require('../Utils/Logger');
-
 const KeepAliveHandler = require('../Networking/Core/KeepAlive');
 const Sender = require('../Networking/Core/Sender');
+
+const { EventToListener } = require('../Constants/WebsocketConstants');
+
+const Logger = require('../Tools/Logger');
+const Validator = require("../Tools/Validator")
+
 const BotContext = require('../Contexts/BotContext');
 
 const BotApi = require('../Api');
-const Validator = require("../Utils/Validator")
 const { RolesConfig } = require('../Config/configs');
 
 class HighriseCore extends EventEmitter {
