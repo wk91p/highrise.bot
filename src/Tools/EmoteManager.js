@@ -20,11 +20,13 @@ class EmotesManager {
 
     getById(emoteId) {
         if (!emoteId || typeof emoteId !== 'string') return null
+        
         return this.#idToEmote.get(emoteId) || null
     }
 
     getByName(emoteName) {
         if (!emoteName || typeof emoteName !== 'string') return null
+
         return this.#nameToEmote.get(emoteName) || null
     }
 
@@ -34,7 +36,9 @@ class EmotesManager {
     }
 
     IndexOf(emoteName) {
-        const index = [...this.#idToEmote.values()].findIndex((emote) => emote.name === emoteName)
+        if (!emoteName || typeof emoteName !== 'string') return null
+
+        const index = [...this.#idToEmote.values()].findIndex((emote) => emote.name?.toLowerCase() === emoteName?.toLowerCase())
         return index !== -1 ? index : null
     }
 
