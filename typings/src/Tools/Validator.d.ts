@@ -1,3 +1,6 @@
+/** 
+ * Built-in validator utils for highrise bots, also it can be imported for external usage 
+ */
 declare class Validator {
     /**
      * Validates that a value is a non-empty string

@@ -1,6 +1,7 @@
 const Highrise = require("./src/Client/Highrise");
 const { OutfitItem } = require("./src/Models/HelperModel");
 const HttpClient = require("./src/Networking/Core/HttpClient");
+const EmotesManager = require("./src/Tools/EmoteManager");
 const Logger = require("./src/Tools/Logger");
 const Validator = require("./src/Tools/Validator");
 
@@ -9,3 +10,4 @@ exports.Validator = Validator
 exports.Logger = Logger
 exports.OutfitItem = OutfitItem
 exports.HttpClient = HttpClient
+exports.EmotesManager = EmotesManager

@@ -1,3 +1,4 @@
+const EmotesManager = require("../../Tools/EmoteManager")
 const Roles = require("../../Tools/Roles")
 
 class UtilsApi {
@@ -7,7 +8,9 @@ class UtilsApi {
         this.state = ctx.state
         this.#logger = ctx.logger
         this.validator = ctx.validator
+
         this.roles = new Roles(ctx, webapi)
+        this.emotes = new EmotesManager()
     }
 
     async sleep(ms) {

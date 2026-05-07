@@ -37,4 +37,4 @@ declare class OutfitItem {
     constructor(id: string, palette?: number, amount?: number, isBound?: boolean);
 }
 
-export { OutfitItem };
+export default OutfitItem

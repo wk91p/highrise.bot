@@ -126,8 +126,11 @@ export interface AnchorPosition {
  * Represents a Highrise emote object
  */
 export interface Emote {
+    /** The unique identifier of the emote (e.g., "sit-idle-cute") */
     id: string;
-    name: string;
+    /** The display name of the emote (e.g., "Rest") */
+    name: string | null;
+    /** Duration of the emote in seconds */
     duration: number;
 }
 

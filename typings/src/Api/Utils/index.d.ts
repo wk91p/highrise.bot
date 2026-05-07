@@ -1,15 +1,15 @@
 import Validator from "../../Tools/Validator"
 import { Roles } from "../../Tools/Roles"
 import { Highrise } from "../../Highrise"
+import EmotesManager from "../../Tools/EmotesManager"
 
 /**
  * Highrise bot development Utils
  */
 declare class Utils {
 
-    /** Built-in validator utils for highrise bots, also it can be imported for external usage 
-     * @example
-     * const { Validator } = require("highrise.bot")
+    /** 
+     * Built-in validator utils for highrise bots, also it can be imported for external usage 
      */
     validator: Validator
 
@@ -26,6 +26,12 @@ declare class Utils {
      * @see {@link Roles}
      */
     roles: Roles
+
+    /**
+     * Manager for handling Highrise emotes.
+     * Provides methods to retrieve emotes by ID, name, index, and more.
+     */
+    emotes: EmotesManager
 
     /**
      * Utility method to create a delay/pause in execution
