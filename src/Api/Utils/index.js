@@ -3,7 +3,7 @@ const Roles = require("../../Tools/Roles")
 
 class UtilsApi {
     #logger
-    
+
     constructor(ctx, webapi) {
         this.state = ctx.state
         this.#logger = ctx.logger
@@ -33,7 +33,12 @@ class UtilsApi {
                 break;
             }
 
-            let breakAt = remaining.lastIndexOf(' ', limit);
+            let breakAt = remaining.lastIndexOf('\n', limit);
+
+            if (breakAt === -1) {
+                breakAt = remaining.lastIndexOf(' ', limit);
+            }
+
             if (breakAt === -1) breakAt = limit;
 
             chunks.push(remaining.slice(0, breakAt).trim());
