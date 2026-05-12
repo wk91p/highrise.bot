@@ -1,7 +1,22 @@
 const HighriseCore = require("./HighriseCore");
 
-// will be used in the future to add high-level features
-// CommandHandlers
-class Highrise extends HighriseCore {}
+const EmoteLoop = require("../Tools/EmoteLooper");
+
+class Highrise extends HighriseCore {
+    constructor(options) {
+        super(options)
+    }
+
+    login(token, roomId) {
+        super.login(token, roomId)
+
+        this.#setupApi()
+        
+    }
+
+    #setupApi() {
+        this.looper = new EmoteLoop(this.player, this.utils.emotes)
+    }
+}
 
 module.exports = Highrise

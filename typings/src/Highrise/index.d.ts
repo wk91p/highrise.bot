@@ -11,6 +11,7 @@ import ChannelApi from "../Api/Message/Channel";
 import WebApi from "../Api/WebApi";
 import { Roles } from "../Tools/Roles";
 import { AwaitClass } from "../Awaiter";
+import EmoteLoop from "../Tools/EmoteLooper";
 
 interface RolesOptions {
     /** Path to the file where roles will be persisted (e.g. `"./roles.json"`) */
@@ -69,6 +70,15 @@ declare class Highrise {
      * collect multiple events, or filter events by specific criteria.
      */
     await: AwaitClass
+
+    /**
+     * Manages looping emotes for users in the room.
+     * 
+     * Automatically repeats an emote for a user after its duration ends,
+     * until explicitly stopped or an error occurs. Only one emote loop
+     * can be active per user at a time.
+     */
+    looper: EmoteLoop
 
     /** 
      * The login credentials used for the current session.

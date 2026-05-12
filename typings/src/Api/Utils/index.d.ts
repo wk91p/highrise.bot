@@ -28,7 +28,7 @@ declare class Utils {
     roles: Roles
 
     /**
-     * Manager for handling Highrise emotes.
+     * Manager for Highrise emotes.
      * Provides methods to retrieve emotes by ID, name, index, and more.
      */
     emotes: EmotesManager

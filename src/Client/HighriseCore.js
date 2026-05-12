@@ -45,7 +45,7 @@ class HighriseCore extends EventEmitter {
         this.#options = options
     }
 
-    async logout() {
+    logout() {
         this.#keepaliveHandler.stop()
         this.#state.set('doNotReconnect', true)
         this.#cleanup()
@@ -54,7 +54,7 @@ class HighriseCore extends EventEmitter {
         this.#state.set("status", "offline")
     }
 
-    async login(token, roomId) {
+    login(token, roomId) {
         this.#cleanup()
 
         const events = this.#getWebsocketEvents()
@@ -93,8 +93,8 @@ class HighriseCore extends EventEmitter {
         const { token, roomId } = this.#getCredential()
 
         this.#logger.info('Connection', 'Reconnecting...')
-        await this.logout()
-        await this.login(token, roomId)
+        this.logout()
+        this.login(token, roomId)
     }
 
     #getWebsocketEvents() {
