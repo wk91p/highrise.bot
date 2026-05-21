@@ -130,7 +130,7 @@ declare class Highrise {
      * Reconnects using the current credentials.
      * @returns A promise that resolves when the reconnection is complete.
      */
-    reconnect(): Promise<void>
+    reconnect(): void
 
     /**
      * Updates the authentication token credential while preserving the current room ID.

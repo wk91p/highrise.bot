@@ -89,7 +89,7 @@ class HighriseCore extends EventEmitter {
         this.#state.set("credential", { token, roomId: newRoomId })
     }
 
-    async reconnect() {
+    reconnect() {
         const { token, roomId } = this.#getCredential()
 
         this.#logger.info('Connection', 'Reconnecting...')
