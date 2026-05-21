@@ -109,7 +109,7 @@ class Roles {
 
         const room = await this.#webapi.rooms.get(roomId)
         if (!room.ok) {
-            this.#logger.warn("Roles", `Failed to fetch room data for room ID ${roomId} (${room.error}), Skipping role initialization.`)
+            this.#logger.warn("Roles", `Failed to fetch room data, Skipping role initialization.`)
             return null
         }
 
