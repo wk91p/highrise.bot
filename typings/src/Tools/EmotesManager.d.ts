@@ -88,13 +88,13 @@ declare class EmotesManager {
      * 
      * @example
      * ```typescript
-     * const position = emoteManager.IndexOf("Rest");
+     * const position = emoteManager.getIndexByName("Rest");
      * if (position) {
      *     console.log(`Kiss is emote #${position}`);
      * }
      * ```
      */
-    IndexOf(emoteName: string): number | null;
+    getIndexByName(emoteName: string): number | null;
 
     /**
      * Gets the total number of emotes available.

@@ -1,7 +1,6 @@
 import Validator from "../../Tools/Validator"
 import { Roles } from "../../Tools/Roles"
 import { Highrise } from "../../Highrise"
-import EmotesManager from "../../Tools/EmotesManager"
 
 /**
  * Highrise bot development Utils
@@ -26,12 +25,6 @@ declare class Utils {
      * @see {@link Roles}
      */
     roles: Roles
-
-    /**
-     * Manager for Highrise emotes.
-     * Provides methods to retrieve emotes by ID, name, index, and more.
-     */
-    emotes: EmotesManager
 
     /**
      * Utility method to create a delay/pause in execution

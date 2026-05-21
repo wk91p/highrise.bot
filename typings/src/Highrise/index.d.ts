@@ -12,6 +12,7 @@ import WebApi from "../Api/WebApi";
 import { Roles } from "../Tools/Roles";
 import { AwaitClass } from "../Awaiter";
 import EmoteLoop from "../Tools/EmoteLooper";
+import EmotesManager from "../Tools/EmotesManager";
 
 interface RolesOptions {
     /** Path to the file where roles will be persisted (e.g. `"./roles.json"`) */
@@ -79,6 +80,12 @@ declare class Highrise {
      * can be active per user at a time.
      */
     looper: EmoteLoop
+
+    /**
+     * Manager for Highrise emotes.
+     * Provides methods to retrieve emotes by ID, name, index, and more.
+     */
+    emotes: EmotesManager
 
     /** 
      * The login credentials used for the current session.

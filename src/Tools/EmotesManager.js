@@ -35,19 +35,19 @@ class EmotesManager {
         return [...this.#idToEmote.values()][index] || null
     }
 
-    IndexOf(emoteName) {
+    getIndexByName(emoteName) {
         if (!emoteName || typeof emoteName !== 'string') return null
 
         const index = [...this.#idToEmote.values()].findIndex((emote) => emote.name?.toLowerCase() === emoteName?.toLowerCase())
         return index !== -1 ? index : null
     }
 
-    get size() {
-        return this.#idToEmote.size;
-    }
-
     getAll() {
         return Array.from(this.#idToEmote.values())
+    }
+
+    get size() {
+        return this.#idToEmote.size;
     }
 }
 
