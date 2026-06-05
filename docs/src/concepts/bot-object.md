@@ -28,6 +28,9 @@ bot.room       // room users, moderation, voice, privilege
 bot.player     // actions, emotes, tips, teleport, outfit
 bot.inventory  // wallet, outfit, items, boosts
 bot.utils      // sleep, uptime, splitMessages and more
+bot.roles      // managing roles in-room
+bot.emotes     // retriving emotes by Name, Id and Index
+bot.looper     // looping emotes for each user by it's duration
 ```
 
 Each one is a domain. `bot.room` knows everything about the room.
@@ -75,6 +78,9 @@ connected. It resets every time the bot reconnects.
 bot.connectTime  // e.g. 1710000000000
 ```
 
+You can use this to calculate uptime yourself, but `bot.utils.uptime()`
+already does that for you and returns a clean string like `2h 30m 15s`.
+
 ### bot.status
 
 this shows the current bot connection status during runtime.
@@ -82,9 +88,6 @@ this shows the current bot connection status during runtime.
 ```javascript
 bot.status // online, offline, connecting, failure
 ```
-
-You can use this to calculate uptime yourself, but `bot.utils.uptime()`
-already does that for you and returns a clean string like `2h 30m 15s`.
 
 ## Listening to events
 

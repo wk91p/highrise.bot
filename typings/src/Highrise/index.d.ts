@@ -34,7 +34,7 @@ declare class Highrise {
     /**
      * Initializes a new instance of the Highrise bot.
      */
-    constructor(options: LoginOptions);
+    constructor(options?: LoginOptions);
 
     /** API for handling room chat messages. */
     message: ChatApi;

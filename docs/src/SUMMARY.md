@@ -64,4 +64,10 @@
     - [Items Endpoint](tools/webapi/items.md)
     - [Grabs Endpoint](tools/webapi/grabs.md)
 
-- [Awaiters](tools/awaiter/README.md)
+- [Awaiters](tools/Awaiter/README.md)
+
+- [Roles](tools/Roles/README.md)
+
+- [EmotesManager](tools/EmotesManager/README.md)
+
+- [EmoteLooper](tools/EmoteLooper/README.md)

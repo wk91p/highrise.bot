@@ -37,10 +37,10 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-00c9f3e9.js";
+            window.path_to_searchindex_js = "searchindex-ebfe53df.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-6b736f9a.js"></script>
+        <script src="toc-334fc5bd.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -502,6 +502,9 @@ bot.room       // room users, moderation, voice, privilege
 bot.player     // actions, emotes, tips, teleport, outfit
 bot.inventory  // wallet, outfit, items, boosts
 bot.utils      // sleep, uptime, splitMessages and more
+bot.roles      // managing roles in-room
+bot.emotes     // retriving emotes by Name, Id and Index
+bot.looper     // looping emotes for each user by it's duration
 </code></pre>
 <p>Each one is a domain. <code>bot.room</code> knows everything about the room.
 <code>bot.player</code> knows everything about interacting with players.
@@ -531,12 +534,12 @@ reconnecting after a dropped connection.</p>
 connected. It resets every time the bot reconnects.</p>
 <pre><code class="language-javascript">bot.connectTime  // e.g. 1710000000000
 </code></pre>
+<p>You can use this to calculate uptime yourself, but <code>bot.utils.uptime()</code>
+already does that for you and returns a clean string like <code>2h 30m 15s</code>.</p>
 <h3 id="botstatus"><a class="header" href="#botstatus">bot.status</a></h3>
 <p>this shows the current bot connection status during runtime.</p>
 <pre><code class="language-javascript">bot.status // online, offline, connecting, failure
 </code></pre>
-<p>You can use this to calculate uptime yourself, but <code>bot.utils.uptime()</code>
-already does that for you and returns a clean string like <code>2h 30m 15s</code>.</p>
 <h2 id="listening-to-events"><a class="header" href="#listening-to-events">Listening to events</a></h2>
 <p>You attach behavior to your bot by listening to events:</p>
 <pre><code class="language-javascript">// runs every time
@@ -6236,17 +6239,20 @@ items awarded after collecting all items from the grab.</p>
 are not uncommon on grabs. Wrap your calls in error handling and
 communicate gracefully to users when data is unavailable.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="botawait"><a class="header" href="#botawait">bot.await</a></h1>
-<p>The <code>bot.await</code> API pauses execution until a specific event occurs in
-the room. Each method returns a promise that resolves when a matching
-event is collected or the timeout expires.</p>
+<h1 id="awaiters"><a class="header" href="#awaiters">Awaiters</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="botroles"><a class="header" href="#botroles">bot.roles</a></h1>
+<p>The <code>bot.roles</code> API provides role-based access control for your bot. Room moderators and the owner are automatically synced on startup and refreshed every 10 minutes. Custom roles can be assigned and managed at runtime.</p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p><code>"owner"</code> and <code>"mod"</code> are protected roles, they are managed automatically by the SDK and cannot be manually modified via <code>addRole</code>, <code>removeRole</code>, or <code>clearRoles</code>.</p>
+</blockquote>
 <h2 id="methods-17"><a class="header" href="#methods-17">Methods</a></h2>
-<h3 id="chatoptions"><a class="header" href="#chatoptions">chat(options)</a></h3>
-<p>Waits for one or more chat messages in the room.</p>
-<pre><code class="language-javascript">const [user, message] = await bot.await.chat({
-    filter: (user, message) =&gt; message.content.includes('hello'),
-    timeout: 10000
-});
+<h3 id="hasroleuserid-role"><a class="header" href="#hasroleuserid-role">hasRole(userId, role)</a></h3>
+<p>Checks if a user has a specific role.</p>
+<pre><code class="language-javascript">if (bot.roles.hasRole(user.id, "vip")) {
+    await bot.message.send(`Welcome back, VIP!`);
+}
 </code></pre>
 <div class="table-wrapper">
 <table>
@@ -6254,19 +6260,17 @@ event is collected or the timeout expires.</p>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>filter</code></td><td><code>(user, message) =&gt; boolean</code></td><td>Only collect messages that pass this check</td></tr>
-<tr><td><code>timeout</code></td><td><code>number</code></td><td>Milliseconds before resolving early (default: <code>30000</code>)</td></tr>
-<tr><td><code>maxToCollect</code></td><td><code>number</code></td><td>Number of events to collect before resolving (default: <code>1</code>)</td></tr>
-<tr><td><code>uniqueUsers</code></td><td><code>boolean</code></td><td>Only collect one event per user (default: <code>false</code>)</td></tr>
+<tr><td><code>userId</code></td><td><code>string</code></td><td>The user’s unique ID</td></tr>
+<tr><td><code>role</code></td><td><code>string</code></td><td>The role to check for</td></tr>
 </tbody>
 </table>
 </div>
-<p><strong>Returns:</strong> <code>[User, Message]</code> when <code>maxToCollect</code> is <code>1</code>, or <code>[User, Message][]</code> when collecting multiple.</p>
-<h3 id="directoptions"><a class="header" href="#directoptions">direct(options)</a></h3>
-<p>Waits for one or more direct messages sent outside of a room.</p>
-<pre><code class="language-javascript">const [user, message, conversation] = await bot.await.direct({
-    filter: (user) =&gt; user.id === '123'
-});
+<p><strong>Returns:</strong> <code>boolean</code></p>
+<h3 id="hasanyroleuserid-roles"><a class="header" href="#hasanyroleuserid-roles">hasAnyRole(userId, roles)</a></h3>
+<p>Checks if a user has at least one of the specified roles.</p>
+<pre><code class="language-javascript">if (bot.roles.hasAnyRole(user.id, ["vip", "mod", "owner"])) {
+    await bot.message.send(`You have access.`);
+}
 </code></pre>
 <div class="table-wrapper">
 <table>
@@ -6274,19 +6278,17 @@ event is collected or the timeout expires.</p>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>filter</code></td><td><code>(user, message, conversation) =&gt; boolean</code></td><td>Only collect messages that pass this check</td></tr>
-<tr><td><code>timeout</code></td><td><code>number</code></td><td>Milliseconds before resolving early (default: <code>30000</code>)</td></tr>
-<tr><td><code>maxToCollect</code></td><td><code>number</code></td><td>Number of events to collect before resolving (default: <code>1</code>)</td></tr>
-<tr><td><code>uniqueUsers</code></td><td><code>boolean</code></td><td>Only collect one event per user (default: <code>false</code>)</td></tr>
+<tr><td><code>userId</code></td><td><code>string</code></td><td>The user’s unique ID</td></tr>
+<tr><td><code>roles</code></td><td><code>string[]</code></td><td>List of roles to check against</td></tr>
 </tbody>
 </table>
 </div>
-<p><strong>Returns:</strong> <code>[User, Message, Conversation]</code> when <code>maxToCollect</code> is <code>1</code>, or <code>[User, Message, Conversation][]</code> when collecting multiple.</p>
-<h3 id="tipoptions"><a class="header" href="#tipoptions">tip(options)</a></h3>
-<p>Waits for one or more tip events between players in the room.</p>
-<pre><code class="language-javascript">const [sender, receiver, currency] = await bot.await.tip({
-    filter: (sender, receiver) =&gt; receiver.id === bot.metadata.userId
-});
+<p><strong>Returns:</strong> <code>boolean</code></p>
+<h3 id="hasallrolesuserid-roles"><a class="header" href="#hasallrolesuserid-roles">hasAllRoles(userId, roles)</a></h3>
+<p>Checks if a user has all of the specified roles.</p>
+<pre><code class="language-javascript">if (bot.roles.hasAllRoles(user.id, ["vip", "trusted"])) {
+    await bot.message.send(`You have full access.`);
+}
 </code></pre>
 <div class="table-wrapper">
 <table>
@@ -6294,19 +6296,19 @@ event is collected or the timeout expires.</p>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>filter</code></td><td><code>(sender, receiver, currency) =&gt; boolean</code></td><td>Only collect tips that pass this check</td></tr>
-<tr><td><code>timeout</code></td><td><code>number</code></td><td>Milliseconds before resolving early (default: <code>30000</code>)</td></tr>
-<tr><td><code>maxToCollect</code></td><td><code>number</code></td><td>Number of events to collect before resolving (default: <code>1</code>)</td></tr>
-<tr><td><code>uniqueUsers</code></td><td><code>boolean</code></td><td>Only collect one event per sender (default: <code>false</code>)</td></tr>
+<tr><td><code>userId</code></td><td><code>string</code></td><td>The user’s unique ID</td></tr>
+<tr><td><code>roles</code></td><td><code>string[]</code></td><td>List of roles to check against</td></tr>
 </tbody>
 </table>
 </div>
-<p><strong>Returns:</strong> <code>[Sender, Receiver, Currency]</code> when <code>maxToCollect</code> is <code>1</code>, or <code>[Sender, Receiver, Currency][]</code> when collecting multiple.</p>
-<h3 id="movementoptions"><a class="header" href="#movementoptions">movement(options)</a></h3>
-<p>Waits for one or more movement events in the room.</p>
-<pre><code class="language-javascript">const [user, position] = await bot.await.movement({
-    filter: (user) =&gt; user.id === '123'
-});
+<p><strong>Returns:</strong> <code>boolean</code></p>
+<h3 id="addroleuserid-role"><a class="header" href="#addroleuserid-role">addRole(userId, role)</a></h3>
+<p>Assigns a role to a user. Returns <code>false</code> if the user already has the role or if the role is protected.</p>
+<pre><code class="language-javascript">const added = bot.roles.addRole(user.id, "vip");
+
+if (!added) {
+    await bot.message.send(`User already has this role or it is protected.`);
+}
 </code></pre>
 <div class="table-wrapper">
 <table>
@@ -6314,73 +6316,441 @@ event is collected or the timeout expires.</p>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>filter</code></td><td><code>(user, position, anchor) =&gt; boolean</code></td><td>Only collect movements that pass this check</td></tr>
-<tr><td><code>timeout</code></td><td><code>number</code></td><td>Milliseconds before resolving early (default: <code>30000</code>)</td></tr>
-<tr><td><code>maxToCollect</code></td><td><code>number</code></td><td>Number of events to collect before resolving (default: <code>1</code>)</td></tr>
-<tr><td><code>uniqueUsers</code></td><td><code>boolean</code></td><td>Only collect one event per user (default: <code>false</code>)</td></tr>
+<tr><td><code>userId</code></td><td><code>string</code></td><td>The user’s unique ID</td></tr>
+<tr><td><code>role</code></td><td><code>string</code></td><td>The role to assign</td></tr>
 </tbody>
 </table>
 </div>
-<p><strong>Returns:</strong> <code>[User, Position | null, AnchorPosition | null]</code> when <code>maxToCollect</code> is <code>1</code>, or an array of those tuples when collecting multiple. Both <code>position</code> and <code>anchor</code> may be <code>null</code> if the user is in a transitional state.</p>
+<p><strong>Returns:</strong> <code>boolean</code></p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p><code>"mod"</code> and <code>"owner"</code> are protected and cannot be assigned manually.</p>
+</blockquote>
+<h3 id="removeroleuserid-role"><a class="header" href="#removeroleuserid-role">removeRole(userId, role)</a></h3>
+<p>Removes a role from a user. Returns <code>false</code> if the role doesn’t exist or is protected.</p>
+<pre><code class="language-javascript">const removed = bot.roles.removeRole(user.id, "vip");
+
+if (!removed) {
+    await bot.message.send(`Could not remove role.`);
+}
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>userId</code></td><td><code>string</code></td><td>The user’s unique ID</td></tr>
+<tr><td><code>role</code></td><td><code>string</code></td><td>The role to remove</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>boolean</code></p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p><code>"mod"</code> and <code>"owner"</code> are protected and cannot be removed manually.</p>
+</blockquote>
+<h3 id="getrolesuserid"><a class="header" href="#getrolesuserid">getRoles(userId)</a></h3>
+<p>Returns all roles currently assigned to a user.</p>
+<pre><code class="language-javascript">const roles = bot.roles.getRoles(user.id);
+await bot.message.send(`Your roles: ${roles.join(', ')}`);
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>userId</code></td><td><code>string</code></td><td>The user’s unique ID</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>string[]</code></p>
+<h3 id="setrolesuserid-roles"><a class="header" href="#setrolesuserid-roles">setRoles(userId, roles)</a></h3>
+<p>Replaces all of a user’s custom roles with the specified list.</p>
+<pre><code class="language-javascript">bot.roles.setRoles(user.id, ["vip", "trusted"]);
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>userId</code></td><td><code>string</code></td><td>The user’s unique ID</td></tr>
+<tr><td><code>roles</code></td><td><code>string[]</code></td><td>The new list of roles to assign</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>true</code></p>
+<h3 id="clearrolesuserid"><a class="header" href="#clearrolesuserid">clearRoles(userId)</a></h3>
+<p>Removes all custom roles from a user.</p>
+<pre><code class="language-javascript">bot.roles.clearRoles(user.id);
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>userId</code></td><td><code>string</code></td><td>The user’s unique ID</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>true</code></p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p><code>"mod"</code> and <code>"owner"</code> are always skipped.</p>
+</blockquote>
+<h3 id="isowneruserid"><a class="header" href="#isowneruserid">isOwner(userId)</a></h3>
+<p>Checks if a user is the room owner.</p>
+<pre><code class="language-javascript">if (bot.roles.isOwner(user.id)) {
+    await bot.message.send(`Hello, owner!`);
+}
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>userId</code></td><td><code>string</code></td><td>The user’s unique ID</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>boolean</code></p>
+<h3 id="ismoderatoruserid-1"><a class="header" href="#ismoderatoruserid-1">isModerator(userId)</a></h3>
+<p>Checks if a user is a room moderator.</p>
+<pre><code class="language-javascript">if (bot.roles.isModerator(user.id)) {
+    await bot.message.send(`Hello, moderator!`);
+}
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>userId</code></td><td><code>string</code></td><td>The user’s unique ID</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>boolean</code></p>
 <h2 id="complete-example-18"><a class="header" href="#complete-example-18">Complete example</a></h2>
 <pre><code class="language-javascript">bot.on('Chat', async (user, message) =&gt; {
     const cmd = message.command();
 
-    if (cmd === '!guess') {
-        await bot.message.send('Guess a number between 1 and 10!');
-
-        const answer = Math.floor(Math.random() * 10) + 1;
-
-        const result = await bot.await.chat({
-            filter: (user, message) =&gt; user.id === user.id &amp;&amp; !isNaN(Number(message.content)),
-            timeout: 15000
-        });
-
-        if (!result.length) {
-            await bot.message.send('Time is up!');
+    if (cmd === '!addrole') {
+        if (!bot.roles.isModerator(user.id)) {
+            await bot.message.send(`You don't have permission to assign roles.`);
             return;
         }
 
-        const [user, reply] = result; // replay is `message` but we named it like that
-        const guess = Number(reply.content);
+        const target = message.args(0);
+        const role = message.args(1);
 
-        if (guess === answer) {
-            await bot.message.send(`Correct! The answer was ${answer}.`);
-        } else {
-            await bot.message.send(`Wrong! The answer was ${answer}.`);
+        if (!target || !role) {
+            await bot.message.send(`Usage: !addrole &lt;userId&gt; &lt;role&gt;`);
+            return;
         }
+
+        const added = bot.roles.addRole(target, role);
+        await bot.message.send(added ? `Role "${role}" assigned.` : `Could not assign role.`);
+        return;
     }
 
-    if (cmd === '!collect') {
-        await bot.message.send('Collecting the next 3 messages...');
+    if (cmd === '!removerole') {
+        if (!bot.roles.isModerator(user.id)) {
+            await bot.message.send(`You don't have permission to remove roles.`);
+            return;
+        }
 
-        const messages = await bot.await.chat({
-            maxToCollect: 3,
-            timeout: 20000,
-            uniqueUsers: true
-        });
+        const target = message.args(0);
+        const role = message.args(1);
 
-        await bot.message.send(`Collected ${messages.length} message(s).`);
+        if (!target || !role) {
+            await bot.message.send(`Usage: !removerole &lt;userId&gt; &lt;role&gt;`);
+            return;
+        }
+
+        const removed = bot.roles.removeRole(target, role);
+        await bot.message.send(removed ? `Role "${role}" removed.` : `Could not remove role.`);
+        return;
+    }
+
+    if (cmd === '!roles') {
+        const roles = bot.roles.getRoles(user.id);
+        await bot.message.send(roles.length ? `Your roles: ${roles.join(', ')}` : `You have no roles.`);
+        return;
     }
 });
 </code></pre>
-<h2 id="how-resolving-works"><a class="header" href="#how-resolving-works">How resolving works</a></h2>
-<p>All awaiter methods follow the same resolution rules:</p>
-<ul>
-<li>Resolves with a single tuple when <code>maxToCollect</code> is <code>1</code>.</li>
-<li>Resolves with an array of tuples when <code>maxToCollect</code> is greater than <code>1</code>.</li>
-<li>Resolves with whatever was collected so far if the timeout expires before <code>maxToCollect</code> is reached.</li>
-<li>Resolves with an empty array <code>[]</code> if the timeout expires before any events are collected.</li>
-</ul>
-<h2 id="important-things-to-know-27"><a class="header" href="#important-things-to-know-27">Important things to know</a></h2>
-<p><strong>Always handle the empty array case.</strong> If the timeout expires with nothing collected, the promise resolves with <code>[]</code>. Destructuring directly without checking will give you <code>undefined</code> values.</p>
-<pre><code class="language-javascript">const result = await bot.await.chat({ timeout: 5000 });
-if (!result.length) return; // timed out with no messages
-const [user, message] = result;
+<h2 id="persistence"><a class="header" href="#persistence">Persistence</a></h2>
+<p>Roles can be saved to a file by passing <code>persistPath</code> in the constructor options. The file is saved every 7.5 minutes and on process exit.</p>
+<pre><code class="language-javascript">const bot = new Highrise({
+    roles: {
+        persistPath: "./roles.json"
+    }
+})
 </code></pre>
-<p><strong><code>filter</code> errors are silently ignored.</strong> If your filter function throws, the event is skipped and the awaiter continues waiting.</p>
-<p><strong><code>uniqueUsers</code> is per-awaiter.</strong> It only tracks users within that single <code>await</code> call, not across your entire bot.</p>
-<p><strong>Awaiters run in parallel with your event handlers.</strong> Incoming events are passed to both <code>bot.on</code> listeners and any active awaiters at the same time.</p>
+<p>The file is a simple JSON object mapping role names to user ID arrays:</p>
+<pre><code class="language-json">{
+  "owner": ["user-owner"],
+  "mod": ["user-mod1", "user-mod2"],
+  "vip": ["user-123", "user-456"]
+}
+</code></pre>
+<h2 id="important-things-to-know-27"><a class="header" href="#important-things-to-know-27">Important things to know</a></h2>
+<p><strong><code>"owner"</code> and <code>"mod"</code> are read-only.</strong> They are synced from the room every 10 minutes and cannot be mutated via any of the role management methods.</p>
+<p><strong>Roles are in-memory by default.</strong> Without <code>persistPath</code>, all custom roles are lost on restart.</p>
+<p><strong><code>addRole</code> returns <code>false</code> for duplicates.</strong> If the user already has the role, nothing changes and <code>false</code> is returned.</p>
+<p><strong><code>clearRoles</code> skips protected roles.</strong> Calling <code>clearRoles</code> on the owner or a moderator will remove their custom roles but never touch <code>"owner"</code> or <code>"mod"</code>.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="botutilsemotes"><a class="header" href="#botutilsemotes">bot.utils.emotes</a></h1>
+<p>The <code>bot.utils.emotes</code> API provides access to all Highrise emotes available in the game. Use it to look up emotes by ID, name, or index, useful for building emote commands or any feature that needs to reference a specific emote.</p>
+<h2 id="methods-18"><a class="header" href="#methods-18">Methods</a></h2>
+<h3 id="getbyidemoteid"><a class="header" href="#getbyidemoteid">getById(emoteId)</a></h3>
+<p>Retrieves an emote by its unique ID.</p>
+<pre><code class="language-javascript">const emote = bot.utils.emotes.getById("sit-idle-cute");
+
+if (emote) {
+    console.log(`${emote.name} — ${emote.duration}s`);
+}
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>emoteId</code></td><td><code>string</code></td><td>The emote’s unique ID (e.g. <code>"sit-idle-cute"</code>)</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <a href="#emote-1"><code>Emote</code></a> or <code>null</code></p>
+<h3 id="getbynameemotename"><a class="header" href="#getbynameemotename">getByName(emoteName)</a></h3>
+<p>Retrieves an emote by its display name.</p>
+<pre><code class="language-javascript">const emote = bot.utils.emotes.getByName("Rest");
+
+if (emote) {
+    console.log(`${emote.id} — ${emote.duration}s`);
+}
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>emoteName</code></td><td><code>string</code></td><td>The emote’s display name (e.g. <code>"Rest"</code>)</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <a href="#emote-1"><code>Emote</code></a> or <code>null</code></p>
+<h3 id="getbyindexindex"><a class="header" href="#getbyindexindex">getByIndex(index)</a></h3>
+<p>Retrieves an emote by its zero-based index position in the internal list.</p>
+<pre><code class="language-javascript">const first = bot.utils.emotes.getByIndex(0);
+const last = bot.utils.emotes.getByIndex(bot.utils.emotes.size - 1);
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>index</code></td><td><code>number</code></td><td>Zero-based index position of the emote</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <a href="#emote-1"><code>Emote</code></a> or <code>null</code></p>
+<h3 id="getindexbynameemotename"><a class="header" href="#getindexbynameemotename">getIndexByName(emoteName)</a></h3>
+<p>Returns the zero-based index of an emote by its name.</p>
+<pre><code class="language-javascript">const index = bot.utils.emotes.getIndexByName("Rest");
+
+if (index !== null) {
+    console.log(`Rest is emote #${index}`);
+}
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>emoteName</code></td><td><code>string</code></td><td>The emote’s display name</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>number</code> or <code>null</code></p>
+<h3 id="getall"><a class="header" href="#getall">getAll()</a></h3>
+<p>Returns all available emotes as an array.</p>
+<pre><code class="language-javascript">const emotes = bot.utils.emotes.getAll();
+
+emotes.forEach(emote =&gt; {
+    console.log(`${emote.name}: ${emote.id} (${emote.duration}s)`);
+});
+</code></pre>
+<p><strong>Returns:</strong> <a href="#emote-1"><code>Emote[]</code></a></p>
+<h3 id="size"><a class="header" href="#size">size</a></h3>
+<p>Returns the total number of emotes available.</p>
+<pre><code class="language-javascript">console.log(`${bot.utils.emotes.size} emotes available`);
+</code></pre>
+<p><strong>Returns:</strong> <code>number</code></p>
+<h2 id="complete-example-19"><a class="header" href="#complete-example-19">Complete example</a></h2>
+<pre><code class="language-javascript">bot.on('Chat', async (user, message) =&gt; {
+    const cmd = message.command();
+
+    if (cmd === '!emote') {
+        const query = message.args(0);
+
+        if (!query) {
+            await bot.message.send('Usage: !emote &lt;name or id&gt;');
+            return;
+        }
+
+        const emote = bot.utils.emotes.getByName(query)
+            ?? bot.utils.emotes.getById(query);
+
+        if (!emote) {
+            await bot.message.send(`No emote found for: ${query}`);
+            return;
+        }
+
+        await bot.player.emote(emote.id, user.id);
+        return;
+    }
+
+    if (cmd === '!emotes') {
+        const total = bot.utils.emotes.size;
+        await bot.message.send(`There are ${total} emotes available.`);
+        return;
+    }
+});
+</code></pre>
+<h2 id="emote-1"><a class="header" href="#emote-1">Emote</a></h2>
+<pre><code class="language-typescript">{
+    id: string;          // unique emote identifier (e.g. "sit-idle-cute")
+    name: string;        // display name (e.g. "Rest")
+    duration: number;    // emote duration in seconds (e.g. 17.06)
+}
+</code></pre>
+<h2 id="important-things-to-know-28"><a class="header" href="#important-things-to-know-28">Important things to know</a></h2>
+<p><strong>Name lookup is case-sensitive.</strong> <code>getByName("rest")</code> will not match <code>"Rest"</code>. Make sure to match the casing exactly or normalize the input before calling.</p>
+<p><strong>Index is zero-based.</strong> <code>getByIndex(0)</code> returns the first emote, not the second. Use <code>size - 1</code> for the last.</p>
+<p><strong><code>getByIndex</code> returns <code>null</code> for out-of-range values.</strong> Negative indices and indices beyond <code>size - 1</code> return <code>null</code>.</p>
+<p><strong><code>getIndexByName</code> returns <code>null</code> if not found.</strong> Always check for <code>null</code> before using the result as a number.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="botlooper"><a class="header" href="#botlooper">bot.looper</a></h1>
+<p>The <code>bot.looper</code> API allows you to loop emotes for users in the room. It automatically repeats an emote after its duration ends, until explicitly stopped or an error occurs.</p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>Only one emote loop can be active per user at a time. Starting a new loop for a user will automatically stop their current one.</p>
+</blockquote>
+<h2 id="methods-19"><a class="header" href="#methods-19">Methods</a></h2>
+<h3 id="startuser-identifier"><a class="header" href="#startuser-identifier">start(user, identifier)</a></h3>
+<p>Starts a looping emote for a user. The <code>identifier</code> can be the emote’s name, ID, or index number.</p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>Passing index as a string will be serialized to number internally by warping it using <code>Number()</code></p>
+</blockquote>
+<pre><code class="language-javascript">const emote = await bot.looper.start(user, "Rest");
+
+if (emote) {
+    console.log(`Looping ${emote.name} for ${user.username}`);
+}
+</code></pre>
+<pre><code class="language-javascript">// by ID
+await bot.looper.start(user, "sit-idle-cute");
+
+// by index
+await bot.looper.start(user, "1");
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>user</code></td><td><code>User</code></td><td>The user to loop the emote for</td></tr>
+<tr><td><code>identifier</code></td><td><code>string</code></td><td>Emote name, ID, or index (e.g. <code>"Rest"</code>, <code>"sit-idle-cute"</code>, <code>"1"</code>)</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <a href="#emote-2"><code>Emote</code></a> or <code>null</code></p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>Returns <code>null</code> if the emote was not found or if the user is already looping the same emote.</p>
+</blockquote>
+<h3 id="stopuserid"><a class="header" href="#stopuserid">stop(userId)</a></h3>
+<p>Stops the active emote loop for a user.</p>
+<pre><code class="language-javascript">const emote = bot.looper.stop(user.id);
+
+if (emote) {
+    console.log(`Stopped looping ${emote.name}`);
+}
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>userId</code></td><td><code>string</code></td><td>The user’s unique ID</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <a href="#emote-2"><code>Emote</code></a> or <code>undefined</code> if no loop was active</p>
+<h3 id="destroy"><a class="header" href="#destroy">destroy()</a></h3>
+<p>Stops all active emote loops and clears all internal state. Called automatically on logout.</p>
+<pre><code class="language-javascript">bot.looper.destroy();
+</code></pre>
+<p><strong>Returns:</strong> <code>void</code></p>
+<h2 id="complete-example-20"><a class="header" href="#complete-example-20">Complete example</a></h2>
+<pre><code class="language-javascript">bot.on('Chat', async (user, message) =&gt; {
+    const cmd = message.command();
+
+    if (cmd === '!loop') {
+        const identifier = message.args(0);
+
+        if (!identifier) {
+            await bot.message.send('Usage: !loop &lt;emote name, id, or index&gt;');
+            return;
+        }
+
+        const emote = await bot.looper.start(user, identifier);
+
+        if (!emote) {
+            await bot.message.send(`Could not start loop. Emote not found or already looping.`);
+            return;
+        }
+
+        await bot.message.send(`Looping ${emote.name} for you!`);
+        return;
+    }
+
+    if (cmd === '!stoplooop') {
+        const emote = bot.looper.stop(user.id);
+
+        if (!emote) {
+            await bot.message.send(`You don't have an active emote loop.`);
+            return;
+        }
+
+        await bot.message.send(`Stopped looping ${emote.name}.`);
+        return;
+    }
+});
+</code></pre>
+<h2 id="emote-2"><a class="header" href="#emote-2">Emote</a></h2>
+<pre><code class="language-typescript">{
+    id: string;        // unique emote identifier (e.g. "sit-idle-cute")
+    name: string;      // display name (e.g. "Rest")
+    duration: number;  // emote duration in seconds (e.g. 17.06)
+}
+</code></pre>
+<h2 id="important-things-to-know-29"><a class="header" href="#important-things-to-know-29">Important things to know</a></h2>
+<p><strong>The loop stops automatically on error.</strong> If the emote API returns an error mid-loop, the loop is cleaned up and will not retry.</p>
+<p><strong>Starting a new emote stops the current one.</strong> If a user is already looping an emote and you call <code>start</code> with a different emote, the current loop is stopped first.</p>
+<p><strong>Index is 1-based in <code>start</code>.</strong> Unlike <code>bot.utils.emotes.getByIndex</code> which is zero-based, passing an index string to <code>start</code> is 1-based (e.g. <code>"1"</code> returns the first emote).</p>
 
                     </main>
 
