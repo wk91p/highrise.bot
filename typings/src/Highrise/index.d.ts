@@ -1,6 +1,7 @@
 import { EventMap, Metadata } from "../Highrise/EventMap";
 
 import UtilsApi from "../Api/Utils";
+import Roles from "../Tools/Roles"
 import RoomApi from "../Api/Room";
 import ChatApi from "../Api/Message/Chat";
 import WhisperApi from "../Api/Message/Whisper";
@@ -86,6 +87,20 @@ declare class Highrise {
      * Provides methods to retrieve emotes by ID, name, index, and more.
      */
     emotes: EmotesManager
+
+    /**
+     * Manages role-based access control for the bot.
+     * 
+     * Automatically fetches and syncs room moderators and owner on initialization,
+     * and refreshes them every 10 minutes. Custom roles can be assigned, removed,
+     * and queried at runtime.
+     * 
+     * Roles can be persisted to a file by setting the `persistPath` option in the
+     * {@link Highrise} constructor. The file is saved every 7.5 minutes and on process exit.
+     * 
+     * @see {@link Roles}
+     */
+    roles: Roles
 
     /** 
      * The login credentials used for the current session.

@@ -77,4 +77,4 @@ declare class Roles {
     isModerator(userId: string): boolean
 }
 
-export { Roles }
+export default Roles

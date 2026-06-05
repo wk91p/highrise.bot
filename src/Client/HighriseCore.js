@@ -179,6 +179,8 @@ class HighriseCore extends EventEmitter {
         this.player = this.#botApi.player
         this.room = this.#botApi.room
         this.webapi = this.#botApi.webapi
+        this.roles = this.#botApi.roles
+        
         this.await = this.#ctx.await
     }
 

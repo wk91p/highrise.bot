@@ -55,7 +55,7 @@ bot.once('Ready', async (metadata) => {
 You will use `bot.on()` for almost everything. The main place you use
 `bot.once()` is the `Ready` event, because your bot reconnects
 automatically when the connection drops and you usually do not want your
-setup code running every time that happens.
+setup code running every time that happens, unless you want to move the bot since it will reconnect and the position may be reset to the room door.
 
 ## Multiple listeners on the same event
 
@@ -80,6 +80,8 @@ Both of these will run every time someone sends a message. This is
 useful when you want to keep different pieces of logic separate from
 each other. Just be aware that they run in the order they were
 registered.
+
+Like you can can use `bot.once` for `Ready` event for one time things and another listener `bot.on` for repeated actions like `bot.player.move` or `bot.player.teleport` that will be run every time the bot reconnect to keep it position
 
 ## async and await
 

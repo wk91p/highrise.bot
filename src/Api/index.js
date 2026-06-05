@@ -8,6 +8,7 @@ const PlayerApi = require("./Player");
 const UtilsApi = require("./Utils");
 const WebApi = require("../WebApi");
 const RoomApi = require("./Room");
+const Roles = require("../Tools/Roles");
 
 class BotApi {
     constructor(ctx) {
@@ -21,6 +22,8 @@ class BotApi {
         this.room = new RoomApi(ctx, this.utils)
         this.player = new PlayerApi(ctx, this.utils)
         this.inventory = new InventoryApi(ctx, this.utils)
+
+        this.roles = new Roles(ctx, this.webapi)
     }
 }
 

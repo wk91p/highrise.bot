@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-0322ce87.js";
+            window.path_to_searchindex_js = "../searchindex-00c9f3e9.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-6b736f9a.js"></script>
@@ -208,7 +208,7 @@ bot.utils      // sleep, uptime, splitMessages and more
 <code>bot.player</code> knows everything about interacting with players.
 <code>bot.inventory</code> knows everything about items and currency in bot. You will
 never need to go looking for something in the wrong place.</p>
-<h2 id="the-three-getters"><a class="header" href="#the-three-getters">The three getters</a></h2>
+<h2 id="the-getters"><a class="header" href="#the-getters">The getters</a></h2>
 <p>The bot also has three read-only properties you can access at any time:</p>
 <h3 id="botmetadata"><a class="header" href="#botmetadata">bot.metadata</a></h3>
 <p>This gives you information about the bot and the room it connected to.
@@ -231,6 +231,10 @@ reconnecting after a dropped connection.</p>
 <p>This is the timestamp in milliseconds of when the bot last successfully
 connected. It resets every time the bot reconnects.</p>
 <pre><code class="language-javascript">bot.connectTime  // e.g. 1710000000000
+</code></pre>
+<h3 id="botstatus"><a class="header" href="#botstatus">bot.status</a></h3>
+<p>this shows the current bot connection status during runtime.</p>
+<pre><code class="language-javascript">bot.status // online, offline, connecting, failure
 </code></pre>
 <p>You can use this to calculate uptime yourself, but <code>bot.utils.uptime()</code>
 already does that for you and returns a clean string like <code>2h 30m 15s</code>.</p>
