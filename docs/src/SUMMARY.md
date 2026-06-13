@@ -68,6 +68,8 @@
 
 - [Roles](tools/Roles/README.md)
 
-- [EmotesManager](tools/EmotesManager/README.md)
+- [Emotes Manager](tools/EmotesManager/README.md)
 
-- [EmoteLooper](tools/EmoteLooper/README.md)
+- [Emote Looper](tools/EmoteLooper/README.md)
+
+- [Http Client](tools/HttpClient/README.md)
