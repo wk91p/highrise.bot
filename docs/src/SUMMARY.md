@@ -74,6 +74,8 @@
 
 - [Http Client](tools/HttpClient/README.md)
 
+- [Command Manager](tools/CommandManager/README.md)
+
 # Helpers Reference
 
 - [Outfit Item Class](helpers/outfitItem.md)

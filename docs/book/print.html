@@ -37,10 +37,10 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-f15465a8.js";
+            window.path_to_searchindex_js = "searchindex-d5c3f8eb.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-b77c0691.js"></script>
+        <script src="toc-66ef512f.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -7090,6 +7090,163 @@ bot.on("Chat", async (user, message) =&gt; {
     // handle the error
     await bot.message.send("Something went wrong.")
 }
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="botcommand"><a class="header" href="#botcommand">bot.command</a></h1>
+<p>The <code>bot.command</code> API provides a file-based command system for your bot. It automatically scans a folder for command files, loads them, and registers them. Commands can be triggered by name or alias.</p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p><code>bot.command</code> is <code>null</code> if <code>commandManager</code> is not passed in the constructor options.</p>
+</blockquote>
+<h2 id="setup"><a class="header" href="#setup">Setup</a></h2>
+<pre><code class="language-javascript">const { Highrise } = require("highrise.bot")
+
+const bot = new Highrise({
+    commandManager: {
+        folderPath: "./commands"
+    }
+})
+</code></pre>
+<h2 id="command-files"><a class="header" href="#command-files">Command files</a></h2>
+<p>Each command is a <code>.js</code> file that exports an object with a <code>name</code> and an <code>execute</code> function.</p>
+<pre><code class="language-javascript">// commands/ping.js
+module.exports = {
+    name: "ping",
+    desc: "Replies with pong",
+    aliases: ["p"],
+    execute: async (context) =&gt; {
+        await context.bot.message.send("pong!")
+    }
+}
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Property</th><th>Type</th><th>Required</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>name</code></td><td><code>string</code></td><td>Yes</td><td>The primary name used to trigger the command (e.g. <code>"ping"</code>)</td></tr>
+<tr><td><code>execute</code></td><td><code>function</code></td><td>Yes</td><td>The function executed when the command is triggered</td></tr>
+<tr><td><code>aliases</code></td><td><code>string[]</code></td><td>No</td><td>Alternative names that also trigger the command (e.g. <code>["p"]</code>)</td></tr>
+<tr><td><code>desc</code></td><td><code>string</code></td><td>No</td><td>Description of what the command does</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="methods-22"><a class="header" href="#methods-22">Methods</a></h2>
+<h3 id="handlecommandname-context"><a class="header" href="#handlecommandname-context">handle(commandName, context)</a></h3>
+<p>Looks up and executes a command by name or alias.</p>
+<pre><code class="language-javascript">bot.on("Chat", async (user, message) =&gt; {
+    const cmd = message.command()
+    if (!cmd) return
+
+    bot.command.handle(cmd, { bot, user, message })
+})
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>commandName</code></td><td><code>string</code></td><td>The name or alias of the command to execute</td></tr>
+<tr><td><code>context</code></td><td><code>any</code></td><td>The context passed to the command’s <code>execute</code> function</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>true</code> if the command was found and executed, <code>false</code> if not found.</p>
+<h3 id="registermodule"><a class="header" href="#registermodule">register(module)</a></h3>
+<p>Manually registers a command at runtime without needing a file.</p>
+<pre><code class="language-javascript">bot.command.register({
+    name: "hello",
+    desc: "Greets the user",
+    execute: async (context) =&gt; {
+        await context.bot.message.send(`Hello, ${context.user.username}!`)
+    }
+})
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>module</code></td><td><code>Command</code></td><td>The command object to register</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>true</code> if registered successfully, <code>false</code> if validation failed or a name collision was detected.</p>
+<h3 id="unregistername"><a class="header" href="#unregistername">unregister(name)</a></h3>
+<p>Removes a command and all its aliases by name.</p>
+<pre><code class="language-javascript">bot.command.unregister("ping")
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>name</code></td><td><code>string</code></td><td>The primary name or alias of the command to remove</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>true</code> if removed successfully, <code>false</code> if not found.</p>
+<h3 id="init"><a class="header" href="#init">init()</a></h3>
+<p>Rescans and reloads all command files from the folder. Useful if you add new files at runtime without restarting the bot.</p>
+<pre><code class="language-javascript">bot.command.init()
+</code></pre>
+<p><strong>Returns:</strong> <code>void</code></p>
+<h2 id="complete-example-23"><a class="header" href="#complete-example-23">Complete example</a></h2>
+<pre><code class="language-javascript">// commands/ping.js
+module.exports = {
+    name: "ping",
+    aliases: ["p"],
+    desc: "Replies with pong",
+    execute: async ({ bot }) =&gt; {
+        await bot.message.send("pong!")
+    }
+}
+
+// commands/greet.js
+module.exports = {
+    name: "greet",
+    desc: "Greets the user by name",
+    execute: async ({ bot, user }) =&gt; {
+        await bot.message.send(`Hello, ${user.username}!`)
+    }
+}
+</code></pre>
+<pre><code class="language-javascript">// index.js
+const { Highrise } = require("highrise.bot")
+
+const bot = new Highrise({
+    commandManager: {
+        folderPath: "./commands"
+    }
+})
+
+bot.on("Chat", async (user, message) =&gt; {
+    const cmd = message.command()
+    if (!cmd) return
+
+    const handled = bot.command.handle(cmd, { bot, user, message })
+
+    if (!handled) {
+        await bot.message.send(`Unknown command: ${cmd}`)
+    }
+})
+
+bot.login("token", "roomId")
+</code></pre>
+<h2 id="important-things-to-know-32"><a class="header" href="#important-things-to-know-32">Important things to know</a></h2>
+<p><strong>Files are loaded automatically on startup.</strong> Any <code>.js</code> file inside the <code>folderPath</code> (including subfolders) is scanned and registered when the bot starts.</p>
+<p><strong>Name collisions are skipped with a warning.</strong> If two commands share the same name or alias, the second one is skipped and an error is logged.</p>
+<p><strong><code>bot.command</code> is <code>null</code> without <code>commandManager</code> options.</strong> Always check before calling methods if <code>commandManager</code> is optional in your setup:</p>
+<pre><code class="language-javascript">if (bot.command) {
+    bot.command.handle(cmd, context)
+}
+</code></pre>
+<p><strong><code>context</code> is whatever you pass.</strong> The SDK does not define a context shape, you decide what to include when calling <code>handle</code>. Pass anything your commands need:</p>
+<pre><code class="language-javascript">bot.command.handle(cmd, { bot, user, message, roles: bot.roles })
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="outfit-item"><a class="header" href="#outfit-item">Outfit Item</a></h1>
