@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-34b94c81.js";
+            window.path_to_searchindex_js = "../searchindex-f15465a8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-b77c0691.js"></script>
@@ -194,7 +194,7 @@ that exist across the entire Highrise platform.</p>
 <h2 id="the-user-object"><a class="header" href="#the-user-object">The user object</a></h2>
 <pre><code class="language-javascript">bot.on('Direct', async (user, message, conversation) =&gt; {
     console.log(user.id)        // the sender's user ID
-    console.log(user.username)  // always null — see below
+    console.log(user.username)  // always null - see below
 });
 </code></pre>
 <h2 id="why-username-is-always-null"><a class="header" href="#why-username-is-always-null">Why username is always null</a></h2>
@@ -252,7 +252,7 @@ including a greeting that handles the null username gracefully:</p>
         return;
     }
 
-    // !gold — show the bot's wallet balance privately
+    // !gold - show the bot's wallet balance privately
     if (cmd === '!gold') {
         const wallet = await bot.inventory.wallet.get();
 

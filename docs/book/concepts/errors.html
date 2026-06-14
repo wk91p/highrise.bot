@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-34b94c81.js";
+            window.path_to_searchindex_js = "../searchindex-f15465a8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-b77c0691.js"></script>
@@ -252,7 +252,7 @@ if (!result.ok) {
 await bot.message.send('Item purchased!');
 </code></pre>
 <p><code>BuyItemResponse</code> and <code>BuyRoomBoostResponse</code> have two extra boolean
-properties — <code>success</code> and <code>insufficientFunds</code> — because these are the
+properties - <code>success</code> and <code>insufficientFunds</code> - because these are the
 two outcomes worth handling differently. <code>insufficientFunds</code> lets you
 give users a meaningful message instead of a generic error.</p>
 <h2 id="validation-errors"><a class="header" href="#validation-errors">Validation errors</a></h2>
@@ -296,9 +296,9 @@ trying to reconnect and logs the reason:</p>
 </code></pre>
 <p>The three fatal errors that trigger this are:</p>
 <ul>
-<li><code>API token not found</code> — your token is wrong or was deleted</li>
-<li><code>Room not found</code> — the room ID is incorrect or the room was deleted</li>
-<li><code>Invalid room id</code> — the room ID format is wrong</li>
+<li><code>API token not found</code> - your token is wrong or was deleted</li>
+<li><code>Room not found</code> - the room ID is incorrect or the room was deleted</li>
+<li><code>Invalid room id</code> - the room ID format is wrong</li>
 </ul>
 <p>When you see this, fix your <code>.env</code> file and restart the bot. No amount
 of retrying will fix a bad token.</p>

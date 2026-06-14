@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-34b94c81.js";
+            window.path_to_searchindex_js = "../../searchindex-f15465a8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-b77c0691.js"></script>
@@ -228,7 +228,7 @@ the WebSocket connection is established and resets upon reconnection.</p>
 <pre><code class="language-javascript">const uptime = bot.utils.uptime();
 console.log(uptime); // "2h 30m 15s"
 </code></pre>
-<p><strong>Returns:</strong> <code>string</code> — Formatted uptime or <code>"Offline"</code> if not connected</p>
+<p><strong>Returns:</strong> <code>string</code> - Formatted uptime or <code>"Offline"</code> if not connected</p>
 <h3 id="formattimems"><a class="header" href="#formattimems">formatTime(ms)</a></h3>
 <p>Converts milliseconds into a human-readable duration string.</p>
 <pre><code class="language-javascript">bot.utils.formatTime(3665000); // "1h 1m 5s"
@@ -245,7 +245,7 @@ bot.utils.formatTime(5000);    // "5s"
 </tbody>
 </table>
 </div>
-<p><strong>Returns:</strong> <code>string</code> — Formatted like <code>"2d 5h 13m 42s"</code></p>
+<p><strong>Returns:</strong> <code>string</code> - Formatted like <code>"2d 5h 13m 42s"</code></p>
 <h3 id="splitmessagestext-limit"><a class="header" href="#splitmessagestext-limit">splitMessages(text, limit)</a></h3>
 <p>Splits long text into chunks of specified length, respecting word
 boundaries. Useful when you need to send messages longer than the
@@ -268,7 +268,7 @@ for (const chunk of chunks) {
 </tbody>
 </table>
 </div>
-<p><strong>Returns:</strong> <code>string[]</code> — Array of text chunks</p>
+<p><strong>Returns:</strong> <code>string[]</code> - Array of text chunks</p>
 <blockquote>
 <p><strong>Note:</strong> <code>bot.message.send()</code> and <code>bot.whisper.send()</code> already split
 long messages automatically. Use this method only when you need custom
@@ -291,7 +291,7 @@ bot.utils.sequencingGoldBars(1234);   // [1000, 100, 100, 10, 10, 10, 1, 1, 1, 1
 </tbody>
 </table>
 </div>
-<p><strong>Returns:</strong> <code>number[]</code> — Valid gold bar denominations in descending order</p>
+<p><strong>Returns:</strong> <code>number[]</code> - Valid gold bar denominations in descending order</p>
 <p><strong>Valid denominations:</strong> 10000, 5000, 1000, 500, 100, 50, 10, 5, 1</p>
 <blockquote>
 <p><strong>Note:</strong> <code>bot.player.splitTip()</code> uses this internally. Use this

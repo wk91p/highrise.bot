@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-34b94c81.js";
+            window.path_to_searchindex_js = "../../searchindex-f15465a8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-b77c0691.js"></script>
@@ -190,7 +190,7 @@ Get details about a specific room or browse rooms by name and owner.</p>
 <pre><code class="language-javascript">const room = await bot.webapi.rooms.get(bot.credential.roomId);
 
 if (room.ok) {
-    console.log(`${room.name} — ${room.playersOnline} online`);
+    console.log(`${room.name} - ${room.playersOnline} online`);
 }
 </code></pre>
 <div class="table-wrapper">
@@ -207,7 +207,7 @@ if (room.ok) {
 <h3 id="listparams"><a class="header" href="#listparams">list(params)</a></h3>
 <p>Fetches a filtered, paginated list of rooms. Defaults to 20 rooms in
 descending order if no params are passed.</p>
-<pre><code class="language-javascript">// default — 20 rooms descending
+<pre><code class="language-javascript">// default - 20 rooms descending
 const rooms = await bot.webapi.rooms.list();
 
 // only 5 rooms

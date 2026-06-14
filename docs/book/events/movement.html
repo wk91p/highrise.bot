@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-34b94c81.js";
+            window.path_to_searchindex_js = "../searchindex-f15465a8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-b77c0691.js"></script>
@@ -265,7 +265,7 @@ handler as fast as possible. If the first thing you do is check a
 condition and return early, do that check before anything else so the
 expensive code never runs unnecessarily:</p>
 <pre><code class="language-javascript">bot.on('Movement', async (user, position, anchor) =&gt; {
-    // cheap check first — exit immediately if we do not care about this user
+    // cheap check first - exit immediately if we do not care about this user
     if (!trackedUsers.has(user.id)) return;
 
     // only reaches here for users we actually care about

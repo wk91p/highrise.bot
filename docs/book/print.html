@@ -37,7 +37,7 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-34b94c81.js";
+            window.path_to_searchindex_js = "searchindex-f15465a8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-b77c0691.js"></script>
@@ -858,9 +858,9 @@ specific argument at that position:</p>
     // user typed: "!kick @Unfairly spamming"
 
     message.args()     // ["@Unfairly", "spamming"]
-    message.args(0)    // "@Unfairly"   — first argument
-    message.args(1)    // "spamming" — second argument
-    message.args(5)    // null      — does not exist, never crashes
+    message.args(0)    // "@Unfairly"   - first argument
+    message.args(1)    // "spamming" - second argument
+    message.args(5)    // null      - does not exist, never crashes
 });
 </code></pre>
 <p>If there are no arguments, <code>message.args()</code> returns an empty array <code>[]</code>
@@ -1054,7 +1054,7 @@ if (!result.ok) {
 await bot.message.send('Item purchased!');
 </code></pre>
 <p><code>BuyItemResponse</code> and <code>BuyRoomBoostResponse</code> have two extra boolean
-properties — <code>success</code> and <code>insufficientFunds</code> — because these are the
+properties - <code>success</code> and <code>insufficientFunds</code> - because these are the
 two outcomes worth handling differently. <code>insufficientFunds</code> lets you
 give users a meaningful message instead of a generic error.</p>
 <h2 id="validation-errors"><a class="header" href="#validation-errors">Validation errors</a></h2>
@@ -1098,9 +1098,9 @@ trying to reconnect and logs the reason:</p>
 </code></pre>
 <p>The three fatal errors that trigger this are:</p>
 <ul>
-<li><code>API token not found</code> — your token is wrong or was deleted</li>
-<li><code>Room not found</code> — the room ID is incorrect or the room was deleted</li>
-<li><code>Invalid room id</code> — the room ID format is wrong</li>
+<li><code>API token not found</code> - your token is wrong or was deleted</li>
+<li><code>Room not found</code> - the room ID is incorrect or the room was deleted</li>
+<li><code>Invalid room id</code> - the room ID format is wrong</li>
 </ul>
 <p>When you see this, fix your <code>.env</code> file and restart the bot. No amount
 of retrying will fix a bad token.</p>
@@ -1479,13 +1479,13 @@ bot.metadata.room.ownerId
 <p>This is useful when you need the bot’s ID or room name inside another
 event handler and do not want to store them in a variable yourself.</p>
 <p>The three most commonly used properties are:</p>
-<p><code>metadata.botId</code> — the bot’s own user ID. Useful when you need to know
+<p><code>metadata.botId</code> - the bot’s own user ID. Useful when you need to know
 whether a tip was sent to the bot specifically, or for anything that
 needs to reference the bot as a user.</p>
-<p><code>metadata.room.roomName</code> — the display name of the room the bot
+<p><code>metadata.room.roomName</code> - the display name of the room the bot
 connected to. Great for logging so you always know which room is which
 in your terminal.</p>
-<p><code>metadata.room.ownerId</code> — the user ID of the person who owns the room.
+<p><code>metadata.room.ownerId</code> - the user ID of the person who owns the room.
 Useful if you want to automatically give the room owner special
 permissions without hardcoding their ID.</p>
 <h2 id="a-complete-example-1"><a class="header" href="#a-complete-example-1">A complete example</a></h2>
@@ -1634,11 +1634,11 @@ covered the message object in detail in the
 quick reminder of what it gives you:</p>
 <pre><code class="language-javascript">bot.on('Chat', async (user, message) =&gt; {
     message.content      // the full message text, trimmed of whitespace
-    message.command()    // the first word — "!ping hello" → "!ping"
-    message.args()       // everything after — "!ping hello world" → ["hello", "world"]
-    message.args(0)      // first argument — "yahya"
-    message.mentions()   // any @mentions — ["Unfairly"]
-    message.mentions(0)  // first mention — "Unfairly"
+    message.command()    // the first word - "!ping hello" → "!ping"
+    message.args()       // everything after - "!ping hello world" → ["hello", "world"]
+    message.args(0)      // first argument - "yahya"
+    message.mentions()   // any @mentions - ["Unfairly"]
+    message.mentions(0)  // first mention - "Unfairly"
 });
 </code></pre>
 <h2 id="bot-messages-are-filtered-automatically"><a class="header" href="#bot-messages-are-filtered-automatically">Bot messages are filtered automatically</a></h2>
@@ -1672,7 +1672,7 @@ line explained so you know exactly what is happening and why:</p>
     const cmd = message.command();
 
     // !ping
-    // the simplest command — just checks if the bot is alive and responding
+    // the simplest command - just checks if the bot is alive and responding
     if (cmd === '!ping') {
         await bot.message.send('Pong! 🏓');
         return;
@@ -2128,7 +2128,7 @@ handler as fast as possible. If the first thing you do is check a
 condition and return early, do that check before anything else so the
 expensive code never runs unnecessarily:</p>
 <pre><code class="language-javascript">bot.on('Movement', async (user, position, anchor) =&gt; {
-    // cheap check first — exit immediately if we do not care about this user
+    // cheap check first - exit immediately if we do not care about this user
     if (!trackedUsers.has(user.id)) return;
 
     // only reaches here for users we actually care about
@@ -2318,7 +2318,7 @@ that exist across the entire Highrise platform.</p>
 <h2 id="the-user-object-4"><a class="header" href="#the-user-object-4">The user object</a></h2>
 <pre><code class="language-javascript">bot.on('Direct', async (user, message, conversation) =&gt; {
     console.log(user.id)        // the sender's user ID
-    console.log(user.username)  // always null — see below
+    console.log(user.username)  // always null - see below
 });
 </code></pre>
 <h2 id="why-username-is-always-null"><a class="header" href="#why-username-is-always-null">Why username is always null</a></h2>
@@ -2376,7 +2376,7 @@ including a greeting that handles the null username gracefully:</p>
         return;
     }
 
-    // !gold — show the bot's wallet balance privately
+    // !gold - show the bot's wallet balance privately
     if (cmd === '!gold') {
         const wallet = await bot.inventory.wallet.get();
 
@@ -3236,7 +3236,7 @@ the data.</p>
 <pre><code class="language-javascript">const total = await bot.room.users.count();
 console.log(`${total} users online`);
 </code></pre>
-<p><strong>Returns:</strong> <code>Promise&lt;number&gt;</code> — 0 if an error occurs</p>
+<p><strong>Returns:</strong> <code>Promise&lt;number&gt;</code> - 0 if an error occurs</p>
 <p>This is a shorthand. It fetches the room and returns just the count.</p>
 <h3 id="hasidentifier"><a class="header" href="#hasidentifier">has(identifier)</a></h3>
 <p>Checks if a user is in the room by their ID or username.</p>
@@ -5114,7 +5114,7 @@ the WebSocket connection is established and resets upon reconnection.</p>
 <pre><code class="language-javascript">const uptime = bot.utils.uptime();
 console.log(uptime); // "2h 30m 15s"
 </code></pre>
-<p><strong>Returns:</strong> <code>string</code> — Formatted uptime or <code>"Offline"</code> if not connected</p>
+<p><strong>Returns:</strong> <code>string</code> - Formatted uptime or <code>"Offline"</code> if not connected</p>
 <h3 id="formattimems"><a class="header" href="#formattimems">formatTime(ms)</a></h3>
 <p>Converts milliseconds into a human-readable duration string.</p>
 <pre><code class="language-javascript">bot.utils.formatTime(3665000); // "1h 1m 5s"
@@ -5131,7 +5131,7 @@ bot.utils.formatTime(5000);    // "5s"
 </tbody>
 </table>
 </div>
-<p><strong>Returns:</strong> <code>string</code> — Formatted like <code>"2d 5h 13m 42s"</code></p>
+<p><strong>Returns:</strong> <code>string</code> - Formatted like <code>"2d 5h 13m 42s"</code></p>
 <h3 id="splitmessagestext-limit"><a class="header" href="#splitmessagestext-limit">splitMessages(text, limit)</a></h3>
 <p>Splits long text into chunks of specified length, respecting word
 boundaries. Useful when you need to send messages longer than the
@@ -5154,7 +5154,7 @@ for (const chunk of chunks) {
 </tbody>
 </table>
 </div>
-<p><strong>Returns:</strong> <code>string[]</code> — Array of text chunks</p>
+<p><strong>Returns:</strong> <code>string[]</code> - Array of text chunks</p>
 <blockquote>
 <p><strong>Note:</strong> <code>bot.message.send()</code> and <code>bot.whisper.send()</code> already split
 long messages automatically. Use this method only when you need custom
@@ -5177,7 +5177,7 @@ bot.utils.sequencingGoldBars(1234);   // [1000, 100, 100, 10, 10, 10, 1, 1, 1, 1
 </tbody>
 </table>
 </div>
-<p><strong>Returns:</strong> <code>number[]</code> — Valid gold bar denominations in descending order</p>
+<p><strong>Returns:</strong> <code>number[]</code> - Valid gold bar denominations in descending order</p>
 <p><strong>Valid denominations:</strong> 10000, 5000, 1000, 500, 100, 50, 10, 5, 1</p>
 <blockquote>
 <p><strong>Note:</strong> <code>bot.player.splitTip()</code> uses this internally. Use this
@@ -5488,7 +5488,7 @@ Get details about a specific room or browse rooms by name and owner.</p>
 <pre><code class="language-javascript">const room = await bot.webapi.rooms.get(bot.credential.roomId);
 
 if (room.ok) {
-    console.log(`${room.name} — ${room.playersOnline} online`);
+    console.log(`${room.name} - ${room.playersOnline} online`);
 }
 </code></pre>
 <div class="table-wrapper">
@@ -5505,7 +5505,7 @@ if (room.ok) {
 <h3 id="listparams"><a class="header" href="#listparams">list(params)</a></h3>
 <p>Fetches a filtered, paginated list of rooms. Defaults to 20 rooms in
 descending order if no params are passed.</p>
-<pre><code class="language-javascript">// default — 20 rooms descending
+<pre><code class="language-javascript">// default - 20 rooms descending
 const rooms = await bot.webapi.rooms.list();
 
 // only 5 rooms
@@ -6075,7 +6075,7 @@ list active grabs and inspect their rewards, costs, and kompu progress.</p>
 
 if (result.ok) {
     result.grabs.forEach(grab =&gt; {
-        console.log(`${grab.title} — expires ${grab.expiresAt}`);
+        console.log(`${grab.title} - expires ${grab.expiresAt}`);
     });
 }
 </code></pre>
@@ -6657,7 +6657,7 @@ await bot.message.send(`Your roles: ${roles.join(', ')}`);
 <pre><code class="language-javascript">const emote = bot.utils.emotes.getById("sit-idle-cute");
 
 if (emote) {
-    console.log(`${emote.name} — ${emote.duration}s`);
+    console.log(`${emote.name} - ${emote.duration}s`);
 }
 </code></pre>
 <div class="table-wrapper">
@@ -6676,7 +6676,7 @@ if (emote) {
 <pre><code class="language-javascript">const emote = bot.utils.emotes.getByName("Rest");
 
 if (emote) {
-    console.log(`${emote.id} — ${emote.duration}s`);
+    console.log(`${emote.id} - ${emote.duration}s`);
 }
 </code></pre>
 <div class="table-wrapper">

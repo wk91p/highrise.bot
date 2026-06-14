@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-34b94c81.js";
+            window.path_to_searchindex_js = "../searchindex-f15465a8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-b77c0691.js"></script>
@@ -214,11 +214,11 @@ covered the message object in detail in the
 quick reminder of what it gives you:</p>
 <pre><code class="language-javascript">bot.on('Chat', async (user, message) =&gt; {
     message.content      // the full message text, trimmed of whitespace
-    message.command()    // the first word — "!ping hello" → "!ping"
-    message.args()       // everything after — "!ping hello world" → ["hello", "world"]
-    message.args(0)      // first argument — "yahya"
-    message.mentions()   // any @mentions — ["Unfairly"]
-    message.mentions(0)  // first mention — "Unfairly"
+    message.command()    // the first word - "!ping hello" → "!ping"
+    message.args()       // everything after - "!ping hello world" → ["hello", "world"]
+    message.args(0)      // first argument - "yahya"
+    message.mentions()   // any @mentions - ["Unfairly"]
+    message.mentions(0)  // first mention - "Unfairly"
 });
 </code></pre>
 <h2 id="bot-messages-are-filtered-automatically"><a class="header" href="#bot-messages-are-filtered-automatically">Bot messages are filtered automatically</a></h2>
@@ -252,7 +252,7 @@ line explained so you know exactly what is happening and why:</p>
     const cmd = message.command();
 
     // !ping
-    // the simplest command — just checks if the bot is alive and responding
+    // the simplest command - just checks if the bot is alive and responding
     if (cmd === '!ping') {
         await bot.message.send('Pong! 🏓');
         return;
