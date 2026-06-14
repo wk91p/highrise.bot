@@ -23,6 +23,16 @@ declare class Validator {
     number(value: unknown, field: string): this;
 
     /**
+     * Validates that a value is a function
+     * @param value - The value to validate
+     * @param field - The field name for error messages
+     * @returns The current Validator instance for chaining 
+     * @example
+     * validator.function(someFunction, "someFunctionName")
+     */
+    function(value: unknown, field: string): this;
+
+    /**
      * Validates that a value is not null or undefined
      * @param value - The value to validate
      * @param field - The field name for error messages
