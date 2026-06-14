@@ -15,6 +15,13 @@ class Validator {
         return this
     }
 
+    function(value, field) {
+        if (typeof value !== 'function') {
+            throw new Error(`${field} must be a function`)
+        }
+        return this
+    }
+
     required(value, field) {
         if (value === null || value === undefined) {
             throw new Error(`${field} is required`)
