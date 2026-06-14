@@ -73,3 +73,7 @@
 - [Emote Looper](tools/EmoteLooper/README.md)
 
 - [Http Client](tools/HttpClient/README.md)
+
+# Helpers Reference
+
+- [Outfit Item Class](helpers/outfitItem.md)

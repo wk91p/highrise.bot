@@ -37,10 +37,10 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-2fcbd9c5.js";
+            window.path_to_searchindex_js = "searchindex-34b94c81.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-ce713565.js"></script>
+        <script src="toc-b77c0691.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -6895,6 +6895,251 @@ if (emote) {
 <p><strong>The loop stops automatically on error.</strong> If the emote API returns an error mid-loop, the loop is cleaned up and will not retry.</p>
 <p><strong>Starting a new emote stops the current one.</strong> If a user is already looping an emote and you call <code>start</code> with a different emote, the current loop is stopped first.</p>
 <p><strong>Index is 1-based in <code>start</code>.</strong> Unlike <code>bot.utils.emotes.getByIndex</code> which is zero-based, passing an index string to <code>start</code> is 1-based (e.g. <code>"1"</code> returns the first emote).</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="httpclient"><a class="header" href="#httpclient">HttpClient</a></h1>
+<p><code>HttpClient</code> is a lightweight wrapper around <a href="https://axios-http.com">axios</a> used internally by the SDK to make HTTP requests. You can use it directly to call any external API from your bot.</p>
+<h2 id="creating-a-client"><a class="header" href="#creating-a-client">Creating a client</a></h2>
+<p>The constructor accepts a standard <a href="https://axios-http.com/docs/req_config">Axios config object</a>. The most common options are:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>baseURL</code></td><td><code>string</code></td><td>Base URL prepended to every request (e.g. <code>"https://api.example.com"</code>)</td></tr>
+<tr><td><code>timeout</code></td><td><code>number</code></td><td>Request timeout in milliseconds (default: <code>10000</code>)</td></tr>
+<tr><td><code>headers</code></td><td><code>object</code></td><td>Default headers sent with every request</td></tr>
+</tbody>
+</table>
+</div>
+<pre><code class="language-javascript">const { HttpClient } = require("highrise.bot")
+
+const client = new HttpClient({
+    baseURL: "https://api.chucknorris.io",
+    timeout: 5000,
+    headers: {
+        "X-Custom-Header": "my-value"
+    }
+})
+</code></pre>
+<h2 id="methods-21"><a class="header" href="#methods-21">Methods</a></h2>
+<h3 id="geturl-params"><a class="header" href="#geturl-params">get(url, params)</a></h3>
+<p>Performs a GET request. <code>params</code> is an object that gets serialized into the URL as a query string.</p>
+<pre><code class="language-javascript">// GET https://api.chucknorris.io/jokes/random
+const data = await client.get("/jokes/random")
+
+// GET https://api.chucknorris.io/jokes/random?category=science
+const data = await client.get("/jokes/random", { category: "science" })
+
+console.log(data.value) // "Chuck Norris can divide by zero."
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>url</code></td><td><code>string</code></td><td>The endpoint path, appended to <code>baseURL</code></td></tr>
+<tr><td><code>params</code></td><td><code>object</code></td><td>Key-value pairs serialized as query string (e.g. <code>{ category: "science" }</code> to <code>?category=science</code>)</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="posturl-data"><a class="header" href="#posturl-data">post(url, data)</a></h3>
+<p>Performs a POST request. <code>data</code> is sent as a JSON body.</p>
+<pre><code class="language-javascript">// POST https://api.example.com/users
+// Body: { "name": "John" }
+const response = await client.post("/users", { name: "John" })
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>url</code></td><td><code>string</code></td><td>The endpoint path</td></tr>
+<tr><td><code>data</code></td><td><code>object</code></td><td>The JSON body to send with the request</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="puturl-data"><a class="header" href="#puturl-data">put(url, data)</a></h3>
+<p>Performs a PUT request. Used to fully replace an existing resource.</p>
+<pre><code class="language-javascript">// PUT https://api.example.com/users/1
+// Body: { "name": "John Updated" }
+await client.put("/users/1", { name: "John Updated" })
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>url</code></td><td><code>string</code></td><td>The endpoint path</td></tr>
+<tr><td><code>data</code></td><td><code>object</code></td><td>The JSON body to send with the request</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="patchurl-data"><a class="header" href="#patchurl-data">patch(url, data)</a></h3>
+<p>Performs a PATCH request. Used to partially update an existing resource.</p>
+<pre><code class="language-javascript">// PATCH https://api.example.com/users/1
+// Body: { "email": "new@example.com" }
+await client.patch("/users/1", { email: "new@example.com" })
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>url</code></td><td><code>string</code></td><td>The endpoint path</td></tr>
+<tr><td><code>data</code></td><td><code>object</code></td><td>The partial JSON body to send with the request</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="deleteurl-params"><a class="header" href="#deleteurl-params">delete(url, params)</a></h3>
+<p>Performs a DELETE request. Optionally accepts query parameters.</p>
+<pre><code class="language-javascript">// DELETE https://api.example.com/users/1
+await client.delete("/users/1")
+
+// DELETE https://api.example.com/users?id=1
+await client.delete("/users", { id: 1 })
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>url</code></td><td><code>string</code></td><td>The endpoint path</td></tr>
+<tr><td><code>params</code></td><td><code>object</code></td><td>Optional query parameters</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="withtokentoken"><a class="header" href="#withtokentoken">withToken(token)</a></h3>
+<p>Returns a <strong>new</strong> <code>HttpClient</code> instance with an <code>Authorization: Bearer &lt;token&gt;</code> header attached to every request. The original client is not modified.</p>
+<pre><code class="language-javascript">const publicClient = new HttpClient({
+    baseURL: "https://api.example.com"
+})
+
+// publicClient has no auth header
+const authClient = publicClient.withToken("my-secret-token")
+
+// only authClient sends Authorization: Bearer my-secret-token
+const profile = await authClient.get("/profile")
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>token</code></td><td><code>string</code></td><td>The bearer token to attach to the <code>Authorization</code> header</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> A new <code>HttpClient</code> instance with the token attached.</p>
+<h2 id="complete-example-22"><a class="header" href="#complete-example-22">Complete example</a></h2>
+<p>This example uses the <a href="https://api.chucknorris.io">Chuck Norris API</a>, free, no sign up required.</p>
+<pre><code class="language-javascript">const { HttpClient } = require("highrise.bot")
+
+const jokes = new HttpClient({
+    baseURL: "https://api.chucknorris.io"
+})
+
+bot.on("Chat", async (user, message) =&gt; {
+    const cmd = message.command()
+
+    // !joke - sends a random joke
+    if (cmd === "!joke") {
+        try {
+            const data = await jokes.get("/jokes/random")
+            await bot.message.send(data.value)
+        } catch (err) {
+            await bot.message.send("Could not fetch a joke right now.")
+        }
+        return
+    }
+
+    // !joke science - sends a joke from a specific category
+    if (cmd === "!jokecategory") {
+        const category = message.args(0)
+
+        if (!category) {
+            await bot.message.send("Usage: !jokecategory &lt;category&gt;")
+            return
+        }
+
+        try {
+            // passes category as a query param → /jokes/random?category=science
+            const data = await jokes.get("/jokes/random", { category })
+            await bot.message.send(data.value)
+        } catch (err) {
+            await bot.message.send(`No jokes found for category: ${category}`)
+        }
+        return
+    }
+})
+</code></pre>
+<h2 id="important-things-to-know-31"><a class="header" href="#important-things-to-know-31">Important things to know</a></h2>
+<p><strong><code>baseURL</code> is prepended to every request path.</strong> So if <code>baseURL</code> is <code>"https://api.chucknorris.io"</code> and you call <code>.get("/jokes/random")</code>, the full URL becomes <code>https://api.chucknorris.io/jokes/random</code>.</p>
+<p><strong><code>params</code> are not the request body.</strong> They are key-value pairs appended to the URL as a query string. For sending data in the body, use <code>post</code>, <code>put</code>, or <code>patch</code> instead.</p>
+<p><strong><code>withToken</code> does not modify the original client.</strong> It always returns a new instance. This is useful when you need both authenticated and unauthenticated requests from the same base client.</p>
+<p><strong>Errors are not swallowed.</strong> If a request fails (network error, timeout, non-2xx status), it throws. Always wrap calls in <code>try/catch</code>:</p>
+<pre><code class="language-javascript">try {
+    const data = await client.get("/jokes/random")
+} catch (err) {
+    // handle the error
+    await bot.message.send("Something went wrong.")
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="outfit-item"><a class="header" href="#outfit-item">Outfit Item</a></h1>
+<p>Represents a Highrise clothing item that can be equipped to a bot.
+Provides a convenient constructor for creating outfit items without writing
+raw objects by hand.</p>
+<h2 id="parameters-2"><a class="header" href="#parameters-2">Parameters</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Param</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>id</code></td><td><code>string</code></td><td>The unique item identifier (e.g., <code>"shirt-f_marchingband"</code>)</td></tr>
+<tr><td><code>palette</code></td><td><code>number</code></td><td>The color palette index to apply (default: <code>0</code>)</td></tr>
+<tr><td><code>amount</code></td><td><code>number</code></td><td>Quantity of the item (default: <code>1</code>)</td></tr>
+<tr><td><code>account_bound</code></td><td><code>boolean</code></td><td>Whether the item is account bound (default: <code>false</code>)</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="creating-an-outfit-item"><a class="header" href="#creating-an-outfit-item">Creating an Outfit Item</a></h2>
+<p>The class can be imported from the sdk directly</p>
+<pre><code class="language-javascript">const { OutfitItem } = require("highrise.bot")
+
+const shirt = new OutfitItem('shirt-f_marchingband');
+
+await bot.inventory.outfit.set([ shirt ]);
+</code></pre>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>Only that item will be equipped, any previous outfit will be unequipped</p>
+</blockquote>
+<h2 id="new-instance-object"><a class="header" href="#new-instance-object">New Instance Object</a></h2>
+<pre><code class="language-typescript">{
+    // The unique identifier of the item
+    id: string;
+
+    // The category of the item
+    type: "clothing" | string;
+
+    // Quantity of the item
+    amount: number;
+
+    // Whether the item is bound to the account
+    account_bound: boolean;
+
+    // The active color palette index
+    active_palette: number;
+}
+</code></pre>
 
                     </main>
 
