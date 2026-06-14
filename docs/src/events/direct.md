@@ -17,7 +17,7 @@ bot.on('Direct', async (user, message, conversation) => {
 ```javascript
 bot.on('Direct', async (user, message, conversation) => {
     console.log(user.id)        // the sender's user ID
-    console.log(user.username)  // always null — see below
+    console.log(user.username)  // always null - see below
 });
 ```
 
@@ -95,7 +95,7 @@ bot.on('Direct', async (user, message, conversation) => {
         return;
     }
 
-    // !gold — show the bot's wallet balance privately
+    // !gold - show the bot's wallet balance privately
     if (cmd === '!gold') {
         const wallet = await bot.inventory.wallet.get();
 

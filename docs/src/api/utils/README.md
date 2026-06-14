@@ -54,7 +54,7 @@ const uptime = bot.utils.uptime();
 console.log(uptime); // "2h 30m 15s"
 ```
 
-**Returns:** `string` — Formatted uptime or `"Offline"` if not connected
+**Returns:** `string` - Formatted uptime or `"Offline"` if not connected
 
 ### formatTime(ms)
 
@@ -70,7 +70,7 @@ bot.utils.formatTime(5000);    // "5s"
 |-----------|------|-------------|
 | `ms` | `number` | Milliseconds to format |
 
-**Returns:** `string` — Formatted like `"2d 5h 13m 42s"`
+**Returns:** `string` - Formatted like `"2d 5h 13m 42s"`
 
 ### splitMessages(text, limit)
 
@@ -92,7 +92,7 @@ for (const chunk of chunks) {
 | `text` | `string` | The text to split |
 | `limit` | `number` | Maximum characters per chunk |
 
-**Returns:** `string[]` — Array of text chunks
+**Returns:** `string[]` - Array of text chunks
 
 > **Note:** `bot.message.send()` and `bot.whisper.send()` already split
 > long messages automatically. Use this method only when you need custom
@@ -113,7 +113,7 @@ bot.utils.sequencingGoldBars(1234);   // [1000, 100, 100, 10, 10, 10, 1, 1, 1, 1
 |-----------|------|-------------|
 | `amount` | `number` | Total gold amount (rounded down) |
 
-**Returns:** `number[]` — Valid gold bar denominations in descending order
+**Returns:** `number[]` - Valid gold bar denominations in descending order
 
 **Valid denominations:** 10000, 5000, 1000, 500, 100, 50, 10, 5, 1
 

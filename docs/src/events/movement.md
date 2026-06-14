@@ -110,7 +110,7 @@ expensive code never runs unnecessarily:
 
 ```javascript
 bot.on('Movement', async (user, position, anchor) => {
-    // cheap check first — exit immediately if we do not care about this user
+    // cheap check first - exit immediately if we do not care about this user
     if (!trackedUsers.has(user.id)) return;
 
     // only reaches here for users we actually care about

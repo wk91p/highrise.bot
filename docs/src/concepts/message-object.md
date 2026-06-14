@@ -49,9 +49,9 @@ bot.on('Chat', async (user, message) => {
     // user typed: "!kick @Unfairly spamming"
 
     message.args()     // ["@Unfairly", "spamming"]
-    message.args(0)    // "@Unfairly"   — first argument
-    message.args(1)    // "spamming" — second argument
-    message.args(5)    // null      — does not exist, never crashes
+    message.args(0)    // "@Unfairly"   - first argument
+    message.args(1)    // "spamming" - second argument
+    message.args(5)    // null      - does not exist, never crashes
 });
 ```
 

@@ -45,11 +45,11 @@ quick reminder of what it gives you:
 ```javascript
 bot.on('Chat', async (user, message) => {
     message.content      // the full message text, trimmed of whitespace
-    message.command()    // the first word — "!ping hello" → "!ping"
-    message.args()       // everything after — "!ping hello world" → ["hello", "world"]
-    message.args(0)      // first argument — "yahya"
-    message.mentions()   // any @mentions — ["Unfairly"]
-    message.mentions(0)  // first mention — "Unfairly"
+    message.command()    // the first word - "!ping hello" → "!ping"
+    message.args()       // everything after - "!ping hello world" → ["hello", "world"]
+    message.args(0)      // first argument - "yahya"
+    message.mentions()   // any @mentions - ["Unfairly"]
+    message.mentions(0)  // first mention - "Unfairly"
 });
 ```
 
@@ -94,7 +94,7 @@ bot.on('Chat', async (user, message) => {
     const cmd = message.command();
 
     // !ping
-    // the simplest command — just checks if the bot is alive and responding
+    // the simplest command - just checks if the bot is alive and responding
     if (cmd === '!ping') {
         await bot.message.send('Pong! 🏓');
         return;

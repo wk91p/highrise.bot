@@ -93,7 +93,7 @@ await bot.message.send('Item purchased!');
 ```
 
 `BuyItemResponse` and `BuyRoomBoostResponse` have two extra boolean
-properties — `success` and `insufficientFunds` — because these are the
+properties - `success` and `insufficientFunds` - because these are the
 two outcomes worth handling differently. `insufficientFunds` lets you
 give users a meaningful message instead of a generic error.
 
@@ -156,9 +156,9 @@ trying to reconnect and logs the reason:
 
 The three fatal errors that trigger this are:
 
-- `API token not found` — your token is wrong or was deleted
-- `Room not found` — the room ID is incorrect or the room was deleted
-- `Invalid room id` — the room ID format is wrong
+- `API token not found` - your token is wrong or was deleted
+- `Room not found` - the room ID is incorrect or the room was deleted
+- `Invalid room id` - the room ID format is wrong
 
 When you see this, fix your `.env` file and restart the bot. No amount
 of retrying will fix a bad token.

@@ -13,7 +13,7 @@ Fetches full details for a specific room.
 const room = await bot.webapi.rooms.get(bot.credential.roomId);
 
 if (room.ok) {
-    console.log(`${room.name} — ${room.playersOnline} online`);
+    console.log(`${room.name} - ${room.playersOnline} online`);
 }
 ```
 
@@ -29,7 +29,7 @@ Fetches a filtered, paginated list of rooms. Defaults to 20 rooms in
 descending order if no params are passed.
 
 ```javascript
-// default — 20 rooms descending
+// default - 20 rooms descending
 const rooms = await bot.webapi.rooms.list();
 
 // only 5 rooms

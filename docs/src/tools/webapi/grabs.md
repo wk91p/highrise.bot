@@ -15,7 +15,7 @@ const result = await bot.webapi.grabs.list();
 
 if (result.ok) {
     result.grabs.forEach(grab => {
-        console.log(`${grab.title} — expires ${grab.expiresAt}`);
+        console.log(`${grab.title} - expires ${grab.expiresAt}`);
     });
 }
 ```

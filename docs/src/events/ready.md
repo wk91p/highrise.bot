@@ -63,15 +63,15 @@ event handler and do not want to store them in a variable yourself.
 
 The three most commonly used properties are:
 
-`metadata.botId` — the bot's own user ID. Useful when you need to know
+`metadata.botId` - the bot's own user ID. Useful when you need to know
 whether a tip was sent to the bot specifically, or for anything that
 needs to reference the bot as a user.
 
-`metadata.room.roomName` — the display name of the room the bot
+`metadata.room.roomName` - the display name of the room the bot
 connected to. Great for logging so you always know which room is which
 in your terminal.
 
-`metadata.room.ownerId` — the user ID of the person who owns the room.
+`metadata.room.ownerId` - the user ID of the person who owns the room.
 Useful if you want to automatically give the room owner special
 permissions without hardcoding their ID.
 

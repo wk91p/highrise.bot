@@ -28,7 +28,7 @@ const total = await bot.room.users.count();
 console.log(`${total} users online`);
 ```
 
-**Returns:** `Promise<number>` — 0 if an error occurs
+**Returns:** `Promise<number>` - 0 if an error occurs
 
 This is a shorthand. It fetches the room and returns just the count.
 

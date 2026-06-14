@@ -12,7 +12,7 @@ Retrieves an emote by its unique ID.
 const emote = bot.utils.emotes.getById("sit-idle-cute");
 
 if (emote) {
-    console.log(`${emote.name} — ${emote.duration}s`);
+    console.log(`${emote.name} - ${emote.duration}s`);
 }
 ```
 
@@ -30,7 +30,7 @@ Retrieves an emote by its display name.
 const emote = bot.utils.emotes.getByName("Rest");
 
 if (emote) {
-    console.log(`${emote.id} — ${emote.duration}s`);
+    console.log(`${emote.id} - ${emote.duration}s`);
 }
 ```
 
