@@ -11,7 +11,7 @@ class OpenHandler {
         this.keepaliveHandler.start()
 
         this.state.set("connectTime", Date.now())
-        this.state.set("status", "online")
+        this.state.set("status", "Online")
     }
 }
 

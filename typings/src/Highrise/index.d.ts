@@ -141,7 +141,7 @@ declare class Highrise {
     /**
      * Current bot connection status
      */
-    get status(): "online" | "offline" | "connecting" | "failure"
+    get status(): "Online" | "Offline" | "Connecting" | "Failure" | "Invalid room id" | "API token not found"
 
     /**
      * Authenticates the bot and establishes a connection to a specific Highrise room.

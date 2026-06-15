@@ -51,7 +51,7 @@ class HighriseCore extends EventEmitter {
         this.#cleanup()
 
         this.#logger.info('Connection', 'Logged out successfully')
-        this.#state.set("status", "offline")
+        this.#state.set("status", "Offline")
     }
 
     login(token, roomId) {
@@ -72,7 +72,7 @@ class HighriseCore extends EventEmitter {
         this.#state.set('credential', { token, roomId })
         this.#state.set('doNotReconnect', false) // break
         this.#state.set("intervals", []) // id's
-        this.#state.set("status", "connecting") // online, offline, connecting, failure
+        this.#state.set("status", "Connecting") // Online, Offline, Connecting, Failure, Invalid room id, API token not found
 
         this.#setupHandlers()
         this.#setupApi()

@@ -19,13 +19,13 @@ class CloseHandler {
         )
 
         this.keepaliveHandler.stop()
-        this.state.set("status", "offline")
 
         if (this.state.get('doNotReconnect')) {
             this.logger.error('Connection', 'Server requested no reconnect, stopping')
-            this.state.set("status", "failure")
             return
         }
+
+        this.state.set("status", "Offline")
 
         const delay = Math.min(5000 * 2 ** attempts, 60000) + Math.random() * 1000
         this.state.set("attempts", attempts + 1)

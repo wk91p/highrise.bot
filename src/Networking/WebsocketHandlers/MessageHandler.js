@@ -45,6 +45,7 @@ class MessageHandler {
             if (this.parser.isError(data)) {
                 this.logger.warn("Websocket", data.message)
                 if (this.parser.isFatal(data)) {
+                    this.state.set('status', data.message)
                     this.state.set("doNotReconnect", true)
                 }
                 return
