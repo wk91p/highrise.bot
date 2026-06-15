@@ -27,17 +27,16 @@ if (result.ok) {
 ### set(outfit)
 
 Changes the bot's entire outfit at once. Pass an array of `OutfitItem`
-objects or plain objects matching the structure.
+objects (see [Outfit Item Class](../../helpers/outfitItem.md)) or plain objects matching the structure.
 
 ```javascript
 const { OutfitItem } = require('highrise.bot');
 
 // Using OutfitItem helper class
 const newOutfit = [
-    new OutfitItem('shirt-f_marchingband', 2),
-    new OutfitItem('hat-beanie'),
-    new OutfitItem('pants-jeans')
+    new OutfitItem('shirt-f_marchingband')
 ];
+
 await bot.inventory.outfit.set(newOutfit);
 
 // Reset to default appearance
