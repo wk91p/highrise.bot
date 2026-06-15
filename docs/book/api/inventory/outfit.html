@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-d5c3f8eb.js";
+            window.path_to_searchindex_js = "../../searchindex-e94f0aea.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-66ef512f.js"></script>
@@ -202,15 +202,14 @@ the bot’s own ID from the connection metadata.</p>
 </blockquote>
 <h3 id="setoutfit"><a class="header" href="#setoutfit">set(outfit)</a></h3>
 <p>Changes the bot’s entire outfit at once. Pass an array of <code>OutfitItem</code>
-objects or plain objects matching the structure.</p>
+objects (see <a href="../../helpers/outfitItem.html">Outfit Item Class</a>) or plain objects matching the structure.</p>
 <pre><code class="language-javascript">const { OutfitItem } = require('highrise.bot');
 
 // Using OutfitItem helper class
 const newOutfit = [
-    new OutfitItem('shirt-f_marchingband', 2),
-    new OutfitItem('hat-beanie'),
-    new OutfitItem('pants-jeans')
+    new OutfitItem('shirt-f_marchingband')
 ];
+
 await bot.inventory.outfit.set(newOutfit);
 
 // Reset to default appearance

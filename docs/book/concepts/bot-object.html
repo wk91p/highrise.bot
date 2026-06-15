@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-d5c3f8eb.js";
+            window.path_to_searchindex_js = "../searchindex-e94f0aea.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-66ef512f.js"></script>
@@ -202,17 +202,14 @@ bot.direct     // direct messages, conversations
 bot.room       // room users, moderation, voice, privilege
 bot.player     // actions, emotes, tips, teleport, outfit
 bot.inventory  // wallet, outfit, items, boosts
-bot.utils      // sleep, uptime, splitMessages and more
-bot.roles      // managing roles in-room
-bot.emotes     // retriving emotes by Name, Id and Index
-bot.looper     // looping emotes for each user by it's duration
+bot.metadata   // roomId, BotID, and other data
 </code></pre>
 <p>Each one is a domain. <code>bot.room</code> knows everything about the room.
 <code>bot.player</code> knows everything about interacting with players.
 <code>bot.inventory</code> knows everything about items and currency in bot. You will
 never need to go looking for something in the wrong place.</p>
 <h2 id="the-getters"><a class="header" href="#the-getters">The getters</a></h2>
-<p>The bot also has three read-only properties you can access at any time:</p>
+<p>The bot also has four read-only properties you can access at any time:</p>
 <h3 id="botmetadata"><a class="header" href="#botmetadata">bot.metadata</a></h3>
 <p>This gives you information about the bot and the room it connected to.
 It is only available after the <code>Ready</code> event fires.</p>
@@ -238,9 +235,24 @@ connected. It resets every time the bot reconnects.</p>
 <p>You can use this to calculate uptime yourself, but <code>bot.utils.uptime()</code>
 already does that for you and returns a clean string like <code>2h 30m 15s</code>.</p>
 <h3 id="botstatus"><a class="header" href="#botstatus">bot.status</a></h3>
-<p>this shows the current bot connection status during runtime.</p>
-<pre><code class="language-javascript">bot.status // online, offline, connecting, failure
+<p>Shows the current bot connection status during runtime.</p>
+<pre><code class="language-javascript">bot.status
 </code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Value</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Online</code></td><td>Bot is connected and running</td></tr>
+<tr><td><code>Offline</code></td><td>Bot is disconnected</td></tr>
+<tr><td><code>Connecting</code></td><td>Bot is currently establishing a connection</td></tr>
+<tr><td><code>Failure</code></td><td>Connection failed due to an unexpected error</td></tr>
+<tr><td><code>Invalid room id</code></td><td>The provided room ID does not exist or is invalid</td></tr>
+<tr><td><code>API token not found</code></td><td>The provided token is invalid or not recognized</td></tr>
+</tbody>
+</table>
+</div>
 <h2 id="listening-to-events"><a class="header" href="#listening-to-events">Listening to events</a></h2>
 <p>You attach behavior to your bot by listening to events:</p>
 <pre><code class="language-javascript">// runs every time
