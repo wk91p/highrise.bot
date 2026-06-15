@@ -138,7 +138,7 @@ first few events might fire before your handlers exist to catch them.
 Disconnects the bot from the room and cleans up all resources. Event listeners remain intact since they are tied to the bot instance.
 
 ```javascript
-await bot.logout()
+bot.logout()
 ```
 
 > [!NOTE]
@@ -149,7 +149,7 @@ await bot.logout()
 Reconnects the bot using the current credentials. Equivalent to calling `logout()` followed by `login()`.
 
 ```javascript
-await bot.reconnect()
+bot.reconnect()
 ```
 
 > [!NOTE]
