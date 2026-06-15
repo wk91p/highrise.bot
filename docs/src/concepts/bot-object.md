@@ -83,11 +83,20 @@ already does that for you and returns a clean string like `2h 30m 15s`.
 
 ### bot.status
 
-this shows the current bot connection status during runtime.
+Shows the current bot connection status during runtime.
 
 ```javascript
-bot.status // online, offline, connecting, failure
+bot.status
 ```
+
+| Value | Description |
+|-------|-------------|
+| `Online` | Bot is connected and running |
+| `Offline` | Bot is disconnected |
+| `Connecting` | Bot is currently establishing a connection |
+| `Failure` | Connection failed due to an unexpected error |
+| `Invalid room id` | The provided room ID does not exist or is invalid |
+| `API token not found` | The provided token is invalid or not recognized |
 
 ## Listening to events
 
