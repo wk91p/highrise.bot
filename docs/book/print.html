@@ -37,7 +37,7 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-e94f0aea.js";
+            window.path_to_searchindex_js = "searchindex-e2eeab2d.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-66ef512f.js"></script>
@@ -568,7 +568,8 @@ forever, every time the event fires, your function runs. <code>once</code> liste
 one time only and then removes itself automatically. You will almost
 always use <code>on</code> except for the <code>Ready</code> event where <code>once</code> is the correct
 choice because <code>Ready</code> fires again on every reconnect.</p>
-<h2 id="the-login-method"><a class="header" href="#the-login-method">The login method</a></h2>
+<h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
+<h3 id="login"><a class="header" href="#login">login()</a></h3>
 <pre><code class="language-javascript">bot.login(token, roomId)
 </code></pre>
 <p>This is always the last line in your file. It starts the WebSocket
@@ -579,6 +580,54 @@ code is ready to handle anything.</p>
 reads your file from top to bottom. All your <code>bot.on()</code> and <code>bot.once()</code>
 calls need to be registered before the connection starts, otherwise the
 first few events might fire before your handlers exist to catch them.</p>
+<h3 id="logout"><a class="header" href="#logout">logout()</a></h3>
+<p>Disconnects the bot from the room and cleans up all resources. Event listeners remain intact since they are tied to the bot instance.</p>
+<pre><code class="language-javascript">await bot.logout()
+</code></pre>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>After calling <code>logout()</code>, you can call <code>bot.login()</code> again to reconnect without re-registering your event listeners.</p>
+</blockquote>
+<h3 id="reconnect"><a class="header" href="#reconnect">reconnect()</a></h3>
+<p>Reconnects the bot using the current credentials. Equivalent to calling <code>logout()</code> followed by <code>login()</code>.</p>
+<pre><code class="language-javascript">await bot.reconnect()
+</code></pre>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>Useful after calling <code>setToken()</code> or <code>setRoomId()</code> to apply the new credentials.</p>
+</blockquote>
+<h3 id="settokennewtoken"><a class="header" href="#settokennewtoken">setToken(newToken)</a></h3>
+<p>Updates the authentication token while preserving the current room ID.</p>
+<pre><code class="language-javascript">bot.setToken("new-token")
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>newToken</code></td><td><code>string</code></td><td>The new authentication token</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="setroomidnewroomid"><a class="header" href="#setroomidnewroomid">setRoomId(newRoomId)</a></h3>
+<p>Updates the room ID while preserving the current authentication token.</p>
+<pre><code class="language-javascript">bot.setRoomId("new-room-id")
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>newRoomId</code></td><td><code>string</code></td><td>The new room ID to connect to</td></tr>
+</tbody>
+</table>
+</div>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>Neither method triggers a reconnection. Call <code>bot.reconnect()</code> after updating credentials.</p>
+</blockquote>
 <h2 id="a-clean-bot-file-structure"><a class="header" href="#a-clean-bot-file-structure">A clean bot file structure</a></h2>
 <p>Here is the order that every bot file should follow:</p>
 <pre><code class="language-javascript">// 1. imports
@@ -3235,7 +3284,7 @@ will have <code>ok: false</code> with an error message.</p>
 <p>The <code>bot.room.users</code> API handles everything related to users currently
 in the room. Fetch the full user list, find specific users, check
 positions, and get user counts.</p>
-<h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
+<h2 id="methods-1"><a class="header" href="#methods-1">Methods</a></h2>
 <h3 id="get"><a class="header" href="#get">get()</a></h3>
 <p>Fetches all users currently in the room with their positions.</p>
 <pre><code class="language-javascript">const room = await bot.room.users.get();
@@ -3432,7 +3481,7 @@ and use the response object.</p>
 <p>The <code>await bot.room.voice</code> API manages voice chat in the room. Check who is
 currently speaking, invite users to speak, and remove users from the
 voice chat.</p>
-<h2 id="methods-1"><a class="header" href="#methods-1">Methods</a></h2>
+<h2 id="methods-2"><a class="header" href="#methods-2">Methods</a></h2>
 <h3 id="check"><a class="header" href="#check">check()</a></h3>
 <p>Gets the current voice chat status and active speakers.</p>
 <pre><code class="language-javascript">const voice = await bot.room.voice.check();
@@ -3557,7 +3606,7 @@ use <code>bot.room.users.username()</code> to look them up.</p>
 <h1 id="botroomprivilege"><a class="header" href="#botroomprivilege">bot.room.privilege</a></h1>
 <p>The <code>bot.room.privilege</code> API checks the room privileges of any user.
 Find out if someone is a moderator or designer without making changes.</p>
-<h2 id="methods-2"><a class="header" href="#methods-2">Methods</a></h2>
+<h2 id="methods-3"><a class="header" href="#methods-3">Methods</a></h2>
 <h3 id="getuserid"><a class="header" href="#getuserid">get(userId)</a></h3>
 <p>Gets all privileges for a specific user.</p>
 <pre><code class="language-javascript">const priv = await bot.room.privilege.get(userId);
@@ -3711,7 +3760,7 @@ also invite others to voice chat.</p>
 <p>The bot must be made my room owner to grant or remove moderator
 privileges. If the bot lacks permission, requests will fail.</p>
 </blockquote>
-<h2 id="methods-3"><a class="header" href="#methods-3">Methods</a></h2>
+<h2 id="methods-4"><a class="header" href="#methods-4">Methods</a></h2>
 <h3 id="adduserid"><a class="header" href="#adduserid">add(userId)</a></h3>
 <p>Grants moderator privileges to a user.</p>
 <pre><code class="language-javascript">const result = await bot.room.moderator.add(userId);
@@ -3836,7 +3885,7 @@ the current room. Designers can edit the room’s furniture and layout.</p>
 <p>The bot must be made by room owner to grant or remove designer
 privileges. If the bot lacks permission, requests will fail.</p>
 </blockquote>
-<h2 id="methods-4"><a class="header" href="#methods-4">Methods</a></h2>
+<h2 id="methods-5"><a class="header" href="#methods-5">Methods</a></h2>
 <h3 id="adduserid-1"><a class="header" href="#adduserid-1">add(userId)</a></h3>
 <p>Grants designer privileges to a user.</p>
 <pre><code class="language-javascript">const result = await bot.room.designer.add(userId);
@@ -4196,7 +4245,7 @@ Kick, mute, ban, unmute, and unban users.</p>
 <p>The bot must be a moderator or made by room owner to use these methods. If the bot lacks
 permission, requests will fail with <code>ok: false</code>.</p>
 </blockquote>
-<h2 id="methods-5"><a class="header" href="#methods-5">Methods</a></h2>
+<h2 id="methods-6"><a class="header" href="#methods-6">Methods</a></h2>
 <h3 id="kickuserid"><a class="header" href="#kickuserid">kick(userId)</a></h3>
 <p>Removes a user from the room. They can rejoin immediately.</p>
 <pre><code class="language-javascript">const result = await bot.player.moderation.kick(userId);
@@ -4404,7 +4453,7 @@ source, including other moderators.</p>
 <h1 id="botplayeroutfit"><a class="header" href="#botplayeroutfit">bot.player.outfit</a></h1>
 <p>The <code>bot.player.outfit</code> API fetches the current outfit of any user in
 the room. See what items they are wearing.</p>
-<h2 id="methods-6"><a class="header" href="#methods-6">Methods</a></h2>
+<h2 id="methods-7"><a class="header" href="#methods-7">Methods</a></h2>
 <h3 id="getuserid-1"><a class="header" href="#getuserid-1">get(userId)</a></h3>
 <p>Gets the full outfit of a specific user.</p>
 <pre><code class="language-javascript">const result = await bot.player.outfit.get(userId);
@@ -4575,7 +4624,7 @@ clothing item the bot owns, not just what it is currently wearing.</p>
 <h1 id="botinventorywallet"><a class="header" href="#botinventorywallet">bot.inventory.wallet</a></h1>
 <p>The <code>bot.inventory.wallet</code> API checks the bot’s currency balances.
 Gold, boost tokens, and voice tokens.</p>
-<h2 id="methods-7"><a class="header" href="#methods-7">Methods</a></h2>
+<h2 id="methods-8"><a class="header" href="#methods-8">Methods</a></h2>
 <h3 id="get-1"><a class="header" href="#get-1">get()</a></h3>
 <p>Gets the bot’s current wallet balance.</p>
 <pre><code class="language-javascript">const wallet = await bot.inventory.wallet.get();
@@ -4650,7 +4699,7 @@ if (wallet.ok) {
 <p>The <code>bot.inventory.outfit</code> API manages the bot’s current appearance.
 Get what the bot is wearing, change outfits, add or remove individual
 items, and change item colors.</p>
-<h2 id="methods-8"><a class="header" href="#methods-8">Methods</a></h2>
+<h2 id="methods-9"><a class="header" href="#methods-9">Methods</a></h2>
 <h3 id="get-2"><a class="header" href="#get-2">get()</a></h3>
 <p>Gets the bot’s current outfit. The result is cached after the first call.</p>
 <pre><code class="language-javascript">const result = await bot.inventory.outfit.get();
@@ -4946,7 +4995,7 @@ be part of the bot’s current outfit.</p>
 <h1 id="botinventoryitem"><a class="header" href="#botinventoryitem">bot.inventory.item</a></h1>
 <p>The <code>bot.inventory.item</code> API handles purchasing items directly from the
 Highrise shop using the bot’s gold.</p>
-<h2 id="methods-9"><a class="header" href="#methods-9">Methods</a></h2>
+<h2 id="methods-10"><a class="header" href="#methods-10">Methods</a></h2>
 <h3 id="buyitemid"><a class="header" href="#buyitemid">buy(itemId)</a></h3>
 <p>Purchases a specific shop item using the bot’s gold.</p>
 <pre><code class="language-javascript">const result = await bot.inventory.item.buy('shirt-f_marchingband');
@@ -5019,7 +5068,7 @@ increase your room’s visibility in the Highrise room browser.</p>
 <p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Caution</p>
 <p>Might not work in future updates, will be tested after each update.</p>
 </blockquote>
-<h2 id="methods-10"><a class="header" href="#methods-10">Methods</a></h2>
+<h2 id="methods-11"><a class="header" href="#methods-11">Methods</a></h2>
 <h3 id="buyamount"><a class="header" href="#buyamount">buy(amount)</a></h3>
 <p>Purchases room boosts using the bot’s gold.</p>
 <pre><code class="language-javascript">// Buy 1 boost (default)
@@ -5090,7 +5139,7 @@ bot.utils.splitMessages()      // split long text into chunks
 bot.utils.sequencingGoldBars() // break down gold into valid denominations
 bot.utils.validator            // built-in validator instance
 </code></pre>
-<h2 id="methods-11"><a class="header" href="#methods-11">Methods</a></h2>
+<h2 id="methods-12"><a class="header" href="#methods-12">Methods</a></h2>
 <h3 id="sleepms"><a class="header" href="#sleepms">sleep(ms)</a></h3>
 <p>Pauses execution for the specified duration. Useful for rate limiting
 or creating artificial delays between actions.</p>
@@ -5350,7 +5399,7 @@ accessing data on important operations.</p>
 <p>The <code>bot.webapi.users</code> API fetches public profile data for any Highrise
 user. Look up by username or user ID to get their bio, outfit, follower
 counts, crew, and more.</p>
-<h2 id="methods-12"><a class="header" href="#methods-12">Methods</a></h2>
+<h2 id="methods-13"><a class="header" href="#methods-13">Methods</a></h2>
 <h3 id="getidentifier"><a class="header" href="#getidentifier">get(identifier)</a></h3>
 <p>Fetches a user’s full profile from the Web API.</p>
 <pre><code class="language-javascript">const user = await bot.webapi.users.get('some_username');
@@ -5493,7 +5542,7 @@ the username first.</p>
 <h1 id="botwebapirooms"><a class="header" href="#botwebapirooms">bot.webapi.rooms</a></h1>
 <p>The <code>bot.webapi.rooms</code> API fetches room data from the Highrise Web API.
 Get details about a specific room or browse rooms by name and owner.</p>
-<h2 id="methods-13"><a class="header" href="#methods-13">Methods</a></h2>
+<h2 id="methods-14"><a class="header" href="#methods-14">Methods</a></h2>
 <h3 id="getroomid"><a class="header" href="#getroomid">get(roomId)</a></h3>
 <p>Fetches full details for a specific room.</p>
 <pre><code class="language-javascript">const room = await bot.webapi.rooms.get(bot.credential.roomId);
@@ -5657,7 +5706,7 @@ details on a specific room.</p>
 <h1 id="botwebapiposts"><a class="header" href="#botwebapiposts">bot.webapi.posts</a></h1>
 <p>The <code>bot.webapi.posts</code> API fetches posts from Highrise user profiles.
 Get a specific post by ID or browse a user’s public posts.</p>
-<h2 id="methods-14"><a class="header" href="#methods-14">Methods</a></h2>
+<h2 id="methods-15"><a class="header" href="#methods-15">Methods</a></h2>
 <h3 id="getpostid"><a class="header" href="#getpostid">get(postId)</a></h3>
 <p>Fetches full details for a specific post, including its comments.</p>
 <pre><code class="language-javascript">const post = await bot.webapi.posts.get('post_id_here');
@@ -5846,7 +5895,7 @@ is the number of posts by that user, not all posts on Highrise.</p>
 <p>The <code>bot.webapi.items</code> API fetches item data from the Highrise Web API.
 Look up a specific item by ID, search by name, or browse the full catalog
 filtered by category and rarity.</p>
-<h2 id="methods-15"><a class="header" href="#methods-15">Methods</a></h2>
+<h2 id="methods-16"><a class="header" href="#methods-16">Methods</a></h2>
 <h3 id="getitemid"><a class="header" href="#getitemid">get(itemId)</a></h3>
 <p>Fetches full details for a specific item, including related items,
 affiliations, and current storefront listings.</p>
@@ -6079,7 +6128,7 @@ of the request.</p>
 <p>The <code>bot.webapi.grabs</code> API fetches grab data from the Highrise Web API.
 Grabs are the loot-box style reward packs in Highrise. Use this API to
 list active grabs and inspect their rewards, costs, and kompu progress.</p>
-<h2 id="methods-16"><a class="header" href="#methods-16">Methods</a></h2>
+<h2 id="methods-17"><a class="header" href="#methods-17">Methods</a></h2>
 <h3 id="listparams-3"><a class="header" href="#listparams-3">list(params)</a></h3>
 <p>Fetches a list of grabs from the Web API.</p>
 <pre><code class="language-javascript">const result = await bot.webapi.grabs.list();
@@ -6254,7 +6303,7 @@ communicate gracefully to users when data is unavailable.</p>
 <p>The <code>bot.await</code> API pauses execution until a specific event occurs in
 the room. Each method returns a promise that resolves when a matching
 event is collected or the timeout expires.</p>
-<h2 id="methods-17"><a class="header" href="#methods-17">Methods</a></h2>
+<h2 id="methods-18"><a class="header" href="#methods-18">Methods</a></h2>
 <h3 id="chatoptions"><a class="header" href="#chatoptions">chat(options)</a></h3>
 <p>Waits for one or more chat messages in the room.</p>
 <pre><code class="language-javascript">const [user, message] = await bot.await.chat({
@@ -6402,7 +6451,7 @@ const [user, message] = result;
 <p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
 <p><code>"owner"</code> and <code>"mod"</code> are protected roles, they are managed automatically by the SDK and cannot be manually modified via <code>addRole</code>, <code>removeRole</code>, or <code>clearRoles</code>.</p>
 </blockquote>
-<h2 id="methods-18"><a class="header" href="#methods-18">Methods</a></h2>
+<h2 id="methods-19"><a class="header" href="#methods-19">Methods</a></h2>
 <h3 id="hasroleuserid-role"><a class="header" href="#hasroleuserid-role">hasRole(userId, role)</a></h3>
 <p>Checks if a user has a specific role.</p>
 <pre><code class="language-javascript">if (bot.roles.hasRole(user.id, "vip")) {
@@ -6662,7 +6711,7 @@ await bot.message.send(`Your roles: ${roles.join(', ')}`);
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="botutilsemotes"><a class="header" href="#botutilsemotes">bot.utils.emotes</a></h1>
 <p>The <code>bot.utils.emotes</code> API provides access to all Highrise emotes available in the game. Use it to look up emotes by ID, name, or index, useful for building emote commands or any feature that needs to reference a specific emote.</p>
-<h2 id="methods-19"><a class="header" href="#methods-19">Methods</a></h2>
+<h2 id="methods-20"><a class="header" href="#methods-20">Methods</a></h2>
 <h3 id="getbyidemoteid"><a class="header" href="#getbyidemoteid">getById(emoteId)</a></h3>
 <p>Retrieves an emote by its unique ID.</p>
 <pre><code class="language-javascript">const emote = bot.utils.emotes.getById("sit-idle-cute");
@@ -6800,7 +6849,7 @@ emotes.forEach(emote =&gt; {
 <p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
 <p>Only one emote loop can be active per user at a time. Starting a new loop for a user will automatically stop their current one.</p>
 </blockquote>
-<h2 id="methods-20"><a class="header" href="#methods-20">Methods</a></h2>
+<h2 id="methods-21"><a class="header" href="#methods-21">Methods</a></h2>
 <h3 id="startuser-identifier"><a class="header" href="#startuser-identifier">start(user, identifier)</a></h3>
 <p>Starts a looping emote for a user. The <code>identifier</code> can be the emote’s name, ID, or index number.</p>
 <blockquote class="blockquote-tag blockquote-tag-note">
@@ -6933,7 +6982,7 @@ const client = new HttpClient({
     }
 })
 </code></pre>
-<h2 id="methods-21"><a class="header" href="#methods-21">Methods</a></h2>
+<h2 id="methods-22"><a class="header" href="#methods-22">Methods</a></h2>
 <h3 id="geturl-params"><a class="header" href="#geturl-params">get(url, params)</a></h3>
 <p>Performs a GET request. <code>params</code> is an object that gets serialized into the URL as a query string.</p>
 <pre><code class="language-javascript">// GET https://api.chucknorris.io/jokes/random
@@ -7143,7 +7192,7 @@ module.exports = {
 </tbody>
 </table>
 </div>
-<h2 id="methods-22"><a class="header" href="#methods-22">Methods</a></h2>
+<h2 id="methods-23"><a class="header" href="#methods-23">Methods</a></h2>
 <h3 id="handlecommandname-context"><a class="header" href="#handlecommandname-context">handle(commandName, context)</a></h3>
 <p>Looks up and executes a command by name or alias.</p>
 <pre><code class="language-javascript">bot.on("Chat", async (user, message) =&gt; {

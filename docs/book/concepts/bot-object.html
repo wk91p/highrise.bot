@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-e94f0aea.js";
+            window.path_to_searchindex_js = "../searchindex-e2eeab2d.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-66ef512f.js"></script>
@@ -269,7 +269,8 @@ forever, every time the event fires, your function runs. <code>once</code> liste
 one time only and then removes itself automatically. You will almost
 always use <code>on</code> except for the <code>Ready</code> event where <code>once</code> is the correct
 choice because <code>Ready</code> fires again on every reconnect.</p>
-<h2 id="the-login-method"><a class="header" href="#the-login-method">The login method</a></h2>
+<h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
+<h3 id="login"><a class="header" href="#login">login()</a></h3>
 <pre><code class="language-javascript">bot.login(token, roomId)
 </code></pre>
 <p>This is always the last line in your file. It starts the WebSocket
@@ -280,6 +281,54 @@ code is ready to handle anything.</p>
 reads your file from top to bottom. All your <code>bot.on()</code> and <code>bot.once()</code>
 calls need to be registered before the connection starts, otherwise the
 first few events might fire before your handlers exist to catch them.</p>
+<h3 id="logout"><a class="header" href="#logout">logout()</a></h3>
+<p>Disconnects the bot from the room and cleans up all resources. Event listeners remain intact since they are tied to the bot instance.</p>
+<pre><code class="language-javascript">await bot.logout()
+</code></pre>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>After calling <code>logout()</code>, you can call <code>bot.login()</code> again to reconnect without re-registering your event listeners.</p>
+</blockquote>
+<h3 id="reconnect"><a class="header" href="#reconnect">reconnect()</a></h3>
+<p>Reconnects the bot using the current credentials. Equivalent to calling <code>logout()</code> followed by <code>login()</code>.</p>
+<pre><code class="language-javascript">await bot.reconnect()
+</code></pre>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>Useful after calling <code>setToken()</code> or <code>setRoomId()</code> to apply the new credentials.</p>
+</blockquote>
+<h3 id="settokennewtoken"><a class="header" href="#settokennewtoken">setToken(newToken)</a></h3>
+<p>Updates the authentication token while preserving the current room ID.</p>
+<pre><code class="language-javascript">bot.setToken("new-token")
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>newToken</code></td><td><code>string</code></td><td>The new authentication token</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="setroomidnewroomid"><a class="header" href="#setroomidnewroomid">setRoomId(newRoomId)</a></h3>
+<p>Updates the room ID while preserving the current authentication token.</p>
+<pre><code class="language-javascript">bot.setRoomId("new-room-id")
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>newRoomId</code></td><td><code>string</code></td><td>The new room ID to connect to</td></tr>
+</tbody>
+</table>
+</div>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>Neither method triggers a reconnection. Call <code>bot.reconnect()</code> after updating credentials.</p>
+</blockquote>
 <h2 id="a-clean-bot-file-structure"><a class="header" href="#a-clean-bot-file-structure">A clean bot file structure</a></h2>
 <p>Here is the order that every bot file should follow:</p>
 <pre><code class="language-javascript">// 1. imports
