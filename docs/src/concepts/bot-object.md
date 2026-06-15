@@ -27,10 +27,7 @@ bot.direct     // direct messages, conversations
 bot.room       // room users, moderation, voice, privilege
 bot.player     // actions, emotes, tips, teleport, outfit
 bot.inventory  // wallet, outfit, items, boosts
-bot.utils      // sleep, uptime, splitMessages and more
-bot.roles      // managing roles in-room
-bot.emotes     // retriving emotes by Name, Id and Index
-bot.looper     // looping emotes for each user by it's duration
+bot.metadata   // roomId, BotID, and other data
 ```
 
 Each one is a domain. `bot.room` knows everything about the room.
@@ -40,7 +37,7 @@ never need to go looking for something in the wrong place.
 
 ## The getters
 
-The bot also has three read-only properties you can access at any time:
+The bot also has four read-only properties you can access at any time:
 
 ### bot.metadata
 
