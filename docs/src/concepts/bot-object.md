@@ -116,7 +116,9 @@ one time only and then removes itself automatically. You will almost
 always use `on` except for the `Ready` event where `once` is the correct
 choice because `Ready` fires again on every reconnect.
 
-## The login method
+## Methods
+
+### login()
 
 ```javascript
 bot.login(token, roomId)
@@ -131,6 +133,54 @@ The reason `bot.login()` is always at the bottom is simple: JavaScript
 reads your file from top to bottom. All your `bot.on()` and `bot.once()`
 calls need to be registered before the connection starts, otherwise the
 first few events might fire before your handlers exist to catch them.
+### logout()
+
+Disconnects the bot from the room and cleans up all resources. Event listeners remain intact since they are tied to the bot instance.
+
+```javascript
+await bot.logout()
+```
+
+> [!NOTE]
+> After calling `logout()`, you can call `bot.login()` again to reconnect without re-registering your event listeners.
+
+### reconnect()
+
+Reconnects the bot using the current credentials. Equivalent to calling `logout()` followed by `login()`.
+
+```javascript
+await bot.reconnect()
+```
+
+> [!NOTE]
+> Useful after calling `setToken()` or `setRoomId()` to apply the new credentials.
+
+### setToken(newToken)
+
+Updates the authentication token while preserving the current room ID.
+
+```javascript
+bot.setToken("new-token")
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `newToken` | `string` | The new authentication token |
+
+### setRoomId(newRoomId)
+
+Updates the room ID while preserving the current authentication token.
+
+```javascript
+bot.setRoomId("new-room-id")
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `newRoomId` | `string` | The new room ID to connect to |
+
+> [!NOTE]
+> Neither method triggers a reconnection. Call `bot.reconnect()` after updating credentials.
 
 ## A clean bot file structure
 
