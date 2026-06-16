@@ -9,8 +9,6 @@
     "sdk",
     "bot",
     "typescript",
-    "spatial",
-    "cache",
     "js"
   ],
   "main": "./index.js",
@@ -18,7 +16,7 @@
   "author": "Yahya Ahmed eheaahmed2000@gmail.com",
   "license": "MIT",
   "bin": {
-    "highrise-init": "./bin/init.js"
+    "highrise-init": "bin/init.js"
   },
   "dependencies": {
     "axios": "1.14.0",
