@@ -4,20 +4,27 @@ const fs = require('fs')
 const CommandRegistery = require('./CommandRegistery')
 const Validator = require('../Validator')
 const Logger = require('../Logger')
+const Roles = require('../Roles')
 
 class CommandManager {
     #folderPath
+    #roles
 
     #validator = new Validator()
     #log = new Logger('CommandManager')
 
     #commandRegistery = new CommandRegistery(this.#validator, this.#log)
 
-    constructor(folderPath) {
+    constructor(folderPath, roles) {
         this.#validator
             .required(folderPath, "folderPath")
             .string(folderPath, "folderPath")
 
+        this.#validator
+            .required(roles, 'roles')
+            .instanceOf(roles, Roles, 'roles')
+
+        this.#roles = roles
         this.#folderPath = path.resolve(folderPath)
 
         this.init()
@@ -87,6 +94,17 @@ class CommandManager {
         return { success, failed }
     }
 
+    #hasAccess(user, roles) {
+        this.#validator
+            .required(user, "user")
+            .required(user?.id, "user.id")
+            .string(user?.id, "user.id")
+
+        if (!roles.length) return true
+
+        return this.#roles.hasAnyRole(user.id, roles)
+    }
+
     getAllCommands() {
         return this.#commandRegistery.getAllCommands()
     }
@@ -102,6 +120,15 @@ class CommandManager {
     handle(commandName, context) {
         const command = this.#commandRegistery.get(commandName)
         if (!command) return false
+
+        const commandRoles = command.roles ?? []
+
+        try {
+            const hasAccess = this.#hasAccess(context.user, commandRoles)
+            if (!hasAccess) return false
+        } catch {
+            return false
+        }
 
         command.execute(context)
         return true

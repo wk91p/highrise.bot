@@ -1,3 +1,5 @@
+import Roles from "./Roles"
+
 interface Command {
     /** The primary name used to trigger the command (e.g. `"ban"`) */
     name: string
@@ -5,6 +7,8 @@ interface Command {
     aliases?: string[]
     /** Optional description of what the command does */
     desc?: string
+    /** Optional list of roles required to execute the command. If empty, everyone can use it. */
+    roles?: string[]
     /** The function executed when the command is triggered */
     execute: (context: any) => void
 }
@@ -24,8 +28,9 @@ declare class CommandManager {
     /**
      * Creates a new CommandManager and automatically scans and loads all `.js` files in the given folder.
      * @param folderPath Path to the folder containing command files (e.g. `"./commands"`)
+     * @param roles The {@link Roles} instance used to check command access control.
      */
-    constructor(folderPath: string)
+    constructor(folderPath: string, roles: Roles)
 
     /**
      * Rescans and reloads all command files from the folder.
@@ -56,7 +61,7 @@ declare class CommandManager {
      * Looks up and executes a command by name.
      * @param commandName The name or alias of the command to execute.
      * @param context The context passed to the command's `execute` function.
-     * @returns `true` if the command was found and executed, `false` if not found.
+     * @returns `true` if the command was found and executed, `false` if not found or error.
      */
     handle(commandName: string, context: any): boolean
 }
