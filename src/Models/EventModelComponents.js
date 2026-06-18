@@ -27,7 +27,7 @@ class Action {
 class Conversation {
     constructor(data = {}) {
         this.id = data.conversation_id || ""
-        this.isNew = data.isNew
+        this.isNew = data.is_new_conversation
     }
 }
 
