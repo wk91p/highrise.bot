@@ -39,6 +39,10 @@ class CommandRegistery {
         }
     }
 
+    getAllCommands() {
+        return [...this.#commands.values()]
+    }
+
     register(module) {
         if (!this.#validate(module)) return false
 

@@ -87,6 +87,10 @@ class CommandManager {
         return { success, failed }
     }
 
+    getAllCommands() {
+        return this.#commandRegistery.getAllCommands()
+    }
+
     register(module) {
         return this.#commandRegistery.register(module)
     }

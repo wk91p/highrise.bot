@@ -9,6 +9,11 @@ interface Command {
     execute: (context: any) => void
 }
 
+interface DetailedCommand extends Command {
+    /** File path to the command file from which it got exported */
+    filePath: string
+}
+
 declare class CommandManager {
     /**
      * Creates a new CommandManager and automatically scans and loads all `.js` files in the given folder.
@@ -21,6 +26,11 @@ declare class CommandManager {
      * Called automatically on construction.
      */
     init(): void
+
+    /**
+     * Returns all commands in the registry
+     */
+    getAllCommands(): DetailedCommand[]
 
     /**
      * Manually registers a command module.
