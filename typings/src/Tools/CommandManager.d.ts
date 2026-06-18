@@ -14,6 +14,12 @@ interface DetailedCommand extends Command {
     filePath: string
 }
 
+/**
+ * The command manager instance.
+ * Handles loading commands from a directory and executing them by name or alias.
+ * 
+ * @see {@link CommandManager}
+ */
 declare class CommandManager {
     /**
      * Creates a new CommandManager and automatically scans and loads all `.js` files in the given folder.

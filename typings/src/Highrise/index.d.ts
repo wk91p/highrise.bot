@@ -14,23 +14,15 @@ import { Roles } from "../Tools/Roles";
 import { AwaitClass } from "../Awaiter";
 import EmoteLoop from "../Tools/EmoteLooper";
 import EmotesManager from "../Tools/EmotesManager";
-import { CommandManager } from "../Tools/CommandManager";
 
 interface RolesOptions {
     /** Path to the file where roles will be persisted (e.g. `"./roles.json"`) */
     persistPath?: string
 }
 
-interface CommandManagerOptions {
-    /** Path to the folder containing command files (e.g. `"./commands"`) */
-    folderPath: string
-}
-
 interface LoginOptions {
     /** Configuration options for the {@link Roles} manager */
     roles?: RolesOptions
-    /** Configuration options for the {@link CommandManager} */
-    commandManager?: CommandManagerOptions
 }
 
 /**
@@ -95,16 +87,6 @@ declare class Highrise {
      * Provides methods to retrieve emotes by ID, name, index, and more.
      */
     emotes: EmotesManager
-
-    /**
-     * The command manager instance, available when `options.commandManager` is configured.
-     * Handles loading commands from a directory and executing them by name or alias.
-     * 
-     * Is `null` if `options.commandManager` was not provided.
-     * 
-     * @see {@link CommandManager}
-     */
-    command: CommandManager | null
 
     /**
      * Manages role-based access control for the bot.
