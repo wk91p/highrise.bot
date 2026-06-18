@@ -50,15 +50,17 @@ class Message {
     args(index) {
         const allArgs = this.#args.slice(1);
         if (index === undefined) return allArgs;
-   
+
         return allArgs[index] || null;
     }
 
     mentions(index) {
-        const allMentions = this.#args.filter(word => word.startsWith('@'));
-        
-        if (index === undefined) return allMentions;
-        return allMentions[index] || null;
+        const allMentions = this.#args
+            .filter(word => word.startsWith('@'))
+            .map(word => word.slice(1))
+
+        if (index === undefined) return allMentions
+        return allMentions[index] ?? null
     }
 }
 
