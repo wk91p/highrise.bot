@@ -1,19 +1,16 @@
-# bot.command
+# CommandManager
 
-The `bot.command` API provides a file-based command system for your bot. It automatically scans a folder for command files, loads them, and registers them. Commands can be triggered by name or alias.
-
-> [!NOTE]
-> `bot.command` is `null` if `commandManager` is not passed in the constructor options.
+The `CommandManager` Class provides a file-based command system for your bot. It automatically scans a folder for command files, loads them, and registers them. Commands can be triggered by name or alias.
 
 ## Setup
 
 ```javascript
-const { Highrise } = require("highrise.bot")
+const { Highrise, CommandManager } = require("highrise.bot")
 
-const bot = new Highrise({
-    commandManager: {
-        folderPath: "./commands"
-    }
+const bot = new Highrise()
+
+bot.once("Ready", async () => {
+    bot.command = new CommandManager("./commands", bot.roles)
 })
 ```
 
@@ -39,6 +36,7 @@ module.exports = {
 | `execute` | `function` | Yes | The function executed when the command is triggered |
 | `aliases` | `string[]` | No | Alternative names that also trigger the command (e.g. `["p"]`) |
 | `desc` | `string` | No | Description of what the command does |
+| `roles` | `string[]` | No | Roles required to execute the command. If empty, everyone can use it. |
 
 ## Methods
 
@@ -60,7 +58,7 @@ bot.on("Chat", async (user, message) => {
 | `commandName` | `string` | The name or alias of the command to execute |
 | `context` | `any` | The context passed to the command's `execute` function |
 
-**Returns:** `true` if the command was found and executed, `false` if not found.
+**Returns:** `true` if the command was found and executed, `false` if not found or user lacks access.
 
 ### register(module)
 
@@ -119,24 +117,27 @@ module.exports = {
     }
 }
 
-// commands/greet.js
+// commands/kick.js
 module.exports = {
-    name: "greet",
-    desc: "Greets the user by name",
-    execute: async ({ bot, user }) => {
-        await bot.message.send(`Hello, ${user.username}!`)
+    name: "kick",
+    desc: "Kicks a user from the room",
+    roles: ["mod", "owner"],
+    execute: async ({ bot, message }) => {
+        const target = message.args(0)
+        if (!target) return bot.message.send("Usage: !kick <userId>")
+        await bot.player.kick(target)
     }
 }
 ```
 
 ```javascript
 // index.js
-const { Highrise } = require("highrise.bot")
+const { Highrise, CommandManager } = require("highrise.bot")
 
-const bot = new Highrise({
-    commandManager: {
-        folderPath: "./commands"
-    }
+const bot = new Highrise()
+
+bot.once("Ready", async () => {
+    bot.command = new CommandManager("./commands", bot.roles)
 })
 
 bot.on("Chat", async (user, message) => {
@@ -159,11 +160,14 @@ bot.login("token", "roomId")
 
 **Name collisions are skipped with a warning.** If two commands share the same name or alias, the second one is skipped and an error is logged.
 
-**`bot.command` is `null` without `commandManager` options.** Always check before calling methods if `commandManager` is optional in your setup:
+**Commands with `roles` are access-controlled.** If a command has a `roles` array, only users with at least one of those roles can execute it. `handle` returns `false` silently if the user lacks access.
 
 ```javascript
-if (bot.command) {
-    bot.command.handle(cmd, context)
+// only mod and owner can use this command
+module.exports = {
+    name: "ban",
+    roles: ["mod", "owner"],
+    execute: async ({ bot, user }) => { ... }
 }
 ```
 
@@ -172,3 +176,5 @@ if (bot.command) {
 ```javascript
 bot.command.handle(cmd, { bot, user, message, roles: bot.roles })
 ```
+
+**`init()` clears the module cache on every reload.** This means changes to command files are picked up without restarting the bot, but shared state inside command files will be reset.
