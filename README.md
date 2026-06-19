@@ -30,6 +30,14 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.2.0
+
+**Added**
+- New event `Emote` which emiited when an emote performed in-room
+
+**Changed**
+- `Roles` class now add `owner` role as `mod` during roles sync.
+
 ### 2.1.1
 
 **Fixed**
