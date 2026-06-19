@@ -96,8 +96,11 @@ class Roles {
         const room = await this.#fetchRoom()
         if (!room) return
 
-        this.#roles.set("owner", new Set([room.ownerId]))
-        this.#roles.set("mod", new Set(room.moderatorIds))
+        const ownerId = room.ownerId;
+        const moderators = new Set([...room.moderatorIds, ownerId]);
+
+        this.#roles.set("owner", new Set([ownerId]));
+        this.#roles.set("mod", moderators);
     }
 
     async #fetchRoom() {
