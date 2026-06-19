@@ -48,6 +48,9 @@ interface EventMap {
     //  */
     // Voice: [users: VoiceUser[], secondsLeft: number, ended: boolean];
 
+    /** Emitted when the bot emote on a user or a user perform an emote (not tested) */
+    Emote: [user: User, emoteId: string, receiver: Receiver];
+
     /** Emitted when the bot receives a Direct Message (DM) outside of a room. */
     Direct: [user: User, message: Message, conversation: Conversation];
 

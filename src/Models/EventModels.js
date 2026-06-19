@@ -96,6 +96,14 @@ class HiddenChannel {
     }
 }
 
+class Emote {
+    constructor(data = {}) {
+        this.user = new User(data.user.id, data.user.username)
+        this.emoteId = data.emote_id
+        this.receiver = new Receiver(data.receiver.id, data.receiver.username)
+    }
+}
+
 class Voice {
     constructor(data = {}) {
         this.users = data.users.map(([user, status]) => ({ user, status }));
@@ -106,6 +114,7 @@ class Voice {
 
 module.exports = {
     Tip,
+    Emote,
     Voice,
     Direct,
     Message,

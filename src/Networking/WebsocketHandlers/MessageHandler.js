@@ -10,6 +10,7 @@ const SessionMetadataHandler = require("../EventHandlers/Ready")
 const TipHandler = require("../EventHandlers/Tip")
 const UserJoinedHandler = require("../EventHandlers/UserJoined")
 const UserLeftHandler = require("../EventHandlers/UserLeft")
+const EmoteHandler = require("../EventHandlers/Emote")
 
 const IgnoredEvents = new Set(["KeepaliveResponse"])
 
@@ -32,6 +33,7 @@ class MessageHandler {
             .register(DirectHandler, ctx, botApi.direct)
             .register(ModerationHandler, ctx)
             .register(ChannelHandler, ctx)
+            .register(EmoteHandler, ctx)
     }
 
     async handle(rawData) {
