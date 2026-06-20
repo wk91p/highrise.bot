@@ -37,10 +37,10 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-6414dced.js";
+            window.path_to_searchindex_js = "searchindex-ed5b7c65.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-66ef512f.js"></script>
+        <script src="toc-92f68942.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -2459,6 +2459,31 @@ including a greeting that handles the null username gracefully:</p>
 <li><code>user.username</code> is always <code>null</code>; use the <code>user.id</code> to identify the sender.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
+<h1 id="emote-event"><a class="header" href="#emote-event">Emote Event</a></h1>
+<p>Emitted when the bot performs an emote on a user or when a user performs an emote in the room.</p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>This event changed over updates. Behavior may be inconsistent.</p>
+</blockquote>
+<h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
+<pre><code class="language-javascript">bot.on("Emote", async (user, emoteId, receiver) =&gt; {
+    console.log(`${user.username} performed emote ${emoteId} on ${receiver.username}`)
+})
+</code></pre>
+<h2 id="parameters"><a class="header" href="#parameters">Parameters</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>user</code></td><td><code>User</code></td><td>The user who performed the emote</td></tr>
+<tr><td><code>emoteId</code></td><td><code>string</code></td><td>The unique identifier of the emote (e.g. <code>"sit-idle-cute"</code>)</td></tr>
+<tr><td><code>receiver</code></td><td><code>Receiver</code></td><td>The user who received the emote</td></tr>
+</tbody>
+</table>
+</div>
+<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="voice-event"><a class="header" href="#voice-event">Voice Event</a></h1>
 <blockquote class="blockquote-tag blockquote-tag-warning">
 <p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
@@ -2516,7 +2541,7 @@ other.</p>
 <p>Sends a message that everyone in the room can see.</p>
 <pre><code class="language-javascript">await bot.message.send('Hello everyone!');
 </code></pre>
-<h3 id="parameters"><a class="header" href="#parameters">Parameters</a></h3>
+<h3 id="parameters-1"><a class="header" href="#parameters-1">Parameters</a></h3>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -2602,7 +2627,7 @@ also tell it who to send the message to.</p>
 <p>Sends a private whisper that only the target user can see.</p>
 <pre><code class="language-javascript">await bot.whisper.send(userId, 'This is just between us.');
 </code></pre>
-<h3 id="parameters-1"><a class="header" href="#parameters-1">Parameters</a></h3>
+<h3 id="parameters-2"><a class="header" href="#parameters-2">Parameters</a></h3>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -7317,7 +7342,7 @@ module.exports = {
 <p>Represents a Highrise clothing item that can be equipped to a bot.
 Provides a convenient constructor for creating outfit items without writing
 raw objects by hand.</p>
-<h2 id="parameters-2"><a class="header" href="#parameters-2">Parameters</a></h2>
+<h2 id="parameters-3"><a class="header" href="#parameters-3">Parameters</a></h2>
 <div class="table-wrapper">
 <table>
 <thead>

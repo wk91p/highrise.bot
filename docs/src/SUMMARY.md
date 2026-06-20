@@ -29,6 +29,7 @@
 - [Tip](events/tip.md)
 - [Moderation](events/moderation.md)
 - [Direct](events/direct.md)
+- [Emote](events/emote.md)
 - [Voice](events/voice.md)
 - [Channel](events/channel.md)
 
