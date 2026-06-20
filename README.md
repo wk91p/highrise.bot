@@ -30,6 +30,11 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.2.1
+
+**Fixed**
+- `EmoteLoop` was incorrectly referencing `bot.utils.emotes` instead of `bot.emotes`
+
 ### 2.2.0
 
 **Added**
