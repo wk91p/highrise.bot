@@ -19,8 +19,8 @@ class Highrise extends HighriseCore {
     }
 
     #setupApi() {
-        this.looper = new EmoteLoop(this.player, this.utils.emotes)
         this.emotes = new EmotesManager()
+        this.looper = new EmoteLoop(this.player, this.emotes)
     }
 }
 
