@@ -11,6 +11,7 @@ const TipHandler = require("../EventHandlers/Tip")
 const UserJoinedHandler = require("../EventHandlers/UserJoined")
 const UserLeftHandler = require("../EventHandlers/UserLeft")
 const EmoteHandler = require("../EventHandlers/Emote")
+const { WebsocketEvents } = require("../../Constants/WebsocketConstants")
 
 const IgnoredEvents = new Set(["KeepaliveResponse"])
 
@@ -65,6 +66,7 @@ class MessageHandler {
         const type = data._type
 
         if (IgnoredEvents.has(type)) return
+        if (!WebsocketEvents.includes(type)) return
 
         await this.registry.dispatch(type, data, this.emit, this.logger)
     }

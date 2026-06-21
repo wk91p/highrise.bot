@@ -2,7 +2,7 @@ const WebsocketEvents = [
     'SessionMetadata', 'ChatEvent', 'UserMovedEvent', 
     'UserJoinedEvent', 'UserLeftEvent','MessageEvent', 
     'TipReactionEvent', 'RoomModeratedEvent', 'ChannelEvent',
-    'EmoteEvent'
+    'EmoteEvent', 'VoiceEvent', 'ReactionEvent'
 ]
 
 const EventToListener = {
