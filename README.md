@@ -30,6 +30,20 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.3.0
+
+**Added**
+- `Roles.getUsersByRole(role)` returns all user IDs assigned to a specific role
+
+### 2.2.2
+
+**Added**
+- Missing Events
+- `Emote` event documentation page, visit The [Emote Event](https://wk91p.github.io/highrise.bot/events/emote.html) page.
+
+**Fixed**
+- Events are now filtered on route to prevent unhandled response event from being processed on re-connect
+
 ### 2.2.1
 
 **Fixed**

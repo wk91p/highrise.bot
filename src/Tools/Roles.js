@@ -156,6 +156,10 @@ class Roles {
         return hadRole
     }
 
+    getUsersByRole(role) {
+        return [...(this.#roles.get(role) ?? [])]
+    }
+
     getRoles(userId) {
         return [...this.#roles.entries()]
             .filter(([, users]) => users.has(userId))

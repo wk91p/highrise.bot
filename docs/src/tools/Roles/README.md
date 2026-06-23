@@ -102,6 +102,28 @@ if (!removed) {
 > [!NOTE]
 > `"mod"` and `"owner"` are protected and cannot be removed manually.
 
+### getUsersByRole(role)
+
+Returns all user IDs currently assigned to a specific role.
+
+```javascript
+
+const vipUsers = bot.roles.getUsersByRole("vip")
+
+console.log(vipUsers) // ["userId1", "userId2"]
+
+const mods = bot.roles.getUsersByRole("mod")
+
+console.log(mods) // ["userId3", "userId4"]
+
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `role` | `string` | The role to get users for |
+
+**Returns:** `string[]`
+
 ### getRoles(userId)
 
 Returns all roles currently assigned to a user.

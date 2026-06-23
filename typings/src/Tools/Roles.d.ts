@@ -42,6 +42,13 @@ declare class Roles {
     removeRole(userId: string, role: string): boolean
 
     /**
+     * Returns all user IDs assigned to a specific role.
+     * @param role The role to get users for.
+     * @returns An array of user IDs assigned to the role, or an empty array if the role does not exist.
+     */
+    getUsersByRole(role: string): string[]
+
+    /**
      * Returns all roles assigned to a user.
      * @param userId The unique identifier of the user.
      */
