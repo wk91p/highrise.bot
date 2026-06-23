@@ -37,7 +37,7 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-ed5b7c65.js";
+            window.path_to_searchindex_js = "searchindex-1d007eab.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-92f68942.js"></script>
@@ -6579,6 +6579,29 @@ if (!removed) {
 <p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
 <p><code>"mod"</code> and <code>"owner"</code> are protected and cannot be removed manually.</p>
 </blockquote>
+<h3 id="getusersbyrolerole"><a class="header" href="#getusersbyrolerole">getUsersByRole(role)</a></h3>
+<p>Returns all user IDs currently assigned to a specific role.</p>
+<pre><code class="language-javascript">
+const vipUsers = bot.roles.getUsersByRole("vip")
+
+console.log(vipUsers) // ["userId1", "userId2"]
+
+const mods = bot.roles.getUsersByRole("mod")
+
+console.log(mods) // ["userId3", "userId4"]
+
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>role</code></td><td><code>string</code></td><td>The role to get users for</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>string[]</code></p>
 <h3 id="getrolesuserid"><a class="header" href="#getrolesuserid">getRoles(userId)</a></h3>
 <p>Returns all roles currently assigned to a user.</p>
 <pre><code class="language-javascript">const roles = bot.roles.getRoles(user.id);
