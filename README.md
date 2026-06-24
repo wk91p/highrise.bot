@@ -30,6 +30,11 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.3.1
+**Fixes**
+- Fixed `#getCredential()` returning `undefined` silently on missing token or roomId, now throws an error
+- Fixed memory leak caused by `SIGINT`/`SIGTERM` handlers and `Roles` being re-instantiated on every reconnect, moved signal handling to `Highrise`
+
 ### 2.3.0
 
 **Added**
