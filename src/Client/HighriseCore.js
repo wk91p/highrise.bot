@@ -114,13 +114,12 @@ class HighriseCore extends EventEmitter {
     }
 
     #getCredential() {
-        const { token, roomId } = this.#state.get("credential")
-        if (!token || !roomId) {
-            this.#logger.info("System", `Either token or roomId are not set in-bot, stopping action...`)
-            return;
+        const credential = this.#state.get("credential")
+        if (!credential?.token || !credential?.roomId) {
+            throw new Error("Missing token or roomId")
         }
 
-        return { token, roomId }
+        return credential
     }
 
     #setupListeners() {
@@ -180,7 +179,7 @@ class HighriseCore extends EventEmitter {
         this.room = this.#botApi.room
         this.webapi = this.#botApi.webapi
         this.roles = this.#botApi.roles
-        
+
         this.await = this.#ctx.await
     }
 

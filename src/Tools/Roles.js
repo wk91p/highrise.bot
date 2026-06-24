@@ -17,14 +17,6 @@ class Roles {
         this.#init().catch(err => {
             this.#logger.warn('Roles', `Failed to initialize roles: ${err.message}`)
         })
-
-        const save = () => {
-            if (this.#persistPath) this.#saveToFile()
-        }
-
-        process.once("SIGINT", () => { save(); process.exit() })
-        process.once("SIGTERM", () => { save(); process.exit() })
-        process.once("exit", save)
     }
 
     async #init() {
@@ -186,6 +178,10 @@ class Roles {
 
     isModerator(userId) {
         return this.hasRole(userId, "mod")
+    }
+
+    destroy() {
+      if (this.#persistPath) this.#saveToFile()  
     }
 }
 
