@@ -30,6 +30,10 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.3.2
+**Fixed**
+- `EmoteLoop` is now correctly referenced as `looper` instead of `emotes` in `#classesCleanup` inside `Highrise` class.
+
 ### 2.3.1
 **Fixes**
 - Fixed `#getCredential()` returning `undefined` silently on missing token or roomId, now throws an error

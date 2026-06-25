@@ -28,7 +28,7 @@ class Highrise extends HighriseCore {
 
     #classesCleanup() {
         this.roles.destroy()
-        this.emotes.destroy()
+        this.looper.destroy()
     }
 }
 
