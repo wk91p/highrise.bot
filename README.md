@@ -30,6 +30,11 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.4.0
+
+**Added**
+- `fileSaveInterval` and `roomFetchInterval` options to `RolesOptions` in `Highrise` constructor for configuring role persistence and room
+
 ### 2.3.2
 **Fixed**
 - `EmoteLoop` is now correctly referenced as `looper` instead of `emotes` in `#classesCleanup` inside `Highrise` class.
