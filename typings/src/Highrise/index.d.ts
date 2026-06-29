@@ -18,6 +18,10 @@ import EmotesManager from "../Tools/EmotesManager";
 interface RolesOptions {
     /** Path to the file where roles will be persisted (e.g. `"./roles.json"`) */
     persistPath?: string
+    /** Interval in milliseconds to save roles to file (default: 7.5 min) */
+    fileSaveInterval?: number
+    /** Interval in milliseconds to re-fetch room roles (default: 10 min) */
+    roomFetchInterval?: number
 }
 
 interface LoginOptions {

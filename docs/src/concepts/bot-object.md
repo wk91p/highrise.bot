@@ -15,6 +15,30 @@ When you call `bot.login(token, roomId)`, the bot creates a WebSocket
 connection to Highrise, sets up all of its internal handlers, and starts
 listening. You never have to touch the WebSocket directly.
 
+## Options
+
+The `Highrise` constructor accepts an optional configuration object:
+
+```javascript
+const bot = new Highrise({
+    roles: {
+        persistPath: "./roles.json",
+        fileSaveInterval: 7.5 * 60 * 1000,
+        roomFetchInterval: 10 * 60 * 1000
+    }
+})
+```
+
+### roles
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `persistPath` | `string` | `null` | Path to the file where roles will be saved and loaded from (e.g. `"./roles.json"`) |
+| `fileSaveInterval` | `number` | `27000000` | Interval in milliseconds to save roles to file |
+| `roomFetchInterval` | `number` | `36000000` | Interval in milliseconds to re-fetch room moderators and owner from Highrise |
+
+If no options are passed, the bot works with sensible defaults and roles are stored in memory only.
+
 ## What lives on bot
 
 After you call `bot.login()`, these properties are available on `bot`:

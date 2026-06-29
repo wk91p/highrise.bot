@@ -2,6 +2,8 @@ const fs = require("fs")
 
 class Roles {
     #roles = new Map()
+    #fileSaveInterval
+    #roomFetchInterval
     #protectedRoles = new Set(["owner", "mod"])
     #state
     #logger
@@ -13,6 +15,8 @@ class Roles {
         this.#logger = ctx.logger
         this.#webapi = webapi
         this.#persistPath = ctx.configs.roles.persistPath
+        this.#fileSaveInterval = ctx.configs.roles.fileSaveInterval
+        this.#roomFetchInterval = ctx.configs.roles.roomFetchInterval
 
         this.#init().catch(err => {
             this.#logger.warn('Roles', `Failed to initialize roles: ${err.message}`)
@@ -71,7 +75,7 @@ class Roles {
     #startSaveInterval() {
         const interval = setInterval(() => {
             this.#saveToFile()
-        }, 7.5 * 60 * 1000)
+        }, this.#fileSaveInterval)
 
         this.#state.get("intervals").push(interval)
     }
@@ -79,7 +83,7 @@ class Roles {
     #startInterval() {
         const interval = setInterval(async () => {
             await this.#fetchAndSync()
-        }, 10 * 60 * 1000)
+        }, this.#roomFetchInterval)
 
         this.#state.get("intervals").push(interval)
     }
