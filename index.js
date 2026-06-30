@@ -1,5 +1,6 @@
 const checkSdkVersion = require("./lib/versionCheck");
 const Highrise = require("./src/Client/Highrise");
+const HighriseCluster = require("./src/Client/HighriseCluster");
 const { OutfitItem } = require("./src/Models/HelperModel");
 const HttpClient = require("./src/Networking/Core/HttpClient");
 const CommandManager = require("./src/Tools/CommandManager");
@@ -18,3 +19,4 @@ exports.OutfitItem = OutfitItem
 exports.HttpClient = HttpClient
 exports.EmotesManager = EmotesManager
 exports.CommandManager = CommandManager
+exports.HighriseCluster = HighriseCluster
