@@ -72,5 +72,4 @@ declare class HighriseCluster {
     emit(event: string, bot: Highrise, ...args: any[]): boolean
 }
 
-export { HighriseCluster }
 export default HighriseCluster

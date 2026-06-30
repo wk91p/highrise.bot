@@ -77,6 +77,8 @@
 
 - [Command Manager](tools/CommandManager/README.md)
 
+- [Highrise Cluster](tools/HighriseCluster/README.md)
+
 # Helpers Reference
 
 - [Outfit Item Class](helpers/outfitItem.md)
