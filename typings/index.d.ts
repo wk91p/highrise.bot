@@ -4,6 +4,7 @@ import Validator from "./src/Tools/Validator";
 import OutfitItem from "./src/HelperModels/OutfitItem";
 import HttpClient from "./src/Core/HttpClient";
 import EmotesManager from "./src/Tools/EmotesManager";
+import HighriseCluster from "./src/HighriseCluster"
 import { CommandManager } from './src/Tools/CommandManager'
 
 export { 
@@ -13,5 +14,6 @@ export {
     OutfitItem, 
     HttpClient,
     EmotesManager,
-    CommandManager
+    CommandManager,
+    HighriseCluster
 }
