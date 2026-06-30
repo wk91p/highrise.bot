@@ -1,6 +1,26 @@
 import Highrise from '../Highrise'
 import { EventMap } from '../Highrise/EventMap'
 
+/**
+ * Manages multiple Highrise bots across multiple rooms from a single process.
+ * All events from every bot are aggregated into a single event emitter with
+ * the bot instance prepended as the first argument.
+ * 
+ * @example
+ * ```js
+ * const cluster = new HighriseCluster()
+ * 
+ * cluster
+ *     .add("token1", "roomId1")
+ *     .add("token2", "roomId2")
+ * 
+ * cluster.on("Chat", async (bot, user, message) => {
+ *     await bot.message.send(`Hello ${user.username}!`)
+ * })
+ * 
+ * cluster.login()
+ * ```
+ */
 declare class HighriseCluster {
     /**
      * The number of bots currently in the cluster.
