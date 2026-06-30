@@ -30,6 +30,11 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.5.0
+
+**Added**
+- `HighriseCluster` class for managing multiple bots across multiple rooms from a single process
+
 ### 2.4.0
 
 **Added**
