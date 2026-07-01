@@ -201,5 +201,5 @@ declare class Highrise {
     emit(event: string, ...args: any[]): boolean;
 }
 
-export { Highrise }
+export { Highrise, LoginOptions }
 export default Highrise

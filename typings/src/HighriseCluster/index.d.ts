@@ -1,4 +1,4 @@
-import Highrise from '../Highrise'
+import Highrise, { LoginOptions } from '../Highrise'
 import { EventMap } from '../Highrise/EventMap'
 
 /**

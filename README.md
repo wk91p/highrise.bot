@@ -30,6 +30,11 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.5.2
+
+**Fixed**
+- Missing `LoginOptions` import in `HighriseCluster` type declarations
+
 ### 2.5.1
 
 **Added**
