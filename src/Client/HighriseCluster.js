@@ -1,8 +1,12 @@
 const EventEmitter = require('node:events')
 const Highrise = require('./Highrise')
 const { EventToListener } = require('../Constants/WebsocketConstants')
+const Validator = require('../Tools/Validator')
+const Logger = require('../Tools/Logger')
 
 class HighriseCluster extends EventEmitter {
+    #validator = new Validator()
+    #log = new Logger('HighriseCluster')
     #bots = new Map()
 
     constructor() {
@@ -11,6 +15,17 @@ class HighriseCluster extends EventEmitter {
     }
 
     add(token, roomId, options = {}) {
+        this.#validator
+            .required(token, "token")
+            .string(token, "token")
+            .required(roomId, "roomId")
+            .string(roomId, "roomId")
+
+        if (this.#bots.has(roomId)) {
+            this.#log.warn('HighriseCluster', `Bot for room "${roomId}" already exists, skipping.`)
+            return this
+        }
+
         const bot = new Highrise(options)
 
         for (const event of Object.keys(EventToListener)) {
@@ -38,6 +53,10 @@ class HighriseCluster extends EventEmitter {
     }
 
     get(roomId) {
+        this.#validator
+            .required(roomId, "roomId")
+            .string(roomId, "roomId")
+
         return this.#bots.get(roomId)?.bot ?? null
     }
 
@@ -46,6 +65,10 @@ class HighriseCluster extends EventEmitter {
     }
 
     remove(roomId) {
+        this.#validator
+            .required(roomId, "roomId")
+            .string(roomId, "roomId")
+
         const entry = this.#bots.get(roomId)
         if (!entry) return false
 
@@ -55,6 +78,10 @@ class HighriseCluster extends EventEmitter {
     }
 
     reconnect(roomId) {
+        this.#validator
+            .required(roomId, "roomId")
+            .string(roomId, "roomId")
+
         const bot = this.get(roomId)
         if (!bot) return false
 
