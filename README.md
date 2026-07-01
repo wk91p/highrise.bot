@@ -35,6 +35,11 @@ bot.login("token", "roomId")
 **Added**
 - `HighriseCluster` class for managing multiple bots across multiple rooms from a single process
 
+### 2.4.1
+
+**Fixed**
+- `fileSaveInterval` and `roomFetchInterval` in `RolesConfig` were incorrectly defaulting to seconds instead of milliseconds
+
 ### 2.4.0
 
 **Added**

@@ -11,18 +11,18 @@ class RolesConfig extends BaseConfig {
         if (options.fileSaveInterval !== undefined) {
             this.validator
                 .nonNegative(options.fileSaveInterval, "roles.fileSaveInterval")
-                .range(options.fileSaveInterval, 1 * 60 * 60, Infinity, "roles.fileSaveInterval")
+                .range(options.fileSaveInterval, 1 * 60 * 1000, Infinity, "roles.fileSaveInterval")
         }
 
         if (options.roomFetchInterval !== undefined) {
             this.validator
                 .nonNegative(options.roomFetchInterval, "roles.roomFetchInterval")
-                .range(options.roomFetchInterval, 1 * 60 * 60, Infinity, "roles.roomFetchInterval")
+                .range(options.roomFetchInterval, 1 * 60 * 1000, Infinity, "roles.roomFetchInterval")
         }
 
         this.persistPath = options.persistPath ?? null
-        this.fileSaveInterval = options.fileSaveInterval ?? 7.5 * 60 * 60
-        this.roomFetchInterval = options.roomFetchInterval ?? 10 * 60 * 60
+        this.fileSaveInterval = options.fileSaveInterval ?? 7.5 * 60 * 1000
+        this.roomFetchInterval = options.roomFetchInterval ?? 10 * 60 * 1000
 
         return this
     }
