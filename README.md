@@ -30,6 +30,11 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.5.1
+
+**Added**
+- Input validation to `HighriseCluster` methods
+
 ### 2.5.0
 
 **Added**
