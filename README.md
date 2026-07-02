@@ -30,6 +30,11 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.5.3
+
+**Fixed**
+- `CloseHandler` calling `process.kill(0)` on fatal server errors (e.g. invalid token), which killed the entire process instead of just stopping the affected bot instance. critical when running multiple bots via `HighriseCluster`
+
 ### 2.5.2
 
 **Fixed**

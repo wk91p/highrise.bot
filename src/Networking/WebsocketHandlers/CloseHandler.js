@@ -22,7 +22,8 @@ class CloseHandler {
 
         if (this.state.get('doNotReconnect')) {
             this.logger.error('Connection', 'Server requested no reconnect, stopping')
-            process.kill(0)
+            this.state.set("status", "Offline")
+            return
         }
 
         this.state.set("status", "Offline")
