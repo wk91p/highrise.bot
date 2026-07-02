@@ -30,6 +30,10 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.5.4
+**Changed**
+- Removing `Offline` from being set on fatal server error keeping fatal message state
+
 ### 2.5.3
 
 **Fixed**
