@@ -30,6 +30,17 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+## 2.6.0
+
+**Added**
+- Added log level filtering. `new Logger(prefix, level)` now accepts an optional second argument (`'debug' | 'info' | 'warn' | 'error'`) to set the minimum level shown, defaults to `'debug'`.
+- Added `log.setLevel(level)` to change the minimum level at runtime.
+
+**Changed**
+- Removed file/line location output from `log.debug()`.
+- `log.error()` now writes to `console.error` instead of `console.log`.
+- Objects and `Error` instances passed as log arguments are now safely stringified instead of throwing on circular references.
+
 ### 2.5.4
 **Changed**
 - Removing `Offline` from being set on fatal server error keeping fatal message state

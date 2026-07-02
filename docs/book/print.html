@@ -37,7 +37,7 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-8d9be252.js";
+            window.path_to_searchindex_js = "searchindex-82e3a335.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-8fad2e51.js"></script>
@@ -1249,6 +1249,12 @@ every line. Change it to whatever makes sense for your bot. If you have
 a bot called BananaBot, use <code>"BananaBot"</code>. If you are running multiple
 bots, give each one a different prefix so you can tell them apart in the
 terminal.</p>
+<p>You can also pass a second argument to set the minimum log level shown:</p>
+<pre><code class="language-javascript">const log = new Logger("MyBot", "warn");
+</code></pre>
+<p>This defaults to <code>"debug"</code>, which shows everything. See
+<a href="#logsetlevel">log.setLevel()</a> below for the full level order and how filtering
+works.</p>
 <h2 id="the-four-log-levels"><a class="header" href="#the-four-log-levels">The four log levels</a></h2>
 <p>The Logger has four methods, one for each type of message:</p>
 <h3 id="loginfo"><a class="header" href="#loginfo">log.info()</a></h3>
@@ -1280,18 +1286,32 @@ log.error('Wallet', 'Could not fetch wallet balance');
 </code></pre>
 <h3 id="logdebug"><a class="header" href="#logdebug">log.debug()</a></h3>
 <p>For detailed information useful while you are building and testing.
-Debug logs also show the file and line number where they were called,
-which is helpful for tracing exactly where something happened:</p>
+Use it for anything you want to see while developing but don’t need in
+production:</p>
 <pre><code class="language-javascript">log.debug('Chat', `Command received: ${message.command()}`);
 log.debug('Room', `User count: ${count}`);
 </code></pre>
 <p>Output looks like:</p>
 <pre><code>[MyBot] │ 12:00:15 │ [DEBUG] │ Chat │ Command received: !ping
-↳ /home/user/my-bot/index.js:25:9
 </code></pre>
-<p>The file path shown below debug messages tells you exactly which line
-of code produced that log. This is very useful when you have a large
-bot and need to find where something is coming from.</p>
+<p>Debug is the lowest severity level, so it only shows when the logger’s
+level is set to <code>"debug"</code> (the default). Set a higher level like
+<code>"info"</code> to hide debug output, for example in production. See
+<code>log.setLevel()</code> below.</p>
+<h3 id="logsetlevel"><a class="header" href="#logsetlevel">log.setLevel()</a></h3>
+<p>Changes the minimum log level shown at runtime. Anything below the new
+level is suppressed. This is useful for silencing debug output in
+production without removing your <code>log.debug()</code> calls:</p>
+<pre><code class="language-javascript">const log = new Logger("MyBot", "warn");
+// only warn and error show
+
+log.setLevel("debug");
+// now everything shows again
+</code></pre>
+<blockquote>
+<p>![NOTE]
+Level order (low to high severity): <code>debug</code> &lt; <code>info</code> &lt; <code>warn</code> &lt; <code>error</code>.Setting a level shows that level and everything more severe. For example, <code>"info"</code> shows info, warn, and error, but not debug.</p>
+</blockquote>
 <h2 id="the-format"><a class="header" href="#the-format">The format</a></h2>
 <p>Every log line follows the same format:</p>
 <pre><code>[prefix] │ HH:MM:SS │ [LEVEL] │ category │ message

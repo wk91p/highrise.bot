@@ -14,6 +14,7 @@ import { Roles } from "../Tools/Roles";
 import { AwaitClass } from "../Awaiter";
 import EmoteLoop from "../Tools/EmoteLooper";
 import EmotesManager from "../Tools/EmotesManager";
+import Logger, { LogLevel } from "../Tools/Logger";
 
 interface RolesOptions {
     /** Path to the file where roles will be persisted (e.g. `"./roles.json"`) */
@@ -24,9 +25,18 @@ interface RolesOptions {
     roomFetchInterval?: number
 }
 
+interface LoggerOptions {
+    /** Prefix shown in every log line, e.g. `[MyBot]` (default: `"Highrise"`) */
+    prefix?: string
+    /** Minimum log level shown (default: `"debug"`) */
+    level?: LogLevel
+}
+
 interface LoginOptions {
     /** Configuration options for the {@link Roles} manager */
-    roles?: RolesOptions
+    roles?: RolesOptions 
+    /** Configuration options for the {@link Logger} */
+    logger?: LoggerOptions
 }
 
 /**

@@ -41,7 +41,7 @@ class HighriseCore extends EventEmitter {
 
         this.#ws = null
         this.#state = new Map()
-        this.#logger = new Logger()
+        this.#logger = new Logger(options.logger.prefix, options.logger.level)
         this.#options = options
     }
 

@@ -20,6 +20,16 @@ a bot called BananaBot, use `"BananaBot"`. If you are running multiple
 bots, give each one a different prefix so you can tell them apart in the
 terminal.
 
+You can also pass a second argument to set the minimum log level shown:
+
+```javascript
+const log = new Logger("MyBot", "warn");
+```
+
+This defaults to `"debug"`, which shows everything. See
+[log.setLevel()](#logsetlevel) below for the full level order and how filtering
+works.
+
 ## The four log levels
 
 The Logger has four methods, one for each type of message:
@@ -72,8 +82,8 @@ Output looks like:
 ### log.debug()
 
 For detailed information useful while you are building and testing.
-Debug logs also show the file and line number where they were called,
-which is helpful for tracing exactly where something happened:
+Use it for anything you want to see while developing but don't need in
+production:
 
 ```javascript
 log.debug('Chat', `Command received: ${message.command()}`);
@@ -83,12 +93,29 @@ log.debug('Room', `User count: ${count}`);
 Output looks like:
 ```
 [MyBot] │ 12:00:15 │ [DEBUG] │ Chat │ Command received: !ping
-↳ /home/user/my-bot/index.js:25:9
 ```
 
-The file path shown below debug messages tells you exactly which line
-of code produced that log. This is very useful when you have a large
-bot and need to find where something is coming from.
+Debug is the lowest severity level, so it only shows when the logger's
+level is set to `"debug"` (the default). Set a higher level like
+`"info"` to hide debug output, for example in production. See
+`log.setLevel()` below.
+
+### log.setLevel()
+
+Changes the minimum log level shown at runtime. Anything below the new
+level is suppressed. This is useful for silencing debug output in
+production without removing your `log.debug()` calls:
+
+```javascript
+const log = new Logger("MyBot", "warn");
+// only warn and error show
+
+log.setLevel("debug");
+// now everything shows again
+```
+
+> ![NOTE] 
+> Level order (low to high severity): `debug` < `info` < `warn` < `error`.Setting a level shows that level and everything more severe. For example, `"info"` shows info, warn, and error, but not debug.
 
 ## The format
 

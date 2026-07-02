@@ -10,61 +10,67 @@ const ANSI = {
 }
 
 const LEVELS = {
-    info: { color: ANSI.cyan, label: '[INFO]' },
-    warn: { color: ANSI.yellow, label: '[WARN]' },
-    error: { color: ANSI.red, label: '[ERROR]' },
-    debug: { color: ANSI.magenta, label: '[DEBUG]' },
+    debug: { color: ANSI.magenta, label: '[DEBUG]', weight: 0 },
+    info:  { color: ANSI.cyan,    label: '[INFO]',  weight: 1 },
+    warn:  { color: ANSI.yellow,  label: '[WARN]',  weight: 2 },
+    error: { color: ANSI.red,     label: '[ERROR]', weight: 3 },
 }
 
 const gray = (str) => `${ANSI.gray}${str}${ANSI.reset}`
 
 class Logger {
-    constructor(prefix = 'Highrise') {
+    constructor(prefix = 'Highrise', level = 'debug') {
         if (typeof prefix !== 'string' || !prefix.trim()) {
             throw new Error('[Logger] prefix must be a non-empty string')
         }
+        
+        if (!LEVELS[level]) {
+            throw new Error(`[Logger] invalid level "${level}"`)
+        }
 
         this.prefix = prefix
+        this.level = level
     }
 
     #time() {
         return new Date().toTimeString().slice(0, 8)
     }
 
-    #getLocation() {
-        const stack = new Error().stack?.split('\n')
-        const caller = stack?.[4]
-        if (!caller) return null
-        const match = caller.match(/\((.+)\)$/) || caller.match(/at (.+)$/)
-        return match?.[1] ?? null
+    #format(a) {
+        if (a instanceof Error) return `${a.name}: ${a.message}`
+        if (typeof a === 'object' && a !== null) {
+            try { return JSON.stringify(a) } catch { return '[Unserializable]' }
+        }
+        return String(a)
     }
 
     #log(level, category, ...args) {
-        const { color, label } = LEVELS[level]
+        if (LEVELS[level].weight < LEVELS[this.level].weight) return
 
+        const { color, label } = LEVELS[level]
         const prefix = `${ANSI.bold}${ANSI.white}[${this.prefix}]${ANSI.reset}`
         const sep = gray('│')
         const time = gray(this.#time())
         const lvl = `${color}${label}${ANSI.reset}`
         const cat = `${color}${category}${ANSI.reset}`
-        const msg = args
-            .map(a => typeof a === 'object' ? JSON.stringify(a) : a)
-            .join(` ${gray('·')} `)
+        const msg = args.map(a => this.#format(a)).join(` ${gray('·')} `)
 
-        const loc = level === 'debug'
-            ? `\n${gray(`↳ ${this.#getLocation()}`)}\n`
-            : ''
+        let line = `${prefix} ${sep} ${time} ${sep} ${lvl} ${sep} ${cat}`
+        if (msg) line += ` ${sep} ${msg}`
 
-        console.log(
-            `${prefix} ${sep} ${time} ${sep} ${lvl} ${sep} ${cat}`,
-            msg ? `${sep} ${msg}${loc}` : loc
-        )
+        const out = level === 'error' ? console.error : console.log
+        out(line)
     }
 
     info(category, ...args) { this.#log('info', category, ...args) }
     warn(category, ...args) { this.#log('warn', category, ...args) }
     error(category, ...args) { this.#log('error', category, ...args) }
     debug(category, ...args) { this.#log('debug', category, ...args) }
+
+    setLevel(level) {
+        if (!LEVELS[level]) throw new Error(`[Logger] invalid level "${level}"`)
+        this.level = level
+    }
 }
 
 module.exports = Logger

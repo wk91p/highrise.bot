@@ -1,3 +1,6 @@
+type LogLevel = 'debug' | 'info' | 'warn' | 'error'
+
+
 /** 
  * Built-in validator utils for highrise bots, also it can be imported for external usage 
  */
@@ -45,7 +48,22 @@ declare class Logger {
      * logger.debug("Closing", `code: ${code}`, `reason: ${reason}`)
      */
     debug(category: string, ...args: unknown[]): void;
+
+    /**
+     * Changes the minimum log level at runtime.
+     * Level order (low to high severity): `debug` < `info` < `warn` < `error`.
+     * Setting a level shows that level and everything more severe.
+     *
+     * @param level - New minimum level.
+     * @throws {Error} If `level` is not a valid `LogLevel`.
+     *
+     * @example
+     * ```ts
+     * logger.setLevel('debug')
+     * ```
+     */
+    setLevel(level: LogLevel): void
 }
 
-export { Logger }
+export { Logger, LogLevel }
 export default Logger
