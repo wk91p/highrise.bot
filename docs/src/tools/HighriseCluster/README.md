@@ -1,9 +1,12 @@
 # Highrise Cluster
 
+> [!WARNING]
+> This tool was removed temporary in 2.6.2, will be back soon
+
 `HighriseCluster` allows you to manage multiple bots across multiple rooms from a single process. Each bot is fully independent with its own WebSocket, state, and reconnect logic. All events from every bot are aggregated into a single event emitter with the bot instance prepended as the first argument.
 
 > [!NOTE]
-> Memory is minimal. The first bot costs ~750kb, each additional bot costs ~75kb plus the WebSocket connection. A 2GB ram VPS can comfortably handle hundreds of bots in a single cluster process.
+> Memory is minimal. The first bot costs ~750kb, each additional bot costs ~447kb with the WebSocket connection. A 2GB ram VPS can comfortably handle hundreds of bots in a single cluster process.
 
 ## Setup
 
