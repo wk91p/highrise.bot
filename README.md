@@ -30,6 +30,11 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.6.2
+**Changed**
+
+- Removing `HighriseCluster` temporary
+
 ### 2.6.1
 
 **Fixed**
