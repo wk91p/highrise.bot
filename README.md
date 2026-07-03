@@ -30,6 +30,11 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.6.1
+
+**Fixed**
+- Crash when `options.logger` was not provided due to missing optional chaining
+
 ## 2.6.0
 
 **Added**
