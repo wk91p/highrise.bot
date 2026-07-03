@@ -37,7 +37,7 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-7a065e0e.js";
+            window.path_to_searchindex_js = "searchindex-73b409e5.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-8fad2e51.js"></script>
@@ -619,6 +619,19 @@ first few events might fire before your handlers exist to catch them.</p>
 <blockquote class="blockquote-tag blockquote-tag-note">
 <p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
 <p>Useful after calling <code>setToken()</code> or <code>setRoomId()</code> to apply the new credentials.</p>
+</blockquote>
+<h3 id="botdestroy"><a class="header" href="#botdestroy">bot.destroy()</a></h3>
+<p>Stops all internal managers (roles, emote loop) and logs the bot out. Call this in your own <code>SIGINT</code>/<code>SIGTERM</code> handlers to ensure roles and other stateful managers persist correctly on shutdown.</p>
+<pre><code class="language-javascript">const bot = new Highrise()
+
+bot.login(token, roomId)
+
+process.once("SIGINT", () =&gt; { bot.destroy(); process.exit(0) })
+process.once("SIGTERM", () =&gt; { bot.destroy(); process.exit(0) })
+</code></pre>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p><code>Highrise</code> does not register its own process exit handlers. If you don’t call <code>destroy()</code> on shutdown, roles and other stateful data may not be saved correctly. If you’re using <code>HighriseCluster</code>, this is handled for you automatically.</p>
 </blockquote>
 <h3 id="settokennewtoken"><a class="header" href="#settokennewtoken">setToken(newToken)</a></h3>
 <p>Updates the authentication token while preserving the current room ID.</p>
@@ -7406,10 +7419,6 @@ module.exports = {
 <p><strong><code>init()</code> clears the module cache on every reload.</strong> This means changes to command files are picked up without restarting the bot, but shared state inside command files will be reset.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="highrise-cluster"><a class="header" href="#highrise-cluster">Highrise Cluster</a></h1>
-<blockquote class="blockquote-tag blockquote-tag-warning">
-<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
-<p>This tool was removed temporary in 2.6.2, will be back soon</p>
-</blockquote>
 <p><code>HighriseCluster</code> allows you to manage multiple bots across multiple rooms from a single process. Each bot is fully independent with its own WebSocket, state, and reconnect logic. All events from every bot are aggregated into a single event emitter with the bot instance prepended as the first argument.</p>
 <blockquote class="blockquote-tag blockquote-tag-note">
 <p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
@@ -7529,6 +7538,11 @@ console.log(`${bots.length} bots running`)
 <h3 id="reconnectall"><a class="header" href="#reconnectall">reconnectAll()</a></h3>
 <p>Reconnects all bots in the cluster.</p>
 <pre><code class="language-javascript">cluster.reconnectAll()
+</code></pre>
+<p><strong>Returns:</strong> <code>void</code></p>
+<h3 id="clusterdestroyall"><a class="header" href="#clusterdestroyall">cluster.destroyAll()</a></h3>
+<p>Destroys and removes all bots in the cluster, calling <code>destroy()</code> on each one. Automatically called on <code>SIGINT</code> and <code>SIGTERM</code>.</p>
+<pre><code class="language-javascript">cluster.destroyAll()
 </code></pre>
 <p><strong>Returns:</strong> <code>void</code></p>
 <h3 id="size-1"><a class="header" href="#size-1">size</a></h3>
