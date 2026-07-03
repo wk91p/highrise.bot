@@ -15,6 +15,7 @@ import { AwaitClass } from "../Awaiter";
 import EmoteLoop from "../Tools/EmoteLooper";
 import EmotesManager from "../Tools/EmotesManager";
 import Logger, { LogLevel } from "../Tools/Logger";
+import HighriseCluster from "../HighriseCluster";
 
 interface RolesOptions {
     /** Path to the file where roles will be persisted (e.g. `"./roles.json"`) */
@@ -160,6 +161,17 @@ declare class Highrise {
      * @returns A promise that resolves when the reconnection is complete.
      */
     reconnect(): void
+
+    /**
+     * Stops all internal managers (roles, emote loop) and logs the bot out.
+     * Call this in your own `SIGINT`/`SIGTERM` handlers to ensure roles and
+     * other stateful managers persist correctly on shutdown.
+     * 
+     * @remarks
+     * If you're using {@link HighriseCluster}, cleanup is handled automatically
+     * and you do not need to call this manually.
+     */
+    destroy(): void
 
     /**
      * Updates the authentication token credential while preserving the current room ID.

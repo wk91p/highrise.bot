@@ -30,7 +30,18 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.6.3
+
+**Added**
+- Re-added `HighriseCluster` with fixes
+- `bot.destroy()` to manually stop internal managers (roles, emote loop) and log out, call this in your own exit handlers for standalone bots
+- `cluster.destroyAll()` to automatically clean up and destroy every bot in a `HighriseCluster` on `SIGINT`/`SIGTERM`
+
+**Fixed**
+- Removed automatic `SIGINT`/`SIGTERM` handling from `Highrise` to prevent a race condition where only the first bot's cleanup would run before `process.exit()` killed the process
+
 ### 2.6.2
+
 **Changed**
 
 - Removing `HighriseCluster` temporary

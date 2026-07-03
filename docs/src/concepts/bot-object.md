@@ -179,6 +179,22 @@ bot.reconnect()
 > [!NOTE]
 > Useful after calling `setToken()` or `setRoomId()` to apply the new credentials.
 
+### bot.destroy()
+
+Stops all internal managers (roles, emote loop) and logs the bot out. Call this in your own `SIGINT`/`SIGTERM` handlers to ensure roles and other stateful managers persist correctly on shutdown.
+
+```javascript
+const bot = new Highrise()
+
+bot.login(token, roomId)
+
+process.once("SIGINT", () => { bot.destroy(); process.exit(0) })
+process.once("SIGTERM", () => { bot.destroy(); process.exit(0) })
+```
+
+> [!NOTE]
+> `Highrise` does not register its own process exit handlers. If you don't call `destroy()` on shutdown, roles and other stateful data may not be saved correctly. If you're using `HighriseCluster`, this is handled for you automatically.
+
 ### setToken(newToken)
 
 Updates the authentication token while preserving the current room ID.

@@ -12,6 +12,27 @@ class HighriseCluster extends EventEmitter {
     constructor() {
         super()
         this.setMaxListeners(0)
+
+        const handleShutdown = () => {
+            this.#log.warn('HighriseCluster', 'Shutdown signal received. Cleaning up all bots...')
+            this.destroyAll()
+            process.exit(0)
+        }
+
+        process.once("SIGINT", handleShutdown)
+        process.once("SIGTERM", handleShutdown)
+    }
+
+    destroyAll() {
+        for (const { bot } of this.#bots.values()) {
+            try {
+                bot.destroy()
+            } catch (err) {
+                this.#log.error('HighriseCluster', `Failed to destroy bot: ${err.message}`)
+            }
+        }
+        
+        this.#bots.clear()
     }
 
     add(token, roomId, options = {}) {
@@ -72,7 +93,7 @@ class HighriseCluster extends EventEmitter {
         const entry = this.#bots.get(roomId)
         if (!entry) return false
 
-        entry.bot.logout()
+        entry.bot.destroy()
         this.#bots.delete(roomId)
         return true
     }

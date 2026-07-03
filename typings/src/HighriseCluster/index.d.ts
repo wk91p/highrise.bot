@@ -79,6 +79,12 @@ declare class HighriseCluster {
      */
     reconnectAll(): void
 
+    /**
+     * Destroys and removes all bots in the cluster, calling `destroy()` on each one.
+     * Automatically called on `SIGINT` and `SIGTERM`.
+     */
+    destroyAll(): void
+
     on<K extends keyof EventMap>(event: K, listener: (bot: Highrise, ...args: EventMap[K]) => Promise<void>): this
     on(event: string, listener: (bot: Highrise, ...args: any[]) => Promise<void>): this
 

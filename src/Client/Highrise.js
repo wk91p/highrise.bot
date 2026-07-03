@@ -9,26 +9,24 @@ class Highrise extends HighriseCore {
         super(options)
 
         this.#options = options
-
-        process.once("SIGINT", () => { this.#classesCleanup(); process.exit() })
-        process.once("SIGTERM", () => { this.#classesCleanup(); process.exit() })
-        process.once("exit", this.#classesCleanup.bind(this))
     }
-    
+
     login(token, roomId) {
         super.login(token, roomId)
 
         this.#setupApi()
     }
 
+    destroy() {
+        if (this.roles) this.roles.destroy()
+        if (this.looper) this.looper.destroy()
+
+        this.logout()
+    }
+
     #setupApi() {
         this.emotes = new EmotesManager()
         this.looper = new EmoteLoop(this.player, this.emotes)
-    }
-
-    #classesCleanup() {
-        this.roles.destroy()
-        this.looper.destroy()
     }
 }
 

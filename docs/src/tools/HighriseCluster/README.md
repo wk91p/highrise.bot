@@ -1,8 +1,5 @@
 # Highrise Cluster
 
-> [!WARNING]
-> This tool was removed temporary in 2.6.2, will be back soon
-
 `HighriseCluster` allows you to manage multiple bots across multiple rooms from a single process. Each bot is fully independent with its own WebSocket, state, and reconnect logic. All events from every bot are aggregated into a single event emitter with the bot instance prepended as the first argument.
 
 > [!NOTE]
@@ -140,6 +137,16 @@ Reconnects all bots in the cluster.
 
 ```javascript
 cluster.reconnectAll()
+```
+
+**Returns:** `void`
+
+### cluster.destroyAll()
+
+Destroys and removes all bots in the cluster, calling `destroy()` on each one. Automatically called on `SIGINT` and `SIGTERM`.
+
+```javascript
+cluster.destroyAll()
 ```
 
 **Returns:** `void`
