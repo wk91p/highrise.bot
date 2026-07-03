@@ -40,7 +40,7 @@ bot.login("token", "roomId")
 **Fixed**
 - Crash when `options.logger` was not provided due to missing optional chaining
 
-## 2.6.0
+### 2.6.0
 
 **Added**
 - Added log level filtering. `new Logger(prefix, level)` now accepts an optional second argument (`'debug' | 'info' | 'warn' | 'error'`) to set the minimum level shown, defaults to `'debug'`.
