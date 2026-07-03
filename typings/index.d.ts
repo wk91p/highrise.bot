@@ -15,5 +15,5 @@ export {
     HttpClient,
     EmotesManager,
     CommandManager,
-    // HighriseCluster
+    HighriseCluster
 }

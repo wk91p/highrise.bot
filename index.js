@@ -19,4 +19,4 @@ exports.OutfitItem = OutfitItem
 exports.HttpClient = HttpClient
 exports.EmotesManager = EmotesManager
 exports.CommandManager = CommandManager
-// exports.HighriseCluster = HighriseCluster
+exports.HighriseCluster = HighriseCluster
