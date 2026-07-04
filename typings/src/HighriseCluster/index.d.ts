@@ -28,7 +28,8 @@ declare class HighriseCluster {
     get size(): number
 
     /**
-     * Adds a bot to the cluster and registers all event listeners.
+     * Adds a bot to the cluster, indexed by both token and room ID.
+     * If the cluster has already been started, the bot is wired and logged in immediately.
      * @param token The authentication token for the bot.
      * @param roomId The room ID the bot will connect to.
      * @param options Optional configuration options for the bot.
@@ -37,7 +38,7 @@ declare class HighriseCluster {
     add(token: string, roomId: string, options?: LoginOptions): this
 
     /**
-     * Starts all bots in the cluster by calling `login()` on each one.
+     * Starts all bots in the cluster by wiring event forwarding and calling `login()` on each one.
      * @returns The cluster instance for chaining.
      */
     login(): this
@@ -49,11 +50,18 @@ declare class HighriseCluster {
     logout(): this
 
     /**
-     * Retrieves a specific bot by room ID.
-     * @param roomId The room ID of the bot to retrieve.
+     * Retrieves a specific bot by its authentication token.
+     * @param token The token of the bot to retrieve.
      * @returns The bot instance, or `null` if not found.
      */
-    get(roomId: string): Highrise | null
+    getByToken(token: string): Highrise | null
+
+    /**
+     * Retrieves bot(s) by room ID.
+     * @param roomId The room ID to look up.
+     * @returns A single bot if only one exists in the room, an array if multiple bots share the room, or `null` if none found.
+     */
+    getByRoom(roomId: string): Highrise | Highrise[] | null
 
     /**
      * Returns all bot instances in the cluster.
@@ -61,18 +69,32 @@ declare class HighriseCluster {
     getAll(): Highrise[]
 
     /**
-     * Removes a bot from the cluster and disconnects it.
-     * @param roomId The room ID of the bot to remove.
+     * Removes a bot from the cluster by its authentication token and disconnects it.
+     * @param token The token of the bot to remove.
      * @returns `true` if removed successfully, `false` if not found.
      */
-    remove(roomId: string): boolean
+    removeByToken(token: string): boolean
 
     /**
-     * Reconnects a specific bot by room ID.
-     * @param roomId The room ID of the bot to reconnect.
+     * Removes all bots in a room from the cluster and disconnects them.
+     * @param roomId The room ID to remove all bots from.
+     * @returns `true` if any bots were removed, `false` if none found.
+     */
+    removeByRoom(roomId: string): boolean
+
+    /**
+     * Reconnects a specific bot by its authentication token.
+     * @param token The token of the bot to reconnect.
      * @returns `true` if reconnected successfully, `false` if not found.
      */
-    reconnect(roomId: string): boolean
+    reconnectByToken(token: string): boolean
+
+    /**
+     * Reconnects all bots in a specific room.
+     * @param roomId The room ID to reconnect all bots in.
+     * @returns `true` if any bots were reconnected, `false` if none found.
+     */
+    reconnectByRoom(roomId: string): boolean
 
     /**
      * Reconnects all bots in the cluster.

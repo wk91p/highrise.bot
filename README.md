@@ -30,6 +30,20 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.7.0
+
+**Added**
+- `HighriseCluster` now indexes bots by both token and room ID for O(1) lookups
+- `getByToken(token)` and `getByRoom(roomId)` for retrieving bots by their unique token or shared room
+- `removeByToken(token)` and `removeByRoom(roomId)` for targeted or room-wide bot removal
+- `reconnectByToken(token)` and `reconnectByRoom(roomId)` for targeted or room-wide reconnection
+- Support for multiple bots sharing the same room within a single cluster
+- Dynamic bot addition after `cluster.login()` has already been called
+
+**Changed**
+- `HighriseCluster.add()` no longer overrides existing bots with the same room ID, it now supports multiple bots per room by keying storage on token instead
+- Event forwarding is now wired lazily at `login()` time (or immediately on `add()` if the cluster has already started) instead of at `add()` time, preventing duplicate listener registration and respecting the WebSocket event subscription contract
+
 ### 2.6.3
 
 **Added**
