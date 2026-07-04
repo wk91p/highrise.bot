@@ -37,7 +37,7 @@
             const path_to_root = "";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-73b409e5.js";
+            window.path_to_searchindex_js = "searchindex-0b81592e.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-8fad2e51.js"></script>
@@ -7446,7 +7446,7 @@ cluster.login()
 </code></pre>
 <h2 id="methods-24"><a class="header" href="#methods-24">Methods</a></h2>
 <h3 id="addtoken-roomid-options"><a class="header" href="#addtoken-roomid-options">add(token, roomId, options)</a></h3>
-<p>Adds a bot to the cluster and registers all event listeners. Returns the cluster instance for chaining.</p>
+<p>Adds a bot to the cluster, indexed by both token and room ID, and registers all event listeners. Returns the cluster instance for chaining.</p>
 <pre><code class="language-javascript">cluster
     .add("token", "roomId")
     // with options
@@ -7470,8 +7470,12 @@ cluster.login()
 </table>
 </div>
 <p><strong>Returns:</strong> <code>this</code> for chaining.</p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>Multiple bots can share the same room. Adding a bot with a token that already exists in the cluster is skipped with a warning. If the cluster has already been started with <code>login()</code>, calling <code>add()</code> afterward wires and logs in the new bot immediately.</p>
+</blockquote>
 <h3 id="login-1"><a class="header" href="#login-1">login()</a></h3>
-<p>Starts all bots in the cluster by calling <code>login()</code> on each one. Always call this last after registering all event listeners.</p>
+<p>Starts all bots in the cluster by wiring event forwarding and calling <code>login()</code> on each one. Always call this last after registering all event listeners.</p>
 <pre><code class="language-javascript">cluster.login()
 </code></pre>
 <p><strong>Returns:</strong> <code>this</code> for chaining.</p>
@@ -7480,12 +7484,12 @@ cluster.login()
 <pre><code class="language-javascript">cluster.logout()
 </code></pre>
 <p><strong>Returns:</strong> <code>this</code> for chaining.</p>
-<h3 id="getroomid-1"><a class="header" href="#getroomid-1">get(roomId)</a></h3>
-<p>Retrieves a specific bot instance by room ID.</p>
-<pre><code class="language-javascript">const bot = cluster.get("roomId1")
+<h3 id="getbytokentoken"><a class="header" href="#getbytokentoken">getByToken(token)</a></h3>
+<p>Retrieves a specific bot instance by its authentication token.</p>
+<pre><code class="language-javascript">const bot = cluster.getByToken("token1")
 
 if (bot) {
-    await bot.message.send("Hello from a specific room!")
+    await bot.message.send("Hello from a specific bot!")
 }
 </code></pre>
 <div class="table-wrapper">
@@ -7494,20 +7498,42 @@ if (bot) {
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>roomId</code></td><td><code>string</code></td><td>The room ID of the bot to retrieve</td></tr>
+<tr><td><code>token</code></td><td><code>string</code></td><td>The token of the bot to retrieve</td></tr>
 </tbody>
 </table>
 </div>
 <p><strong>Returns:</strong> <code>Highrise</code> or <code>null</code> if not found.</p>
+<h3 id="getbyroomroomid"><a class="header" href="#getbyroomroomid">getByRoom(roomId)</a></h3>
+<p>Retrieves bot(s) by room ID.</p>
+<pre><code class="language-javascript">const bot = cluster.getByRoom("roomId1")
+
+// if multiple bots share the room, an array is returned instead
+if (Array.isArray(bot)) {
+    for (const b of bot) await b.message.send("Hello from this room!")
+} else if (bot) {
+    await bot.message.send("Hello from this room!")
+}
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>roomId</code></td><td><code>string</code></td><td>The room ID to look up</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> A single <code>Highrise</code> if only one bot exists in the room, <code>Highrise[]</code> if multiple bots share the room, or <code>null</code> if none found.</p>
 <h3 id="getall-1"><a class="header" href="#getall-1">getAll()</a></h3>
 <p>Returns all bot instances in the cluster.</p>
 <pre><code class="language-javascript">const bots = cluster.getAll()
 console.log(`${bots.length} bots running`)
 </code></pre>
 <p><strong>Returns:</strong> <code>Highrise[]</code></p>
-<h3 id="removeroomid"><a class="header" href="#removeroomid">remove(roomId)</a></h3>
-<p>Removes a bot from the cluster and disconnects it.</p>
-<pre><code class="language-javascript">cluster.remove("roomId1")
+<h3 id="removebytokentoken"><a class="header" href="#removebytokentoken">removeByToken(token)</a></h3>
+<p>Removes a bot from the cluster by its authentication token and disconnects it.</p>
+<pre><code class="language-javascript">cluster.removeByToken("token1")
 </code></pre>
 <div class="table-wrapper">
 <table>
@@ -7515,14 +7541,14 @@ console.log(`${bots.length} bots running`)
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>roomId</code></td><td><code>string</code></td><td>The room ID of the bot to remove</td></tr>
+<tr><td><code>token</code></td><td><code>string</code></td><td>The token of the bot to remove</td></tr>
 </tbody>
 </table>
 </div>
 <p><strong>Returns:</strong> <code>true</code> if removed successfully, <code>false</code> if not found.</p>
-<h3 id="reconnectroomid"><a class="header" href="#reconnectroomid">reconnect(roomId)</a></h3>
-<p>Reconnects a specific bot by room ID.</p>
-<pre><code class="language-javascript">cluster.reconnect("roomId1")
+<h3 id="removebyroomroomid"><a class="header" href="#removebyroomroomid">removeByRoom(roomId)</a></h3>
+<p>Removes all bots in a room from the cluster and disconnects them.</p>
+<pre><code class="language-javascript">cluster.removeByRoom("roomId1")
 </code></pre>
 <div class="table-wrapper">
 <table>
@@ -7530,17 +7556,47 @@ console.log(`${bots.length} bots running`)
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>roomId</code></td><td><code>string</code></td><td>The room ID of the bot to reconnect</td></tr>
+<tr><td><code>roomId</code></td><td><code>string</code></td><td>The room ID to remove all bots from</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>true</code> if any bots were removed, <code>false</code> if none found.</p>
+<h3 id="reconnectbytokentoken"><a class="header" href="#reconnectbytokentoken">reconnectByToken(token)</a></h3>
+<p>Reconnects a specific bot by its authentication token.</p>
+<pre><code class="language-javascript">cluster.reconnectByToken("token1")
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>token</code></td><td><code>string</code></td><td>The token of the bot to reconnect</td></tr>
 </tbody>
 </table>
 </div>
 <p><strong>Returns:</strong> <code>true</code> if reconnected successfully, <code>false</code> if not found.</p>
+<h3 id="reconnectbyroomroomid"><a class="header" href="#reconnectbyroomroomid">reconnectByRoom(roomId)</a></h3>
+<p>Reconnects all bots in a specific room.</p>
+<pre><code class="language-javascript">cluster.reconnectByRoom("roomId1")
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>roomId</code></td><td><code>string</code></td><td>The room ID to reconnect all bots in</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Returns:</strong> <code>true</code> if any bots were reconnected, <code>false</code> if none found.</p>
 <h3 id="reconnectall"><a class="header" href="#reconnectall">reconnectAll()</a></h3>
 <p>Reconnects all bots in the cluster.</p>
 <pre><code class="language-javascript">cluster.reconnectAll()
 </code></pre>
 <p><strong>Returns:</strong> <code>void</code></p>
-<h3 id="clusterdestroyall"><a class="header" href="#clusterdestroyall">cluster.destroyAll()</a></h3>
+<h3 id="destroyall"><a class="header" href="#destroyall">destroyAll()</a></h3>
 <p>Destroys and removes all bots in the cluster, calling <code>destroy()</code> on each one. Automatically called on <code>SIGINT</code> and <code>SIGTERM</code>.</p>
 <pre><code class="language-javascript">cluster.destroyAll()
 </code></pre>
@@ -7562,6 +7618,10 @@ cluster.on("Movement", async (bot, user, position, anchor) =&gt; {})
 cluster.on("Direct", async (bot, user, message, conversation) =&gt; {})
 cluster.on("Channel", async (bot, botId, message, tags) =&gt; {})
 </code></pre>
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<p>Register all <code>cluster.on()</code> listeners before calling <code>cluster.login()</code>. Bots already connected will not receive events for listeners registered afterward, since the event subscription list is fixed at connection time via the WebSocket URL. Bots added via <code>cluster.add()</code> after <code>login()</code> will correctly include all currently registered events.</p>
+</blockquote>
 <h2 id="complete-example-24"><a class="header" href="#complete-example-24">Complete example</a></h2>
 <pre><code class="language-javascript">const { HighriseCluster } = require("highrise.bot")
 
@@ -7571,7 +7631,7 @@ cluster
     .add("token1", "roomId1", { roles: { persistPath: "./room1-roles.json" } })
     .add("token2", "roomId2", { roles: { persistPath: "./room2-roles.json" } })
 
-cluster.once("Ready", async (bot, metadata) =&gt; {
+cluster.on("Ready", async (bot, metadata) =&gt; {
     console.log(`${metadata.userId} is online in ${bot.metadata.room.roomName}`)
 })
 
@@ -7595,15 +7655,16 @@ cluster.on("UserJoined", async (bot, user, position) =&gt; {
 })
 
 cluster.login()
+
+// add a bot dynamically after the cluster has started
+cluster.add("token3", "roomId3")
 </code></pre>
 <h2 id="important-things-to-know-33"><a class="header" href="#important-things-to-know-33">Important things to know</a></h2>
 <p><strong>Each bot is fully independent.</strong> Roles, state, intervals, and WebSocket connections are all isolated per bot. One bot crashing or reconnecting does not affect others.</p>
-<p><strong>Register listeners before calling <code>login()</code>.</strong> The same rule applies as with a single bot — all <code>cluster.on()</code> calls must come before <code>cluster.login()</code>.</p>
-<p><strong>Each bot can have its own options.</strong> Pass different <code>options</code> to each <code>add()</code> call to configure bots individually — different role files, different intervals.</p>
-<p><strong><code>get(roomId)</code> returns the bot directly.</strong> You can use it to interact with a specific room at any time:</p>
-<pre><code class="language-javascript">const bot = cluster.get("roomId1")
-await bot.message.send("Hello from room 1 only!")
-</code></pre>
+<p><strong>Bots are indexed by both token and room ID.</strong> Use <code>getByToken()</code> when you need a guaranteed single bot, or <code>getByRoom()</code> when a room might have multiple bots sharing it.</p>
+<p><strong>Multiple bots can share the same room.</strong> Unlike earlier versions, adding a second bot to a room already in use does not overwrite the first, both remain active and <code>getByRoom()</code> returns an array when this happens.</p>
+<p><strong>Bots can be added after <code>login()</code>.</strong> Calling <code>cluster.add()</code> after the cluster has already started wires event forwarding and logs the new bot in immediately, useful for dynamically scaling bots based on room population.</p>
+<p><strong>Each bot can have its own options.</strong> Pass different <code>options</code> to each <code>add()</code> call to configure bots individually. different role files, different intervals.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="outfit-item"><a class="header" href="#outfit-item">Outfit Item</a></h1>
 <p>Represents a Highrise clothing item that can be equipped to a bot.

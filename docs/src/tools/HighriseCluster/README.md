@@ -32,7 +32,7 @@ cluster.login()
 
 ### add(token, roomId, options)
 
-Adds a bot to the cluster and registers all event listeners. Returns the cluster instance for chaining.
+Adds a bot to the cluster, indexed by both token and room ID, and registers all event listeners. Returns the cluster instance for chaining.
 
 ```javascript
 cluster
@@ -54,9 +54,12 @@ cluster
 
 **Returns:** `this` for chaining.
 
+> [!NOTE]
+> Multiple bots can share the same room. Adding a bot with a token that already exists in the cluster is skipped with a warning. If the cluster has already been started with `login()`, calling `add()` afterward wires and logs in the new bot immediately.
+
 ### login()
 
-Starts all bots in the cluster by calling `login()` on each one. Always call this last after registering all event listeners.
+Starts all bots in the cluster by wiring event forwarding and calling `login()` on each one. Always call this last after registering all event listeners.
 
 ```javascript
 cluster.login()
@@ -74,23 +77,44 @@ cluster.logout()
 
 **Returns:** `this` for chaining.
 
-### get(roomId)
+### getByToken(token)
 
-Retrieves a specific bot instance by room ID.
+Retrieves a specific bot instance by its authentication token.
 
 ```javascript
-const bot = cluster.get("roomId1")
+const bot = cluster.getByToken("token1")
 
 if (bot) {
-    await bot.message.send("Hello from a specific room!")
+    await bot.message.send("Hello from a specific bot!")
 }
 ```
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `roomId` | `string` | The room ID of the bot to retrieve |
+| `token` | `string` | The token of the bot to retrieve |
 
 **Returns:** `Highrise` or `null` if not found.
+
+### getByRoom(roomId)
+
+Retrieves bot(s) by room ID.
+
+```javascript
+const bot = cluster.getByRoom("roomId1")
+
+// if multiple bots share the room, an array is returned instead
+if (Array.isArray(bot)) {
+    for (const b of bot) await b.message.send("Hello from this room!")
+} else if (bot) {
+    await bot.message.send("Hello from this room!")
+}
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `roomId` | `string` | The room ID to look up |
+
+**Returns:** A single `Highrise` if only one bot exists in the room, `Highrise[]` if multiple bots share the room, or `null` if none found.
 
 ### getAll()
 
@@ -103,33 +127,61 @@ console.log(`${bots.length} bots running`)
 
 **Returns:** `Highrise[]`
 
-### remove(roomId)
+### removeByToken(token)
 
-Removes a bot from the cluster and disconnects it.
+Removes a bot from the cluster by its authentication token and disconnects it.
 
 ```javascript
-cluster.remove("roomId1")
+cluster.removeByToken("token1")
 ```
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `roomId` | `string` | The room ID of the bot to remove |
+| `token` | `string` | The token of the bot to remove |
 
 **Returns:** `true` if removed successfully, `false` if not found.
 
-### reconnect(roomId)
+### removeByRoom(roomId)
 
-Reconnects a specific bot by room ID.
+Removes all bots in a room from the cluster and disconnects them.
 
 ```javascript
-cluster.reconnect("roomId1")
+cluster.removeByRoom("roomId1")
 ```
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `roomId` | `string` | The room ID of the bot to reconnect |
+| `roomId` | `string` | The room ID to remove all bots from |
+
+**Returns:** `true` if any bots were removed, `false` if none found.
+
+### reconnectByToken(token)
+
+Reconnects a specific bot by its authentication token.
+
+```javascript
+cluster.reconnectByToken("token1")
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `token` | `string` | The token of the bot to reconnect |
 
 **Returns:** `true` if reconnected successfully, `false` if not found.
+
+### reconnectByRoom(roomId)
+
+Reconnects all bots in a specific room.
+
+```javascript
+cluster.reconnectByRoom("roomId1")
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `roomId` | `string` | The room ID to reconnect all bots in |
+
+**Returns:** `true` if any bots were reconnected, `false` if none found.
 
 ### reconnectAll()
 
@@ -141,7 +193,7 @@ cluster.reconnectAll()
 
 **Returns:** `void`
 
-### cluster.destroyAll()
+### destroyAll()
 
 Destroys and removes all bots in the cluster, calling `destroy()` on each one. Automatically called on `SIGINT` and `SIGTERM`.
 
@@ -177,6 +229,9 @@ cluster.on("Direct", async (bot, user, message, conversation) => {})
 cluster.on("Channel", async (bot, botId, message, tags) => {})
 ```
 
+> [!WARNING]
+> Register all `cluster.on()` listeners before calling `cluster.login()`. Bots already connected will not receive events for listeners registered afterward, since the event subscription list is fixed at connection time via the WebSocket URL. Bots added via `cluster.add()` after `login()` will correctly include all currently registered events.
+
 ## Complete example
 
 ```javascript
@@ -188,7 +243,7 @@ cluster
     .add("token1", "roomId1", { roles: { persistPath: "./room1-roles.json" } })
     .add("token2", "roomId2", { roles: { persistPath: "./room2-roles.json" } })
 
-cluster.once("Ready", async (bot, metadata) => {
+cluster.on("Ready", async (bot, metadata) => {
     console.log(`${metadata.userId} is online in ${bot.metadata.room.roomName}`)
 })
 
@@ -212,19 +267,19 @@ cluster.on("UserJoined", async (bot, user, position) => {
 })
 
 cluster.login()
+
+// add a bot dynamically after the cluster has started
+cluster.add("token3", "roomId3")
 ```
 
 ## Important things to know
 
 **Each bot is fully independent.** Roles, state, intervals, and WebSocket connections are all isolated per bot. One bot crashing or reconnecting does not affect others.
 
-**Register listeners before calling `login()`.** The same rule applies as with a single bot — all `cluster.on()` calls must come before `cluster.login()`.
+**Bots are indexed by both token and room ID.** Use `getByToken()` when you need a guaranteed single bot, or `getByRoom()` when a room might have multiple bots sharing it.
 
-**Each bot can have its own options.** Pass different `options` to each `add()` call to configure bots individually — different role files, different intervals.
+**Multiple bots can share the same room.** Unlike earlier versions, adding a second bot to a room already in use does not overwrite the first, both remain active and `getByRoom()` returns an array when this happens.
 
-**`get(roomId)` returns the bot directly.** You can use it to interact with a specific room at any time:
+**Bots can be added after `login()`.** Calling `cluster.add()` after the cluster has already started wires event forwarding and logs the new bot in immediately, useful for dynamically scaling bots based on room population.
 
-```javascript
-const bot = cluster.get("roomId1")
-await bot.message.send("Hello from room 1 only!")
-```
+**Each bot can have its own options.** Pass different `options` to each `add()` call to configure bots individually. different role files, different intervals.
