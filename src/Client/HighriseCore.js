@@ -99,18 +99,18 @@ class HighriseCore extends EventEmitter {
 
     #getWebsocketEvents() {
         const registered = this.eventNames()
-        const validEvents = []
+        const validEvents = new Set()
 
         for (const event of registered) {
             const wsEvent = EventToListener[event]
             if (wsEvent) {
-                validEvents.push(wsEvent)
+                validEvents.add(wsEvent)
             } else {
                 this.#logger.warn("Events", `Unknown event "${event}", skipping...`)
             }
         }
 
-        return validEvents
+        return [...validEvents]
     }
 
     #getCredential() {

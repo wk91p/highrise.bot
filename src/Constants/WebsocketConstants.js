@@ -8,6 +8,7 @@ const WebsocketEvents = [
 const EventToListener = {
     Ready: 'SessionMetadata',
     Chat: 'ChatEvent',
+    Whisper: 'ChatEvent',
     Movement: 'UserMovedEvent',
     UserJoined: 'UserJoinedEvent',
     UserLeft: 'UserLeftEvent',
