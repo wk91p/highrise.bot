@@ -30,6 +30,12 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.7.1
+
+**Fixes**
+
+- Missing `Whisper` Event from checking during connection establishing
+
 ### 2.7.0
 
 **Added**
