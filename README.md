@@ -28,7 +28,13 @@ bot.on("Chat", async (user, message) => {
 bot.login("token", "roomId")
 ```
 
-## Change Log
+## Change 
+
+### 2.7.2
+
+**Fixes**
+
+- `Roles` now save correctly on reconnection, which will fix losing updated roles from saving to disk
 
 ### 2.7.1
 
