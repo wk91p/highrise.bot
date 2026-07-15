@@ -28,7 +28,12 @@ bot.on("Chat", async (user, message) => {
 bot.login("token", "roomId")
 ```
 
-## Change 
+## Change Log
+
+### 2.7.4
+**Fixes**
+
+- `Roles` and `Sender` cleanup no longer throws if either instance is undefined
 
 ### 2.7.3
 

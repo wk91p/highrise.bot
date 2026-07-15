@@ -188,12 +188,11 @@ class HighriseCore extends EventEmitter {
             this.#ws.removeAllListeners()
             this.#ws.close()
             this.#ws = null
-
         }
-        
-        this.#sender.cleanUp()
-        this.roles.destroy()
-        
+
+        if (this.#sender) this.#sender.cleanUp()
+        if (this.roles) this.roles.destroy()
+
         for (const interval of (this.#state.get("intervals") ?? [])) {
             clearInterval(interval)
         }
