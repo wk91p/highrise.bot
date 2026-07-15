@@ -30,6 +30,12 @@ bot.login("token", "roomId")
 
 ## Change 
 
+### 2.7.3
+
+**Fixes**
+
+- `Roles` and `Sender` cleanup no longer skipped when ws is already null
+
 ### 2.7.2
 
 **Fixes**
