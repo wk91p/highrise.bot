@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "navy";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-0b81592e.js";
+            window.path_to_searchindex_js = "../../searchindex-2a6a205a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-8fad2e51.js"></script>
@@ -181,12 +181,12 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="botutilsemotes"><a class="header" href="#botutilsemotes">bot.utils.emotes</a></h1>
-<p>The <code>bot.utils.emotes</code> API provides access to all Highrise emotes available in the game. Use it to look up emotes by ID, name, or index, useful for building emote commands or any feature that needs to reference a specific emote.</p>
+                        <h1 id="botemotes"><a class="header" href="#botemotes">bot.emotes</a></h1>
+<p>The <code>bot.emotes</code> API provides access to all Highrise emotes available in the game. Use it to look up emotes by ID, name, or index, useful for building emote commands or any feature that needs to reference a specific emote.</p>
 <h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
 <h3 id="getbyidemoteid"><a class="header" href="#getbyidemoteid">getById(emoteId)</a></h3>
 <p>Retrieves an emote by its unique ID.</p>
-<pre><code class="language-javascript">const emote = bot.utils.emotes.getById("sit-idle-cute");
+<pre><code class="language-javascript">const emote = bot.emotes.getById("sit-idle-cute");
 
 if (emote) {
     console.log(`${emote.name} - ${emote.duration}s`);
@@ -205,7 +205,7 @@ if (emote) {
 <p><strong>Returns:</strong> <a href="#emote"><code>Emote</code></a> or <code>null</code></p>
 <h3 id="getbynameemotename"><a class="header" href="#getbynameemotename">getByName(emoteName)</a></h3>
 <p>Retrieves an emote by its display name.</p>
-<pre><code class="language-javascript">const emote = bot.utils.emotes.getByName("Rest");
+<pre><code class="language-javascript">const emote = bot.emotes.getByName("Rest");
 
 if (emote) {
     console.log(`${emote.id} - ${emote.duration}s`);
@@ -224,8 +224,8 @@ if (emote) {
 <p><strong>Returns:</strong> <a href="#emote"><code>Emote</code></a> or <code>null</code></p>
 <h3 id="getbyindexindex"><a class="header" href="#getbyindexindex">getByIndex(index)</a></h3>
 <p>Retrieves an emote by its zero-based index position in the internal list.</p>
-<pre><code class="language-javascript">const first = bot.utils.emotes.getByIndex(0);
-const last = bot.utils.emotes.getByIndex(bot.utils.emotes.size - 1);
+<pre><code class="language-javascript">const first = bot.emotes.getByIndex(0);
+const last = bot.emotes.getByIndex(bot.emotes.size - 1);
 </code></pre>
 <div class="table-wrapper">
 <table>
@@ -240,7 +240,7 @@ const last = bot.utils.emotes.getByIndex(bot.utils.emotes.size - 1);
 <p><strong>Returns:</strong> <a href="#emote"><code>Emote</code></a> or <code>null</code></p>
 <h3 id="getindexbynameemotename"><a class="header" href="#getindexbynameemotename">getIndexByName(emoteName)</a></h3>
 <p>Returns the zero-based index of an emote by its name.</p>
-<pre><code class="language-javascript">const index = bot.utils.emotes.getIndexByName("Rest");
+<pre><code class="language-javascript">const index = bot.emotes.getIndexByName("Rest");
 
 if (index !== null) {
     console.log(`Rest is emote #${index}`);
@@ -259,7 +259,7 @@ if (index !== null) {
 <p><strong>Returns:</strong> <code>number</code> or <code>null</code></p>
 <h3 id="getall"><a class="header" href="#getall">getAll()</a></h3>
 <p>Returns all available emotes as an array.</p>
-<pre><code class="language-javascript">const emotes = bot.utils.emotes.getAll();
+<pre><code class="language-javascript">const emotes = bot.emotes.getAll();
 
 emotes.forEach(emote =&gt; {
     console.log(`${emote.name}: ${emote.id} (${emote.duration}s)`);
@@ -268,7 +268,7 @@ emotes.forEach(emote =&gt; {
 <p><strong>Returns:</strong> <a href="#emote"><code>Emote[]</code></a></p>
 <h3 id="size"><a class="header" href="#size">size</a></h3>
 <p>Returns the total number of emotes available.</p>
-<pre><code class="language-javascript">console.log(`${bot.utils.emotes.size} emotes available`);
+<pre><code class="language-javascript">console.log(`${bot.emotes.size} emotes available`);
 </code></pre>
 <p><strong>Returns:</strong> <code>number</code></p>
 <h2 id="complete-example"><a class="header" href="#complete-example">Complete example</a></h2>
@@ -283,8 +283,8 @@ emotes.forEach(emote =&gt; {
             return;
         }
 
-        const emote = bot.utils.emotes.getByName(query)
-            ?? bot.utils.emotes.getById(query);
+        const emote = bot.emotes.getByName(query)
+            ?? bot.emotes.getById(query);
 
         if (!emote) {
             await bot.message.send(`No emote found for: ${query}`);
@@ -296,7 +296,7 @@ emotes.forEach(emote =&gt; {
     }
 
     if (cmd === '!emotes') {
-        const total = bot.utils.emotes.size;
+        const total = bot.emotes.size;
         await bot.message.send(`There are ${total} emotes available.`);
         return;
     }

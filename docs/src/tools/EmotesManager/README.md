@@ -1,6 +1,6 @@
-# bot.utils.emotes
+# bot.emotes
 
-The `bot.utils.emotes` API provides access to all Highrise emotes available in the game. Use it to look up emotes by ID, name, or index, useful for building emote commands or any feature that needs to reference a specific emote.
+The `bot.emotes` API provides access to all Highrise emotes available in the game. Use it to look up emotes by ID, name, or index, useful for building emote commands or any feature that needs to reference a specific emote.
 
 ## Methods
 
@@ -9,7 +9,7 @@ The `bot.utils.emotes` API provides access to all Highrise emotes available in t
 Retrieves an emote by its unique ID.
 
 ```javascript
-const emote = bot.utils.emotes.getById("sit-idle-cute");
+const emote = bot.emotes.getById("sit-idle-cute");
 
 if (emote) {
     console.log(`${emote.name} - ${emote.duration}s`);
@@ -27,7 +27,7 @@ if (emote) {
 Retrieves an emote by its display name.
 
 ```javascript
-const emote = bot.utils.emotes.getByName("Rest");
+const emote = bot.emotes.getByName("Rest");
 
 if (emote) {
     console.log(`${emote.id} - ${emote.duration}s`);
@@ -45,8 +45,8 @@ if (emote) {
 Retrieves an emote by its zero-based index position in the internal list.
 
 ```javascript
-const first = bot.utils.emotes.getByIndex(0);
-const last = bot.utils.emotes.getByIndex(bot.utils.emotes.size - 1);
+const first = bot.emotes.getByIndex(0);
+const last = bot.emotes.getByIndex(bot.emotes.size - 1);
 ```
 
 | Parameter | Type | Description |
@@ -60,7 +60,7 @@ const last = bot.utils.emotes.getByIndex(bot.utils.emotes.size - 1);
 Returns the zero-based index of an emote by its name.
 
 ```javascript
-const index = bot.utils.emotes.getIndexByName("Rest");
+const index = bot.emotes.getIndexByName("Rest");
 
 if (index !== null) {
     console.log(`Rest is emote #${index}`);
@@ -78,7 +78,7 @@ if (index !== null) {
 Returns all available emotes as an array.
 
 ```javascript
-const emotes = bot.utils.emotes.getAll();
+const emotes = bot.emotes.getAll();
 
 emotes.forEach(emote => {
     console.log(`${emote.name}: ${emote.id} (${emote.duration}s)`);
@@ -92,7 +92,7 @@ emotes.forEach(emote => {
 Returns the total number of emotes available.
 
 ```javascript
-console.log(`${bot.utils.emotes.size} emotes available`);
+console.log(`${bot.emotes.size} emotes available`);
 ```
 
 **Returns:** `number`
@@ -111,8 +111,8 @@ bot.on('Chat', async (user, message) => {
             return;
         }
 
-        const emote = bot.utils.emotes.getByName(query)
-            ?? bot.utils.emotes.getById(query);
+        const emote = bot.emotes.getByName(query)
+            ?? bot.emotes.getById(query);
 
         if (!emote) {
             await bot.message.send(`No emote found for: ${query}`);
@@ -124,7 +124,7 @@ bot.on('Chat', async (user, message) => {
     }
 
     if (cmd === '!emotes') {
-        const total = bot.utils.emotes.size;
+        const total = bot.emotes.size;
         await bot.message.send(`There are ${total} emotes available.`);
         return;
     }
