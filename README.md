@@ -30,6 +30,11 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.7.6
+
+**Changes**
+- Refactored the init script (`bin/init.js`) for readability and maintainability, no behavior changes
+
 ### 2.7.5
 
 **Changes**
