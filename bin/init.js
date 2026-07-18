@@ -3,65 +3,89 @@
 const fs = require('fs');
 const path = require('path');
 
-const cyan = '\x1b[36m';
-const green = '\x1b[32m';
-const yellow = '\x1b[33m';
-const red = '\x1b[31m';
-const reset = '\x1b[0m';
+const COLORS = {
+  cyan: '\x1b[36m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  red: '\x1b[31m',
+  reset: '\x1b[0m',
+};
 
-const templateDir = path.join(__dirname, '../templates');
-const targetDir = process.cwd();
+const TEMPLATE_DIR = path.join(__dirname, '../templates');
+const TARGET_DIR = process.cwd();
 
-const filesToCopy = [
+const FILES_TO_COPY = [
   { src: 'bot.js', dest: 'index.js' },
   { src: '.env.example', dest: '.env' },
 ];
 
-console.log(`${cyan}[highrise.bot]${reset} Initializing project...`);
+function log(color, prefix, message) {
+  console.log(`${COLORS[color]}${prefix}${COLORS.reset} ${message}`);
+}
 
-filesToCopy.forEach(({ src, dest }) => {
-  const sourcePath = path.join(templateDir, src);
-  const destPath = path.join(targetDir, dest);
+function copyTemplateFiles() {
+  FILES_TO_COPY.forEach(({ src, dest }) => {
+    const sourcePath = path.join(TEMPLATE_DIR, src);
+    const destPath = path.join(TARGET_DIR, dest);
 
-  if (!fs.existsSync(destPath)) {
+    if (fs.existsSync(destPath)) {
+      log('yellow', '  ! skipping', `${dest} (already exists)`);
+      return;
+    }
+
     try {
       fs.copyFileSync(sourcePath, destPath);
-      console.log(`${green}  + created${reset} ${dest}`);
+      log('green', '  + created', dest);
     } catch (err) {
-      console.error(`${red}  - error${reset} copying ${dest}: ${err.message}`);
+      log('red', '  - error', `copying ${dest}: ${err.message}`);
     }
-  } else {
-    console.log(`${yellow}  ! skipping${reset} ${dest} (already exists)`);
+  });
+}
+
+function updatePackageJson() {
+  const pkgPath = path.join(TARGET_DIR, 'package.json');
+
+  if (!fs.existsSync(pkgPath)) {
+    log('yellow', '  ! warning', "No package.json found. Run 'npm init' first.");
+    return { hasDotenv: false };
   }
-});
 
-const pkgPath = path.join(targetDir, 'package.json');
-let hasDotenv = false;
-
-if (fs.existsSync(pkgPath)) {
   try {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
-
     pkg.scripts = pkg.scripts || {};
+
     if (!pkg.scripts.start) {
-      pkg.scripts.start = "node index.js";
+      pkg.scripts.start = 'node index.js';
       fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
-      console.log(`${green}  + updated${reset} package.json scripts`);
+      log('green', '  + updated', 'package.json scripts');
     }
 
-    hasDotenv = !!(pkg.dependencies?.dotenv || pkg.devDependencies?.dotenv);
+    const hasDotenv = !!(pkg.dependencies?.dotenv || pkg.devDependencies?.dotenv);
+    return { hasDotenv };
   } catch (err) {
-    console.error(`${red}  ! error${reset} reading package.json`);
+    log('red', '  ! error', 'reading package.json');
+    return { hasDotenv: false };
   }
-} else {
-  console.log(`${yellow}  ! warning${reset} No package.json found. Run 'npm init' first.`);
 }
 
-console.log(`\n${green}--- Setup Complete ---${reset}`);
-if (!hasDotenv) {
-  console.log(`${cyan}1.${reset} Run: ${yellow}npm install dotenv${reset}`);
-} else {
-  console.log(`${cyan}1.${reset} Dependency 'dotenv' already found.`);
+function printNextSteps(hasDotenv) {
+  console.log(`\n${COLORS.green}--- Setup Complete ---${COLORS.reset}`);
+
+  if (hasDotenv) {
+    console.log(`${COLORS.cyan}1.${COLORS.reset} Dependency 'dotenv' already found.`);
+  } else {
+    console.log(`${COLORS.cyan}1.${COLORS.reset} Run: ${COLORS.yellow}npm install dotenv${COLORS.reset}`);
+  }
+
+  console.log(`${COLORS.cyan}2.${COLORS.reset} Add your credentials to the ${COLORS.yellow}.env${COLORS.reset} file`);
+  console.log(`${COLORS.cyan}3.${COLORS.reset} Start your bot with: ${COLORS.yellow}npm start${COLORS.reset}\n`);
 }
-console.log(`${cyan}2.${reset} Add your credentials to the ${yellow}.env${reset} file`);
-console.log(`${cyan}3.${reset} Start your bot with: ${yellow}npm start${reset}\n`);
+
+function main() {
+  log('cyan', '[highrise.bot]', 'Initializing project...');
+  copyTemplateFiles();
+  const { hasDotenv } = updatePackageJson();
+  printNextSteps(hasDotenv);
+}
+
+main();
