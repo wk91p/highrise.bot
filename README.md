@@ -30,7 +30,13 @@ bot.login("token", "roomId")
 
 ## Change Log
 
+### 2.7.5
+
+**Changes**
+- Checking event names now is O(1) instead of O(n)
+
 ### 2.7.4
+
 **Fixes**
 
 - `Roles` and `Sender` cleanup no longer throws if either instance is undefined
