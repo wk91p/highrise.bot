@@ -14,6 +14,7 @@ const EmoteHandler = require("../EventHandlers/Emote")
 const { WebsocketEvents } = require("../../Constants/WebsocketConstants")
 
 const IgnoredEvents = new Set(["KeepaliveResponse"])
+const WebsocketEventsSet = new Set(WebsocketEvents)
 
 class MessageHandler {
     constructor(ctx, botApi, emit) {
@@ -66,7 +67,7 @@ class MessageHandler {
         const type = data._type
 
         if (IgnoredEvents.has(type)) return
-        if (!WebsocketEvents.includes(type)) return
+        if (!WebsocketEventsSet.has(type)) return
 
         await this.registry.dispatch(type, data, this.emit, this.logger)
     }
